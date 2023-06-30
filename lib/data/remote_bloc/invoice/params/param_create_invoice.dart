@@ -1,0 +1,5 @@
+class ParamCreateInvoice{
+  int? id;
+  
+
+}
