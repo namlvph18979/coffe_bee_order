@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:coffe_bee_order/data/remote_bloc/product_model.dart';
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
+import 'package:coffe_bee_order/data/remote_bloc/product/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -49,7 +50,7 @@ class ItemOther extends StatelessWidget {
                       ),
                       5.height,
                       Text(
-                        "${model.price}",
+                        "${model.price.toPrice()}đ",
                         style: StyleApp.style500
                             .copyWith(color: Colors.red, fontSize: 13),
                       ),

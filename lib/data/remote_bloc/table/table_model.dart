@@ -3,5 +3,8 @@ class modeltable{
   String? name;
   bool isActive;
 
-  modeltable({required this.id,required this.name, this.isActive = false});
+  modeltable({
+    required this.id,
+    required this.name,
+    this.isActive = false});
 }

@@ -1,3 +1,4 @@
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/screen/views/detail_product/wiget/itemother.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../config/style_app/color_app.dart';
-import '../../../data/remote_bloc/product_model.dart';
+import '../../../data/remote_bloc/product/product_model.dart';
 import '../add_order/widget/modelbottomsheet.dart';
 
 class ScreenDetailProduct extends StatefulWidget {
@@ -70,7 +71,7 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
                     10.height,
                     inforitem(
                         title: "giá bán:",
-                        des: "${widget.modelPro.price}đ",
+                        des: "${widget.modelPro.price.toPrice()}đ",
                         style: StyleApp.style500.copyWith(color: Colors.red)),
                     10.height,
                     inforitem(

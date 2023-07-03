@@ -1,3 +1,4 @@
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/modelbottomsheet.dart';
 import 'package:coffe_bee_order/screen/views/detail_product/sc_detail_product.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
@@ -5,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config/style_app/style_text.dart';
-import '../../../../data/remote_bloc/product_model.dart';
-import '../sc_create_order.dart';
+import '../../../../data/remote_bloc/product/product_model.dart';
 
 class ItemCategory extends StatefulWidget {
   ModelPro model;
@@ -66,7 +66,7 @@ class _ItemCategoryState extends State<ItemCategory> {
                       ),
                       15.height,
                       Text(
-                        "Giá: ${widget.model.price}đ",
+                        "Giá: ${widget.model.price.toPrice()}đ",
                         style: StyleApp.style500
                             .copyWith(fontSize: 13, color: Colors.white),
                       ),

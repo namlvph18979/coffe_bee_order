@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config/style_app/style_text.dart';
-import '../../../../data/remote_bloc/product_model.dart';
+import '../../../../data/remote_bloc/product/product_model.dart';
 import '../../../widgets/image_network_view.dart';
 
 class ItemInVoiceProduct extends StatelessWidget {

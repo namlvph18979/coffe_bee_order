@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
@@ -110,9 +111,9 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                   widget.model.listSp!.length,
                   (index) => buildRow([
                     widget.model.listSp![index].name,
-                    widget.model.listSp![index].price.toString(),
+                    "${widget.model.listSp![index].price.toPrice()}đ",
                     soluong.toString(),
-                    (widget.model.listSp![index].price * soluong).toString(),
+                    "${(widget.model.listSp![index].price * soluong).toPrice()}đ",
                   ])),
             ),
             Table(

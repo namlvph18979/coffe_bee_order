@@ -3,9 +3,7 @@ import 'package:coffe_bee_order/screen/views/add_order/widget/item_category.dart
 import 'package:coffe_bee_order/screen/views/form_auth/widget/item_tabbar_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-
-import '../../../../data/remote_bloc/invoice/model_invoice.dart';
-import '../../../../data/remote_bloc/product_model.dart';
+import '../../../../data/remote_bloc/product/product_model.dart';
 
 List<ModelCat> listCat=[
   ModelCat(

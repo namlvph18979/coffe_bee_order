@@ -16,7 +16,8 @@ class ItemNguyenLieu extends StatelessWidget {
     String imgEmpty = "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg";
     return Container(
       width: MediaQuery.of(context).size.width/2.5,
-      margin:const EdgeInsets.all(10),
+      height: 200,
+      margin:const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),

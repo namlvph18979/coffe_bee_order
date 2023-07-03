@@ -1,4 +1,5 @@
-import 'package:coffe_bee_order/data/remote_bloc/product_model.dart';
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
+import 'package:coffe_bee_order/data/remote_bloc/product/product_model.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
@@ -143,6 +144,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
     required Function() ontap1,
     required Function() ontap2
   }){
+
     return SizedBox(
       height: 110,
       child: Row(
@@ -172,7 +174,9 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Đơn giá: ${model.price}đ",style: StyleApp.style500.copyWith(color: Colors.red),),
+                    model.discountPercent == null
+                    ? Text("Đơn giá: ${(model.price * model.soluong).toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red),)
+                    : Text("Đơn giá: ${(model.price * model.soluong) * (100 - model.discountPercent!)~/100}đ",style: StyleApp.style500.copyWith(color: Colors.red),),
                     const Spacer(),
                     Row(
                       children: [

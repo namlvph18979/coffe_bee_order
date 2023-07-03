@@ -1,4 +1,4 @@
-
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/detail_invoice.dart';
@@ -55,7 +55,7 @@ class _CartBottomBarState extends State<CartBottomBar> {
                   )
                 ],
               ).expand(flex: 1),
-              Text("Tổng: ${widget.model!.price}",style: StyleApp.style600.copyWith(
+              Text("Tổng: ${widget.model!.price.toPrice()}đ",style: StyleApp.style600.copyWith(
                   color: Colors.red),textAlign: TextAlign.center,
               ).expand(flex: 4),
               Container(
@@ -64,6 +64,10 @@ class _CartBottomBarState extends State<CartBottomBar> {
                 alignment: Alignment.center,
                 child: Text("Xác Nhận",style: StyleApp.style700.copyWith(color: Colors.white),),
               ).onTap((){
+                if(widget.model!.listSp!.isEmpty){
+                  toast("Chưa có sản phẩm nào");
+                  return;
+                }
                 showInDialog(
                   context,
                   builder: (p0) => ConfirmDialog(

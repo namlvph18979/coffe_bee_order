@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class ItemHoaDon extends StatelessWidget {
             children: [
               Text("Bàn số: ${model.idTable} - Tầng: ${model.idfloor}",style: StyleApp.style700.copyWith(fontSize: 18),),
               5.height,
-              Text("Tổng bill: ${model.price}đ",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
+              Text("Tổng bill: ${model.price.toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
               5.height,
               model.type != 0
                   ? Text("Trạng thái: Đã thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),)

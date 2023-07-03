@@ -1,12 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:coffe_bee_order/screen/views/order/order_for_pha_che/sc_accept_order.dart';
-import 'package:coffe_bee_order/screen/views/order/widget/item_order_for_phache.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../data/remote_bloc/invoice/model_invoice.dart';
-import '../../../../data/remote_bloc/product_model.dart';
+import '../../../../data/remote_bloc/product/product_model.dart';
 import '../widget/item_all.dart';
 
 List<ModelInvoice> listInvoiceTest = [

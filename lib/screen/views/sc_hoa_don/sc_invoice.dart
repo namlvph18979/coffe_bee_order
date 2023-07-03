@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../data/remote_bloc/invoice/model_invoice.dart';
-import '../../../data/remote_bloc/product_model.dart';
+import '../../../data/remote_bloc/product/product_model.dart';
 
 List<ModelPro> listFake= [
   ModelPro(

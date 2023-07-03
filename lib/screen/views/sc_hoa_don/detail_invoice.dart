@@ -1,3 +1,4 @@
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
@@ -56,7 +57,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                 8.height,
                 itemText(title: "Bàn số:  ", des: "${widget.model.idTable}"),
                 8.height,
-                itemText(title: "Tổng tiền:  ", des: "${widget.model.price}đ"),
+                itemText(title: "Tổng tiền:  ", des: "${widget.model.price.toPrice()}đ"),
                 8.height,
                 itemText(
                     title: "Trạng thái:  ",
@@ -111,6 +112,10 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
               itemButton(
                 textBtn: "Thanh toán",
                 onPress: () {
+                  if(widget.model.listSp!.isEmpty){
+                    toast("Chưa có sản phẩm cho đơn hàng");
+                    return;
+                  }
                   ScreenPrintinvoice(
                     model: widget.model,
                   ).launch(context);
