@@ -92,7 +92,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
                   return;
                 }
                 finish(context,widget.model);
-                print("############ ${widget.model.soluong}");
+                print("############ ${widget.model.name}");
             },
         ).withWidth(MediaQuery.of(context).size.width)
       ],
@@ -176,7 +176,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
                   children: [
                     model.discountPercent == null
                     ? Text("Đơn giá: ${(model.price * model.soluong).toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red),)
-                    : Text("Đơn giá: ${(model.price * model.soluong) * (100 - model.discountPercent!)~/100}đ",style: StyleApp.style500.copyWith(color: Colors.red),),
+                    : Text("Đơn giá: ${((model.price * model.soluong) * (100 - model.discountPercent!)~/100).toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red),),
                     const Spacer(),
                     Row(
                       children: [

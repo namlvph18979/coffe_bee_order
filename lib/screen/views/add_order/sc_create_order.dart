@@ -7,6 +7,7 @@ import 'package:coffe_bee_order/screen/views/add_order/widget/item_table.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/tab3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../config/style_app/color_app.dart';
@@ -15,6 +16,8 @@ import '../../../data/cubit_state.dart';
 import '../../../data/remote_bloc/table/table_model.dart';
 import '../../../data/remote_bloc/user/user_model.dart';
 
+
+String tdata = DateFormat("hh:mm a").format(DateTime.now());
 List<ModelFlor> listFlor = [
   ModelFlor(id: 1, name: "Tầng 1"),
   ModelFlor(id: 2, name: "Tầng 2"),
@@ -35,56 +38,8 @@ List<modeltable> listTable = [
 ModelInvoice modelInvoice = ModelInvoice(
     id: 1,
     type: 0,
+    timeIn: tdata,
     listSp: [],
-    // listSp: [
-    //   ModelPro(
-    //       id: 1,
-    //       idCat: 1,
-    //       name: "Cà phê đen",
-    //       imageUrl: "https://www.tastingtable.com/img/gallery/coffee-brands-ranked-from-worst-to-best/l-intro-1645231221.jpg",
-    //       price: 25000,
-    //       description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng.",
-    //       note: "Đen đá không đường"
-    //   ),
-    //   ModelPro(
-    //       id: 2,
-    //       idCat: 1,
-    //       name: "Cà phê sữa",
-    //       imageUrl: "https://www.tastingtable.com/img/gallery/coffee-brands-ranked-from-worst-to-best/l-intro-1645231221.jpg",
-    //       price: 30000,
-    //       description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng.",
-    //       note: "Không cho sữa"
-    //
-    //   ),
-    //   ModelPro(
-    //       id: 3,
-    //       idCat: 1,
-    //       name: "Cà phê nâu",
-    //       imageUrl: "https://static-images.vnncdn.net/files/publish/2022/7/18/cafe-ngon-682.jpg",
-    //       price: 30000,
-    //       discountPercent: 30,
-    //       description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //           "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //           "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //           "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //           "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //
-    //   ),
-    //   ModelPro(
-    //       id: 3,
-    //       idCat: 1,
-    //       name: "Cà phê nâu",
-    //       imageUrl: "https://static-images.vnncdn.net/files/publish/2022/7/18/cafe-ngon-682.jpg",
-    //       price: 30000,
-    //       discountPercent: 30,
-    //       description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //           "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //           "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //           "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //           "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-    //
-    //   ),
-    // ],
     user: UserModel(id: 1, userName: "Nam lv0", passWord: "12345", phoneNumber: "123456789", Type: 0)
 );
 
@@ -181,6 +136,10 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                       title: listFlor[index].name,
                       onClick: () {
                           tabController.animateTo(1);
+                          setState(() {
+                            modelInvoice.idfloor = listFlor[index].id;
+                            print("############## ${listFlor[index].id}");
+                          });
                       },
                     ))),
       ),
@@ -234,6 +193,11 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                           model: listTable[index],
                           onClick: () {
                             tabController.animateTo(2);
+                            setState(() {
+                              modelInvoice.idTable = listTable[index].id;
+                              print("############## ${listTable[index].id}");
+                              print("############## id tang ${modelInvoice.idfloor}");
+                            });
                           },
                         )),
               )
@@ -253,7 +217,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
           headerPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           items: [
-            Screentab3(),
+            Screentab3(invoice: modelInvoice),
           ]),
     );
   }

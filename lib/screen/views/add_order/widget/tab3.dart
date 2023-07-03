@@ -1,4 +1,5 @@
 import 'package:coffe_bee_order/data/remote_bloc/category/category_model.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/item_category.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/item_tabbar_auth.dart';
 import 'package:flutter/material.dart';
@@ -118,6 +119,10 @@ List<ModelPro> listPro =[
 
 class Screentab3 extends StatefulWidget {
 
+  ModelInvoice invoice;
+
+  Screentab3({required this.invoice});
+
   @override
   State<Screentab3> createState() => _Screentab3State();
 }
@@ -158,6 +163,7 @@ class _Screentab3State extends State<Screentab3> with SingleTickerProviderStateM
                             itemBuilder: (context, index) => ItemCategory(
                               model: listPro[index],
                               list: listPro,
+                              invoice: widget.invoice,
                             ),
                             separatorBuilder: (context, index) => 10.height,
                             itemCount: listPro.length);

@@ -1,3 +1,4 @@
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -55,13 +56,15 @@ class ItemInVoiceProduct extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        model.name,
+                        "${model.name} × ${model.soluong}",
                         style: StyleApp.style600
                             .copyWith(fontSize: 16, color: Colors.white),
                       ),
                       10.height,
                       Text(
-                        "${model.price}đ",
+                        model.discountPercent == null
+                        ? "${(model.price * model.soluong).toPrice()}đ"
+                        : "${((model.price * model.soluong) * (100 - model.discountPercent!)~/100).toPrice()}đ",
                         style: StyleApp.style500
                             .copyWith(fontSize: 13, color: Colors.redAccent),
                       ),

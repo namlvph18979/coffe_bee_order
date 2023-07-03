@@ -8,19 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../../config/style_app/color_app.dart';
 
-class CartBottomBar extends StatefulWidget {
+class CartBottomBar extends StatelessWidget {
 
   ModelInvoice? model;
 
   CartBottomBar({this.model});
 
   @override
-  State<CartBottomBar> createState() => _CartBottomBarState();
-}
-
-class _CartBottomBarState extends State<CartBottomBar> {
-  @override
   Widget build(BuildContext context) {
+
+
     return BottomSheet(
         onClosing: () {},
         builder:(context) => Container(
@@ -49,13 +46,13 @@ class _CartBottomBarState extends State<CartBottomBar> {
                           shape: BoxShape.circle
                         ),
                         child: Text(
-                          "${widget.model!.listSp!.length}",
+                          "${model!.listSp!.length}",
                           style: StyleApp.style500.copyWith(color: Colors.white,fontSize: 8),),
                       )
                   )
                 ],
               ).expand(flex: 1),
-              Text("Tổng: ${widget.model!.price.toPrice()}đ",style: StyleApp.style600.copyWith(
+              Text("Tổng: ${model!.price.toPrice()}đ",style: StyleApp.style600.copyWith(
                   color: Colors.red),textAlign: TextAlign.center,
               ).expand(flex: 4),
               Container(
@@ -64,7 +61,7 @@ class _CartBottomBarState extends State<CartBottomBar> {
                 alignment: Alignment.center,
                 child: Text("Xác Nhận",style: StyleApp.style700.copyWith(color: Colors.white),),
               ).onTap((){
-                if(widget.model!.listSp!.isEmpty){
+                if(model!.listSp!.isEmpty){
                   toast("Chưa có sản phẩm nào");
                   return;
                 }
@@ -77,7 +74,7 @@ class _CartBottomBarState extends State<CartBottomBar> {
                       text2: "Sau",
                       ontap1: () {
                         finish(context);
-                        ScreenPrintinvoice(model: widget.model!).launch(context);
+                        ScreenPrintinvoice(model: model!).launch(context);
                       },
                       ontap2: () {
                         finish(context);
@@ -90,7 +87,7 @@ class _CartBottomBarState extends State<CartBottomBar> {
           ),
         ).onTap((){
           ScreenDetailInvoice(
-              model: widget.model!,
+              model: model!,
               isWatch: false,
           ).launch(context);
         })

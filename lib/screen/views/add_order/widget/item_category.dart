@@ -1,4 +1,5 @@
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/modelbottomsheet.dart';
 import 'package:coffe_bee_order/screen/views/detail_product/sc_detail_product.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
@@ -11,10 +12,13 @@ import '../../../../data/remote_bloc/product/product_model.dart';
 class ItemCategory extends StatefulWidget {
   ModelPro model;
   List<ModelPro> list;
+  ModelInvoice invoice;
+
 
   ItemCategory({
     required this.model,
     required this.list,
+    required this.invoice
   });
 
   @override
@@ -83,13 +87,19 @@ class _ItemCategoryState extends State<ItemCategory> {
                 showModalBottomSheet(
                     context: context,
                     builder: (context) => ModelBottomNote(
-                      model: widget.model,
-                    ),
+                      model: widget.model),
                     isScrollControlled: true,
                     shape: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20))));
+                            top: Radius.circular(20)))).then((value){
+                              if(value == null){
+                                return;
+                              }
+                              ModelPro model1 = value;
+                              widget.invoice.listSp!.add(model1);
+                              print("ten luong : ${model1.name}");
+                });
               })
           ),
           Positioned(

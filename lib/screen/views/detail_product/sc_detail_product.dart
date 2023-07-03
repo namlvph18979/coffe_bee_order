@@ -71,7 +71,9 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
                     10.height,
                     inforitem(
                         title: "giá bán:",
-                        des: "${widget.modelPro.price.toPrice()}đ",
+                        des: widget.modelPro.discountPercent != null
+                        ? "${((widget.modelPro.price * widget.modelPro.soluong) * (100 - widget.modelPro.discountPercent!)~/100).toPrice()}đ"
+                        : "${widget.modelPro.price.toPrice()}đ",
                         style: StyleApp.style500.copyWith(color: Colors.red)),
                     10.height,
                     inforitem(
@@ -136,16 +138,7 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
         bottomSheet: itemButton(
             textBtn: "Dùng ngay".toUpperCase(),
             onPress: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (context) => ModelBottomNote(
-                        model: widget.modelPro,
-                      ),
-                  isScrollControlled: true,
-                  shape: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20))));
+                finish(context);
             }),
       ),
     );

@@ -7,6 +7,7 @@ import 'package:coffe_bee_order/screen/views/sc_hoa_don/widget/item_invoice_prod
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ScreenDetailInvoice extends StatefulWidget {
@@ -27,11 +28,12 @@ class ScreenDetailInvoice extends StatefulWidget {
 }
 
 class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: itemAppBar(
-        title: "Hoá đơn bàn ${widget.model.idTable}",
+        title: "Hoá đơn bàn ${widget.model.idTable ?? ""}",
         align: false,
         isback: true,
       ),
@@ -53,9 +55,9 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                 15.height,
                 itemText(title: "Hoá đơn số:  ", des: "${widget.model.id}"),
                 8.height,
-                itemText(title: "Tầng số:  ", des: "${widget.model.idfloor}"),
+                itemText(title: "Tầng số:  ", des: "${widget.model.idfloor ?? " Chưa cập nhật"}"),
                 8.height,
-                itemText(title: "Bàn số:  ", des: "${widget.model.idTable}"),
+                itemText(title: "Bàn số:  ", des: "${widget.model.idTable ?? "chưa cập nhật"}"),
                 8.height,
                 itemText(title: "Tổng tiền:  ", des: "${widget.model.price.toPrice()}đ"),
                 8.height,
@@ -70,7 +72,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Giờ vào: ${widget.model.timeIn}",
+                    Text("Giờ vào: ${widget.model.timeIn ?? "Chưa cập nhật"}",
                         style: StyleApp.style400.copyWith(fontSize: 12)),
                     15.width,
                     Text("Giờ ra: ${widget.model.timeout ?? "Chưa cập nhật"}",
@@ -105,6 +107,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                 ? itemButton(
                     textBtn: "Huỷ đơn",
                     onPress: () {
+                      finish(context);
                       finish(context);
                     },
               ).expand()

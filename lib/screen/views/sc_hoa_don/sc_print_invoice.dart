@@ -22,9 +22,6 @@ class ScreenPrintinvoice extends StatefulWidget {
 
 class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
 
-  int soluong = 1;
-  int all = 0;
-
   @override
   void initState() {
     super.initState();
@@ -112,8 +109,8 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                   (index) => buildRow([
                     widget.model.listSp![index].name,
                     "${widget.model.listSp![index].price.toPrice()}đ",
-                    soluong.toString(),
-                    "${(widget.model.listSp![index].price * soluong).toPrice()}đ",
+                    "${widget.model.listSp![index].soluong}",
+                    "${(widget.model.listSp![index].price * widget.model.listSp![index].soluong).toPrice()}đ",
                   ])),
             ),
             Table(
@@ -125,7 +122,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                       padding:const EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          Text("Thanh toán: $all",style: StyleApp.style600.copyWith(fontSize: 16),),
+                          Text("Thanh toán: ${widget.model.price.toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 16),),
                           20.height,
                           Text("Chúc quý khách vui vẻ, hẹn gặp lại!",
                             style: StyleApp.style400.copyWith(
