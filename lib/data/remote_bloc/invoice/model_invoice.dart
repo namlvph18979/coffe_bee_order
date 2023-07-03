@@ -2,7 +2,7 @@ import '../product/product_model.dart';
 import '../user/user_model.dart';
 
 class ModelInvoice{
-  int id;
+  int? id;
   String? timeIn;
   String? timeout;
   int? price;
@@ -15,7 +15,7 @@ class ModelInvoice{
   UserModel? user;
 
   ModelInvoice({
-     required this.id,
+    this.id,
      this.timeIn,
      this.timeout,
      this.price,

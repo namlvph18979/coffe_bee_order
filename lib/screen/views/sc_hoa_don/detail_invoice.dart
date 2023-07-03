@@ -1,12 +1,15 @@
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
+import 'package:coffe_bee_order/data/cubit_state.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/widget/item_invoice_product.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -16,12 +19,11 @@ class ScreenDetailInvoice extends StatefulWidget {
   bool isdonhang;
   Function()? ontap;
 
-  ScreenDetailInvoice({
-    required this.model,
-    required this.isWatch,
-    this.ontap,
-    this.isdonhang = false
-  });
+  ScreenDetailInvoice(
+      {required this.model,
+      required this.isWatch,
+      this.ontap,
+      this.isdonhang = false});
 
   @override
   State<ScreenDetailInvoice> createState() => _ScreenDetailInvoiceState();
@@ -29,103 +31,136 @@ class ScreenDetailInvoice extends StatefulWidget {
 
 class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
 
+  String timeIn = DateFormat("hh:mm a").format(DateTime.now());
+  final invoiceBloc = DetailInvoiceBloc();
+  int priceAll = 0;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: itemAppBar(
-        title: "Hoá đơn bàn ${widget.model.idTable ?? ""}",
-        align: false,
-        isback: true,
-      ),
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Thông tin chi tiết",
-                  style: StyleApp.style700
-                      .copyWith(color: Colors.black, fontSize: 16),
-                ),
-                15.height,
-                itemText(title: "Hoá đơn số:  ", des: "${widget.model.id}"),
-                8.height,
-                itemText(title: "Tầng số:  ", des: "${widget.model.idfloor ?? " Chưa cập nhật"}"),
-                8.height,
-                itemText(title: "Bàn số:  ", des: "${widget.model.idTable ?? "chưa cập nhật"}"),
-                8.height,
-                itemText(title: "Tổng tiền:  ", des: "${widget.model.price.toPrice()}đ"),
-                8.height,
-                itemText(
-                    title: "Trạng thái:  ",
-                    des: widget.model.type != 0
-                        ? "Đã thanh toán"
-                        : "Chưa thanh toán"),
-                8.height,
-                itemText(title: "Nv phụ trách:  ", des: "${widget.model.user!.userName}"),
-                20.height,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Giờ vào: ${widget.model.timeIn ?? "Chưa cập nhật"}",
-                        style: StyleApp.style400.copyWith(fontSize: 12)),
-                    15.width,
-                    Text("Giờ ra: ${widget.model.timeout ?? "Chưa cập nhật"}",
-                        style: StyleApp.style400.copyWith(fontSize: 12)),
-                  ],
-                )
-              ],
-            ),
+    return BlocBuilder<DetailInvoiceBloc, CubitState>(
+      bloc: invoiceBloc,
+      builder: (context, state) {
+        for(int i = 0; i< widget.model.listSp!.length;i++){
+          if(widget.model.listSp![i].discountPercent != null){
+            priceAll += ((widget.model.listSp![i].price * widget.model.listSp![i].soluong)
+                * (100 - widget.model.listSp![i].discountPercent!)~/100);
+          }else{
+            priceAll += (widget.model.listSp![i].price * widget.model.listSp![i].soluong);
+          }
+        }
+        return Scaffold(
+          appBar: itemAppBar(
+            title: "Hoá đơn bàn ${widget.model.idTable ?? ""}",
+            align: false,
+            isback: true,
           ),
-          ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => ItemInVoiceProduct(
-                    model: widget.model.listSp![index],
-                    isWatch: widget.isWatch,
-                    onTap: () {
-                      setState(() {
-                        widget.model.listSp!.removeAt(index);
-                      });
-                    },
-                  ),
-              separatorBuilder: (context, index) => 1.height,
-              itemCount: widget.model.listSp!.length),
-          70.height,
-        ],
-      ).scrollView(),
-      bottomSheet: widget.model.type != 0
-          ? const SizedBox()
-          : Row(
+          body: Column(
             children: [
-              !widget.isdonhang
-                ? itemButton(
-                    textBtn: "Huỷ đơn",
-                    onPress: () {
-                      finish(context);
-                      finish(context);
-                    },
-              ).expand()
-              : const SizedBox(),
-              itemButton(
-                textBtn: "Thanh toán",
-                onPress: () {
-                  if(widget.model.listSp!.isEmpty){
-                    toast("Chưa có sản phẩm cho đơn hàng");
-                    return;
-                  }
-                  ScreenPrintinvoice(
-                    model: widget.model,
-                  ).launch(context);
-                },
-              ).expand(),
+              Container(
+                margin: const EdgeInsets.all(10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Thông tin chi tiết",
+                      style: StyleApp.style700
+                          .copyWith(color: Colors.black, fontSize: 16),
+                    ),
+                    15.height,
+                    itemText(title: "Hoá đơn số:  ", des: "${widget.model.id}"),
+                    8.height,
+                    itemText(
+                        title: "Tầng số:  ",
+                        des: "${widget.model.idfloor ?? " Chưa cập nhật"}"),
+                    8.height,
+                    itemText(
+                        title: "Bàn số:  ",
+                        des: "${widget.model.idTable ?? "chưa cập nhật"}"),
+                    8.height,
+                    itemText(
+                        title: "Tổng tiền:  ",
+                        des: "${priceAll.toPrice()}đ"),
+                    8.height,
+                    itemText(
+                        title: "Trạng thái:  ",
+                        des: widget.model.type != 0
+                            ? "Đã thanh toán"
+                            : "Chưa thanh toán"),
+                    8.height,
+                    itemText(
+                        title: "Nv phụ trách:  ",
+                        des: "${widget.model.user!.userName}"),
+                    20.height,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                            "Giờ vào: ${widget.model.timeIn ?? "Chưa cập nhật"}",
+                            style: StyleApp.style400.copyWith(fontSize: 12)),
+                        15.width,
+                        Text(
+                            "Giờ ra: ${widget.model.timeout ?? "Chưa cập nhật"}",
+                            style: StyleApp.style400.copyWith(fontSize: 12)),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => ItemInVoiceProduct(
+                        model: widget.model.listSp![index],
+                        isWatch: widget.isWatch,
+                        onTap: () {
+                          setState(() {
+                            widget.model.listSp!.removeAt(index);
+                          });
+                        },
+                      ),
+                  separatorBuilder: (context, index) => 1.height,
+                  itemCount: widget.model.listSp!.length),
+              70.height,
             ],
-          ),
+          ).scrollView(),
+          bottomSheet: widget.model.type != 0
+              ? const SizedBox()
+              : Row(
+                  children: [
+                    !widget.isdonhang
+                        ? itemButton(
+                            textBtn: "Huỷ đơn",
+                            onPress: () {
+                                widget.model.listSp!.clear();
+                                widget.model.idfloor = null;
+                                widget.model.idTable = null;
+                                widget.model.timeIn = null;
+                              finish(context);
+                              finish(context);
+                            },
+                          ).expand()
+                        : const SizedBox(),
+                    itemButton(
+                      textBtn: "Thanh toán",
+                      onPress: () {
+                        if (widget.model.listSp!.isEmpty) {
+                          toast("Chưa có sản phẩm cho đơn hàng");
+                          return;
+                        }
+                        ScreenPrintinvoice(
+                          model: widget.model,
+                        ).launch(context);
+                      },
+                    ).expand(),
+                  ],
+                ),
+        );
+      },
     );
   }
 

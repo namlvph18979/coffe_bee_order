@@ -88,7 +88,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             textBtn: "Thêm sản phẩm",
             onPress: () {
                 if(widget.model.soluong <= 0){
-                  toast("Vui lòng chọn số lượng!");
+                  toast("Vui lòng thêm số lượng!");
                   return;
                 }
                 finish(context,widget.model);
