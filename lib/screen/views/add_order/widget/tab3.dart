@@ -151,7 +151,8 @@ class _Screentab3State extends State<Screentab3> with SingleTickerProviderStateM
               listTap: List.generate(
                   listCat.length,
                       (index) => Tab(
-                      text: '${listCat[index].nameCat} (${listPro.length})')),
+                      text: '${listCat[index].nameCat} (${listPro.length})')
+              ),
 
               listTapBarView: List.generate(
                     listCat.length,
