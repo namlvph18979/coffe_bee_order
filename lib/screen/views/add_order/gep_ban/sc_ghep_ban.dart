@@ -2,8 +2,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
-import 'package:coffe_bee_order/data/remote_bloc/table/table_model.dart';
-import 'package:coffe_bee_order/generated/assets.dart';
+import 'package:coffe_bee_order/data/remote_bloc/table/model/Table_model.dart';
+import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:coffe_bee_order/screen/widgets/item_tooltip.dart';
@@ -13,7 +13,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../../config/style_app/color_app.dart';
 
 class ScreenGhepBan extends StatefulWidget {
-  List<modeltable> listModel;
+  List<TableModel> listModel;
 
   ScreenGhepBan({required this.listModel});
 
@@ -48,7 +48,7 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
       body: Column(
           children: [
             20.height,
-            Align(alignment: Alignment.centerLeft, 
+            Align(alignment: Alignment.centerLeft,
                 child: Text("Vui lòng chọn cặp bàn muốn ghép!",style: StyleApp.style600.copyWith(fontSize: 18),)
             ).paddingLeft(10),
             20.height,
@@ -124,6 +124,7 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
                 List<int> list = [isdrag1!,isdrag2!];
                   finish(context,list);
               }
+              return;
             }).expand(),
 
         ],
@@ -131,9 +132,9 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
     );
   }
 
-  Widget DragItem({modeltable? model}){
+  Widget DragItem({TableModel? model}){
     return Draggable <int>(
-        data: model!.id,
+        data: model!.id.toInt(),
         feedback: itemDragTable(model: model),
         childWhenDragging: itemDragTable(model: model).visible(false),
       child: itemDragTable(model: model),
@@ -152,7 +153,7 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
     );
   }
 
-  Widget itemDragTable({modeltable? model}){
+  Widget itemDragTable({TableModel? model}){
     return Container(
       width: 130,
       height: 130,
@@ -162,14 +163,14 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
         color: ColorApp.bg,
         borderRadius: BorderRadius.circular(3),
         border: Border.all(
-            color: !model!.isActive ? Colors.green : ColorApp.text,
+            color: !model!.isActive! ? Colors.green : ColorApp.text,
             width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(model!.name!,style: StyleApp.style600.copyWith(fontSize: 16),),
-          !model.isActive
+          Text(model.name!,style: StyleApp.style600.copyWith(fontSize: 16),),
+          !model.isActive!
               ? Text("Đang trống",style: StyleApp.style500.copyWith(fontSize: 12,color: Colors.green),)
               : AnimatedTextKit(
                 isRepeatingAnimation: true,

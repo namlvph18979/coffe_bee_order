@@ -1,14 +1,15 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coffe_bee_order/data/remote_bloc/table/model/Table_model.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config/style_app/color_app.dart';
 import '../../../../config/style_app/style_text.dart';
-import '../../../../data/remote_bloc/table/table_model.dart';
+
 
 class ItemTable extends StatelessWidget {
 
-  modeltable? model;
+  TableModel? model;
   Function()? onClick;
 
   ItemTable({
@@ -25,14 +26,14 @@ class ItemTable extends StatelessWidget {
         color: ColorApp.bg,
         borderRadius: BorderRadius.circular(3),
         border: Border.all(
-            color: !model!.isActive ? Colors.green : ColorApp.text,
+            color: !model!.isActive! ? Colors.green : ColorApp.text,
             width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(model!.name!,style: StyleApp.style600.copyWith(fontSize: 16),),
-          !model!.isActive
+          !model!.isActive!
               ? Text("Đang trống",style: StyleApp.style500.copyWith(fontSize: 12,color: Colors.green),)
               : AnimatedTextKit(
               isRepeatingAnimation: true,
@@ -45,7 +46,7 @@ class ItemTable extends StatelessWidget {
         ],
       ),
     ).onTap(
-        !model!.isActive
+        !model!.isActive!
             ? onClick
             : (){toast("Bàn hiện đang có người");}
     );

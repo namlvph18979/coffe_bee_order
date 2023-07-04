@@ -9,8 +9,9 @@ class itemButton extends StatelessWidget {
   String textBtn;
   double? width;
   Function()? onPress;
+  double? margin;
 
-  itemButton({required this.textBtn,this.width,this.onPress});
+  itemButton({required this.textBtn,this.width,this.onPress,this.margin});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class itemButton extends StatelessWidget {
       height: 40,
       width: width ?? MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(vertical: 10),
-      margin: const EdgeInsets.all(10),
+      margin: EdgeInsets.all(margin ?? 10),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: ColorApp.text,

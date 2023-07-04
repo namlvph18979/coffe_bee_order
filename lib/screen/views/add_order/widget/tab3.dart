@@ -1,4 +1,4 @@
-import 'package:coffe_bee_order/data/remote_bloc/category/category_model.dart';
+import 'package:coffe_bee_order/data/remote_bloc/category/model/Cat_model.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/item_category.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/item_tabbar_auth.dart';
@@ -9,23 +9,23 @@ import '../../../../data/remote_bloc/product/product_model.dart';
 List<ModelCat> listCat=[
   ModelCat(
       id: 1,
-      nameCat: "Coffee"
+      name: "Coffee"
   ),
   ModelCat(
       id: 2,
-      nameCat: "Trà Sữa"
+      name: "Trà Sữa"
   ),
   ModelCat(
       id: 3,
-      nameCat: "Đồ uống khác"
+      name: "Đồ uống khác"
   ),
   ModelCat(
       id: 4,
-      nameCat: "Đồ ăn vặt"
+      name: "Đồ ăn vặt"
   ),
   ModelCat(
       id: 5,
-      nameCat: "Kem các loại"
+      name: "Kem các loại"
   ),
 
 ];
@@ -151,7 +151,7 @@ class _Screentab3State extends State<Screentab3> with SingleTickerProviderStateM
               listTap: List.generate(
                   listCat.length,
                       (index) => Tab(
-                      text: '${listCat[index].nameCat} (${listPro.length})')
+                      text: '${listCat[index].name} (${listPro.length})')
               ),
 
               listTapBarView: List.generate(

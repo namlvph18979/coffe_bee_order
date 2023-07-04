@@ -55,8 +55,11 @@ class _ScreenSignInState extends State<ScreenSignIn> {
                   color: Colors.blue),).onTap((){
                      ScreenForgotPass(title: "quên mật khẩu",).launch(context);
             }),
-            25.height,
-            itemButton(textBtn: "Đăng nhập".toUpperCase()).onTap((){
+            30.height,
+            itemButton(
+                textBtn: "Đăng nhập".toUpperCase(),
+                margin: 0,
+            ).onTap((){
               if(widget.title == "Pha Chế"){
                 ScreenHome(isPhache: true).launch(context,isNewTask: true);
               }else{

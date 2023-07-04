@@ -187,7 +187,6 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
             textBtn: "in hóa đơn".toUpperCase(),
             width: MediaQuery.of(context).size.width,
             onPress: () {
-              widget.model.listSp!.clear();
               player.play(AssetSource('sound/cash_pay.mp3'),
                   volume: SizeConfig.screenHeight);
               finish(context);
