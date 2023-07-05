@@ -3,7 +3,6 @@ import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/floor/floor_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
-import 'package:coffe_bee_order/data/remote_bloc/table/model/param/param_table.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
 import 'package:coffe_bee_order/screen/views/add_order/gep_ban/sc_ghep_ban.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/cart_bottom_bar.dart';
@@ -59,6 +58,17 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
     tablebloc.getList();
   }
 
+  void ghepban(List<int> list){
+    tablebloc.update(
+        id: list[0].toString(),
+        isActive: true
+    );
+    tablebloc.update(
+        id: list[1].toString(),
+        isActive: true
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ListCatbloc, CubitState>(
@@ -90,6 +100,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
               IconButton(
                 onPressed: () {
                   finish(context);
+                  modelInvoice.listSp!.clear();
                 },
                 icon: const Icon(
                   Icons.clear_outlined,
@@ -106,7 +117,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 Tab2(),
                 Tab3(),
               ]),
-          bottomSheet: CartBottomBar(model: modelInvoice),
+          bottomSheet: CartBottomBar(),
         );
       },
     );
@@ -184,19 +195,12 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                           ScreenGhepBan(listModel: tablebloc.list)
                               .launch(context)
                               .then((value) {
-                              print("#################### $value");
-
-                              tablebloc.update(
-                                  id: value[0].toString(),
-                                  param: paramTable(
-                                      isActive: true,
-
-                                  ));
-                              tablebloc.update(
-                                  id: value[1].toString(),
-                                  param: paramTable(
-                                      isActive: true,
-                                  ));
+                            print("#################### $value");
+                              ghepban(value);
+                              setState(() {
+                              tablebloc.list.clear();
+                              reload();
+                            });
                           });
                         },
                       )
@@ -220,39 +224,35 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                   setState(() {
                                     modelInvoice.idTable =
                                         tablebloc.list[index].id.toInt();
-
                                     print(
                                         "############## bàn ${tablebloc.list[index].id} "
                                         "- tầng ${modelInvoice.idfloor}");
                                   });
-                                },
-                              )),
+                                }
+                              ))
                     )
                   ]),
             ).scrollView(),
           );
-        },
-      ),
+        }
+      )
     );
   }
 
   Widget Tab3() {
-    return RefreshIndicator(
-      onRefresh: reload,
-      child: Container(
-        color: Colors.white,
-        height: MediaQuery.of(context).size.height,
-        child: SettingSection(
-            title: Text(
-              "Chọn Đồ".toUpperCase(),
-              style: StyleApp.style700.copyWith(color: Colors.black),
-            ),
-            headerPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            items: [
-              Screentab3(invoice: modelInvoice),
-            ]),
-      ).scrollView(),
+    return Container(
+      color: Colors.white,
+      height: MediaQuery.of(context).size.height,
+      child: SettingSection(
+          title: Text(
+            "Chọn Đồ uống".toUpperCase(),
+            style: StyleApp.style700.copyWith(color: Colors.black),
+          ),
+          headerPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          items: [
+            Screentab3(invoice: modelInvoice),
+          ]),
     );
   }
 

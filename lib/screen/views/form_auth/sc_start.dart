@@ -9,13 +9,13 @@ import 'package:nb_utils/nb_utils.dart';
 
 List<itemTypeLogin> listType =[
   itemTypeLogin(
-      imageUrl: "https://blog.dktcdn.net/files/istockphoto-1198944463-612x612.jpg",
+      imageUrl: "https://vn.joboko.com/blogs/img/2020/2/nhan-vien-pha-che-3.jpg",
       title: "Nhân Viên"),
   itemTypeLogin(
-      imageUrl: "https://chefjob.vn/wp-content/uploads/2019/01/nhan-vien-thu-ngan-nha-hang-khach-san.jpg",
+      imageUrl: "https://images.careerbuilder.vn/content/images/ky-nang-nhan-vien-thu-ngan-careerbuilder.jpg",
       title: "Thu ngân"),
   itemTypeLogin(
-      imageUrl: "https://caphenguyenchat.vn/wp-content/uploads/2020/02/cach-quan-ly-quan-ca-phe-hieu-qua-3.jpg",
+      imageUrl: "https://epicure.vn/wp-content/uploads/2017/08/cafe-capuchino-02-1.jpg",
       title: "Pha Chế"),
 ];
 

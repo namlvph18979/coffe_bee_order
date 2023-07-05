@@ -38,7 +38,6 @@ class ItemInVoiceProduct extends StatelessWidget {
           Positioned(
               child: Container(
                   height: 120,
-                  width: size.width / 3,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   decoration: BoxDecoration(
@@ -60,7 +59,7 @@ class ItemInVoiceProduct extends StatelessWidget {
                         style: StyleApp.style600
                             .copyWith(fontSize: 16, color: Colors.white),
                       ),
-                      10.height,
+                      5.height,
                       Text(
                         model.discountPercent == null
                         ? "${(model.price * model.soluong).toPrice()}đ"
@@ -73,8 +72,12 @@ class ItemInVoiceProduct extends StatelessWidget {
           Positioned(
               bottom: 5,
               left: 15,
-              child:  model.note != null
-              ? Text("Note: ${model.note}",style: StyleApp.style500.copyWith(color: Colors.white,fontSize: 12),)
+              child:  model.note != null && model.note!.trim() != ""
+              ? Text("Lưu ý: ${model.note}",style: StyleApp.style500.copyWith(
+                  color: Colors.white,
+                  fontSize: 12,
+                  overflow: TextOverflow.ellipsis
+              ),)
               : const SizedBox()),
           Positioned(
               top: 8,

@@ -83,6 +83,22 @@ class Api {
     }
   }
 
+  static putAsync({
+    required String endpoint,
+    required Map<String,dynamic> req,
+
+}) async {
+    try{
+        var res = await dio.put(
+          ApiPath.domain + endpoint,
+          data: req ,
+        );
+        return res.data;
+    }catch(e){
+      rethrow;
+    }
+  }
+
   static deleteAsync({
     required String endpoint,
     Map<String,dynamic>? headers,

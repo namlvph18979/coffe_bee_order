@@ -10,7 +10,6 @@ import '../../../../config/style_app/style_text.dart';
 import '../../../../data/remote_bloc/invoice/model_invoice.dart';
 
 class ModelBottomNote extends StatefulWidget {
-
   ModelPro model;
   ModelInvoice? invoice;
 
@@ -21,7 +20,6 @@ class ModelBottomNote extends StatefulWidget {
 }
 
 class _ModelBottomNoteState extends State<ModelBottomNote> {
-
   List<String> listNote = [
     "Thêm đường",
     "Thêm sữa",
@@ -38,26 +36,41 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
   final note = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(Icons.clear, size: 30,color: Colors.black,).onTap((){
-          finish(context);}),
+        const Icon(
+          Icons.clear,
+          size: 30,
+          color: Colors.black,
+        ).onTap(() {
+          finish(context);
+        }),
         10.height,
         itemAdd(
-            count: widget.model.soluong,
-            model: widget.model,
-            ontap1: () =>  setState(() {
-              if(widget.model.soluong > 0){
-                widget.model.soluong--;
-              }
-            }),
-            ontap2: () =>  setState(() {widget.model.soluong++;}),
+          count: widget.model.soluong,
+          model: widget.model,
+          ontap1: () => setState(() {
+            if (widget.model.soluong > 0) {
+              widget.model.soluong--;
+            }
+          }),
+          ontap2: () => setState(() {
+            widget.model.soluong++;
+          }),
         ),
         15.height,
-        Text("Nội dung ghi chú",style: StyleApp.style600.copyWith(fontSize: 15),),
+        Text(
+          "Nội dung ghi chú",
+          style: StyleApp.style600.copyWith(fontSize: 15),
+        ),
         10.height,
         AppTextField(
           controller: note,
@@ -70,39 +83,44 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
               hintStyle: StyleApp.style400.copyWith(color: Colors.grey),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide:const BorderSide(color: Colors.grey)),
+                  borderSide: const BorderSide(color: Colors.grey)),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide:const BorderSide(color: ColorApp.text)
-              )
-          ),
+                  borderSide: const BorderSide(color: ColorApp.text))),
         ),
         5.height,
-        Text("Bạn chỉ có thể phản hồi 1 lần.",style: StyleApp.style400.copyWith(fontSize: 12,color: Colors.grey),),
+        Text(
+          "Bạn chỉ có thể phản hồi 1 lần.",
+          style: StyleApp.style400.copyWith(fontSize: 12, color: Colors.grey),
+        ),
         15.height,
-        Text("Ghi chú nhanh",style: StyleApp.style600.copyWith(fontSize: 16),),
+        Text(
+          "Ghi chú nhanh",
+          style: StyleApp.style600.copyWith(fontSize: 16),
+        ),
         15.height,
         fastFeedback(),
         30.height,
         itemButton(
-            textBtn: "Thêm sản phẩm",
-            onPress: () {
-                if(widget.model.soluong <= 0){
-                  toast("Vui lòng thêm số lượng!");
-                  return;
-                }
-                finish(context,widget.model);
-                print("############ ${widget.model.name}");
-            },
+          textBtn: "Thêm sản phẩm",
+          onPress: () {
+            if (widget.model.soluong <= 0) {
+              toast("Vui lòng thêm số lượng!");
+              return;
+            }
+            widget.model.note = note.text;
+            finish(context, widget.model);
+            print("############ ${widget.model.name}");
+          },
         ).withWidth(MediaQuery.of(context).size.width)
       ],
-    ).paddingSymmetric(vertical: 10,horizontal: 15);
+    ).paddingSymmetric(vertical: 10, horizontal: 15);
   }
 
-  fastFeedback(){
+  fastFeedback() {
     return Wrap(
       children: listNote.map(
-            (choice) {
+        (choice) {
           bool isSelected = false;
           if (Selected.contains(choice)) {
             isSelected = true;
@@ -112,7 +130,8 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
                 setState(() {
                   if (!Selected.contains(choice) && Selected.isEmpty) {
                     Selected.add(choice);
-                  }else if(!Selected.contains(choice) && Selected.length == 1){
+                  } else if (!Selected.contains(choice) &&
+                      Selected.length == 1) {
                     Selected.removeAt(0);
                     Selected.add(choice);
                   } else {
@@ -122,29 +141,35 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
                 });
               },
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(
                           color: isSelected ? ColorApp.text : Colors.grey,
                           width: 1)),
-                  child: Text(choice,style: TextStyle(color: isSelected ? ColorApp.text : Colors.grey, fontSize: 14),),
+                  child: Text(
+                    choice,
+                    style: TextStyle(
+                        color: isSelected ? ColorApp.text : Colors.grey,
+                        fontSize: 14),
+                  ),
                 ),
               ));
         },
       ).toList(),
     );
   }
-  Widget itemAdd({
-    required ModelPro model,
-    required int count,
-    required Function() ontap1,
-    required Function() ontap2
-  }){
 
+  Widget itemAdd(
+      {required ModelPro model,
+      required int count,
+      required Function() ontap1,
+      required Function() ontap2
+      }) {
     return SizedBox(
       height: 110,
       child: Row(
@@ -154,54 +179,74 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             height: 100,
             width: 100,
             child: ImageNetWorkView(
-                imageUrl: model.imageUrl,
-                fit: BoxFit.cover,
+              imageUrl: model.imageUrl,
+              fit: BoxFit.cover,
             ),
           ),
           10.width,
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               15.height,
-                Text(model.name,style: StyleApp.style600.copyWith(color: Colors.black),
-                  overflow: TextOverflow.ellipsis,maxLines: 2,),
-                5.height,
-                model.discountPercent != null
-                  ? Text("Ưu đãi: giảm ${model.discountPercent}%",style: StyleApp.style500.copyWith(color: Colors.black),)
-                  : Text("Chưa có ưu đãi",style: StyleApp.style500.copyWith(color: Colors.black),),
-                const Spacer(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    model.discountPercent == null
-                    ? Text("Đơn giá: ${(model.price * model.soluong).toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red),)
-                    : Text("Đơn giá: ${((model.price * model.soluong) * (100 - model.discountPercent!)~/100).toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red),),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width:30,
-                          child: const Icon(
-                            Icons.indeterminate_check_box,
-                            size: 28,
-                            color: ColorApp.text,).onTap(ontap1),
-                        ),
-                        Container(
-                            alignment: Alignment.center,
-                            width: 40,
-                            child: Text("$count",style: StyleApp.style600.copyWith(fontSize: 16),)),
-                        SizedBox(
-                          width: 30,
-                          child: const Icon(
-                            Icons.add_box,
-                            size: 28,
-                            color: ColorApp.text,).onTap(ontap2),
-                        ),
-                      ],
+              Text(
+                model.name,
+                style: StyleApp.style600.copyWith(color: Colors.black),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+              5.height,
+              model.discountPercent != null
+                  ? Text(
+                      "Ưu đãi: giảm ${model.discountPercent}%",
+                      style: StyleApp.style500.copyWith(color: Colors.black),
                     )
-                  ],
-                ),
+                  : Text(
+                      "Chưa có ưu đãi",
+                      style: StyleApp.style500.copyWith(color: Colors.black),
+                    ),
+              const Spacer(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  model.discountPercent == null
+                      ? Text(
+                          "Đơn giá: ${(model.price * model.soluong).toPrice()}đ",
+                          style: StyleApp.style500.copyWith(color: Colors.red),
+                        )
+                      : Text(
+                          "Đơn giá: ${((model.price * model.soluong) * (100 - model.discountPercent!) ~/ 100).toPrice()}đ",
+                          style: StyleApp.style500.copyWith(color: Colors.red),
+                        ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 30,
+                        child: const Icon(
+                          Icons.indeterminate_check_box,
+                          size: 28,
+                          color: ColorApp.text,
+                        ).onTap(ontap1),
+                      ),
+                      Container(
+                          alignment: Alignment.center,
+                          width: 40,
+                          child: Text(
+                            "$count",
+                            style: StyleApp.style600.copyWith(fontSize: 16),
+                          )),
+                      SizedBox(
+                        width: 30,
+                        child: const Icon(
+                          Icons.add_box,
+                          size: 28,
+                          color: ColorApp.text,
+                        ).onTap(ontap2),
+                      ),
+                    ],
+                  )
+                ],
+              ),
               10.height
             ],
           ).expand()
