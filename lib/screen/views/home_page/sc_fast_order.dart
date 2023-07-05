@@ -147,8 +147,7 @@ List<ItemListTypePro> listTypePro=[
       title: "ăn vặt"),
   ItemListTypePro(
       nameimg: ImagePath.icon_icescream,
-      title: "kem"),
-
+      title: "kem")
 ];
 List<String> listSlide = [
   "https://hungrito.com/wp-content/uploads/2021/05/FEATURE-IMAGE.jpg",

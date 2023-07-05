@@ -58,17 +58,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
     tablebloc.getList();
   }
 
-  void ghepban(List<int> list){
-    tablebloc.update(
-        id: list[0].toString(),
-        isActive: true
-    );
-    tablebloc.update(
-        id: list[1].toString(),
-        isActive: true
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ListCatbloc, CubitState>(
@@ -196,11 +185,21 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                               .launch(context)
                               .then((value) {
                             print("#################### $value");
-                              ghepban(value);
+                            if(value != null) {
+                              tablebloc.update(
+                                  id: value[0].toString(),
+                                  isActive: true
+                              );
+                              tablebloc.update(
+                                  id: value[1].toString(),
+                                  isActive: true
+                              );
                               setState(() {
-                              tablebloc.list.clear();
-                              reload();
-                            });
+                                tablebloc.list.clear();
+                                reload();
+                              });
+                            }
+                            return;
                           });
                         },
                       )
