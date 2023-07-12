@@ -55,15 +55,15 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
         }),
         10.height,
         itemAdd(
-          count: widget.model.soluong,
+          count: widget.model.soluong!,
           model: widget.model,
           ontap1: () => setState(() {
-            if (widget.model.soluong > 0) {
-              widget.model.soluong--;
+            if (widget.model.soluong! > 0) {
+              widget.model.soluong! - 1;
             }
           }),
           ontap2: () => setState(() {
-            widget.model.soluong++;
+            widget.model.soluong! + 1;
           }),
         ),
         15.height,
@@ -104,7 +104,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
         itemButton(
           textBtn: "Thêm sản phẩm",
           onPress: () {
-            if (widget.model.soluong <= 0) {
+            if (widget.model.soluong! <= 0) {
               toast("Vui lòng thêm số lượng!");
               return;
             }
@@ -179,7 +179,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             height: 100,
             width: 100,
             child: ImageNetWorkView(
-              imageUrl: model.imageUrl,
+              imageUrl: model.imageUrl ?? "",
               fit: BoxFit.cover,
             ),
           ),
@@ -189,7 +189,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             children: [
               15.height,
               Text(
-                model.name,
+                model.name!,
                 style: StyleApp.style600.copyWith(color: Colors.black),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
@@ -210,11 +210,11 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
                 children: [
                   model.discountPercent == null
                       ? Text(
-                          "Đơn giá: ${(model.price * model.soluong).toPrice()}đ",
+                          "Đơn giá: ${(model.price! * model.soluong!).toPrice()}đ",
                           style: StyleApp.style500.copyWith(color: Colors.red),
                         )
                       : Text(
-                          "Đơn giá: ${((model.price * model.soluong) * (100 - model.discountPercent!) ~/ 100).toPrice()}đ",
+                          "Đơn giá: ${((model.price! * model.soluong!) * (100 - model.discountPercent!) ~/ 100).toPrice()}đ",
                           style: StyleApp.style500.copyWith(color: Colors.red),
                         ),
                   const Spacer(),

@@ -11,12 +11,14 @@ import '../../../widgets/item_button.dart';
 class ItemStep2 extends StatelessWidget {
 
   Function()? onTap;
+  OtpFieldController otpCode;
 
-  ItemStep2({this.onTap});
+
+  ItemStep2({this.onTap,required this.otpCode});
 
   @override
   Widget build(BuildContext context) {
-    final controller = OtpFieldController();
+
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -28,7 +30,7 @@ class ItemStep2 extends StatelessWidget {
               style: StyleApp.style400.copyWith(color: Colors.black),),
             25.height,
             OTPTextField(
-                controller: controller,
+                controller: otpCode,
                 length: 6,
                 width: MediaQuery.of(context).size.width,
                 textFieldAlignment: MainAxisAlignment.spaceAround,
@@ -40,7 +42,7 @@ class ItemStep2 extends StatelessWidget {
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
-                onChanged: (pin) {
+                onChanged: (value) {
                 },
                 onCompleted: (pin) {
                 }

@@ -76,7 +76,6 @@ List<ModelInvoice> listInvoice = [
       id: 1,
       timeIn: "7:30 PM",
       timeout: "9:30 PM",
-      price: 215000,
       listSp: listFake,
       type: 1,
       idTable: 1,
@@ -88,7 +87,6 @@ List<ModelInvoice> listInvoice = [
       id: 2,
       timeIn: "7:30 PM",
       timeout: "9:30 PM",
-      price: 215000,
       listSp: listFake,
       type: 1,
       idTable: 2,
@@ -196,7 +194,16 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
             model: listInvoice[index],
             isdonhang: true,
             ontap1: (){
-              ScreenPrintinvoice(model: listInvoice[index]).launch(context);
+              ScreenPrintinvoice(
+                  model: listInvoice[index]
+              ).launch(context).then((value) {
+                if (value != null){
+                  setState(() {
+                    listInvoice[index].type = value;
+                  });
+                }
+                return;
+              });
             },
             ontap2: () {
               showInDialog(

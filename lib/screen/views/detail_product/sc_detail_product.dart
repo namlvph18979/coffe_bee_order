@@ -34,13 +34,13 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
             centerTitle: false,
             elevation: 0,
             title: Text(
-              widget.modelPro.name,
+              widget.modelPro.name!,
               style:
                   StyleApp.style700.copyWith(color: Colors.white, fontSize: 18),
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: ImageNetWorkView(
-                  imageUrl: widget.modelPro.imageUrl, fit: BoxFit.cover),
+                  imageUrl: widget.modelPro.imageUrl!, fit: BoxFit.cover),
               collapseMode: CollapseMode.pin,
             ),
           )
@@ -72,7 +72,7 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
                   inforitem(
                       title: "giá bán:",
                       des: widget.modelPro.discountPercent != null
-                      ? "${((widget.modelPro.price * widget.modelPro.soluong) * (100 - widget.modelPro.discountPercent!)~/100).toPrice()}đ"
+                      ? "${((widget.modelPro.price! * widget.modelPro.soluong!) * (100 - widget.modelPro.discountPercent!)~/100).toPrice()}đ"
                       : "${widget.modelPro.price.toPrice()}đ",
                       style: StyleApp.style500.copyWith(color: Colors.red)),
                   10.height,

@@ -37,7 +37,7 @@ class _ItemCategoryState extends State<ItemCategory> {
         children: [
           Positioned(
             child: ImageNetWorkView(
-              imageUrl: widget.model.imageUrl,
+              imageUrl: widget.model.imageUrl ?? "",
               fit: BoxFit.cover,
               width: size.width,
               radius: BorderRadius.circular(5),
@@ -64,7 +64,7 @@ class _ItemCategoryState extends State<ItemCategory> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.model.name,
+                        widget.model.name ?? "Chưa cập nhật",
                         style: StyleApp.style600
                             .copyWith(fontSize: 16, color: Colors.white),
                       ),

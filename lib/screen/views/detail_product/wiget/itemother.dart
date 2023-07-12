@@ -31,7 +31,7 @@ class ItemOther extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ImageNetWorkView(
-                  imageUrl: model.imageUrl,
+                  imageUrl: model.imageUrl!,
                   height: 155,
                   fit: BoxFit.cover,
                   radius: const BorderRadius.vertical(top: Radius.circular(5)),
@@ -43,7 +43,7 @@ class ItemOther extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        model.name,
+                        model.name!,
                         style: StyleApp.style600.copyWith(
                             color: Colors.black, overflow: TextOverflow.ellipsis),
                         maxLines: 1,

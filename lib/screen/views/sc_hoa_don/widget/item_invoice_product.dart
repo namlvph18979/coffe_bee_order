@@ -29,7 +29,7 @@ class ItemInVoiceProduct extends StatelessWidget {
         children: [
           Positioned(
             child: ImageNetWorkView(
-              imageUrl: model.imageUrl,
+              imageUrl: model.imageUrl!,
               fit: BoxFit.cover,
               width: size.width,
               radius: BorderRadius.circular(5),
@@ -62,8 +62,8 @@ class ItemInVoiceProduct extends StatelessWidget {
                       5.height,
                       Text(
                         model.discountPercent == null
-                        ? "${(model.price * model.soluong).toPrice()}đ"
-                        : "${((model.price * model.soluong) * (100 - model.discountPercent!)~/100).toPrice()}đ",
+                        ? "${(model.price! * model.soluong!).toPrice()}đ"
+                        : "${((model.price! * model.soluong!) * (100 - model.discountPercent!)~/100).toPrice()}đ",
                         style: StyleApp.style500
                             .copyWith(fontSize: 13, color: Colors.redAccent),
                       ),

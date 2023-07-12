@@ -2,7 +2,7 @@ import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/data/remote_bloc/user/user_model.dart';
 import 'package:coffe_bee_order/screen/views/account/sc_update_infor.dart';
 import 'package:coffe_bee_order/screen/views/account/widget/image_banner.dart';
-import 'package:coffe_bee_order/screen/views/form_auth/forgot_password.dart';
+import 'package:coffe_bee_order/screen/views/form_auth/forgot_password/forgot_password.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/sc_start.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:flutter/material.dart';

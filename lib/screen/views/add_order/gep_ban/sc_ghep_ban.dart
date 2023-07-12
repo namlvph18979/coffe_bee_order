@@ -27,6 +27,7 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
   int? isdrag2;
 
   final player = AudioPlayer();
+  final tablebloc = TableBloc();
 
   @override
   Widget build(BuildContext context) {

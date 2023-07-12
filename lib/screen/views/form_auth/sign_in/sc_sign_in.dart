@@ -1,6 +1,6 @@
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
-import 'package:coffe_bee_order/screen/views/form_auth/forgot_password.dart';
+import 'package:coffe_bee_order/screen/views/form_auth/forgot_password/forgot_password.dart';
 import 'package:coffe_bee_order/screen/views/home/sc_home.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';

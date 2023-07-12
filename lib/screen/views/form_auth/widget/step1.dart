@@ -8,14 +8,15 @@ import 'package:nb_utils/nb_utils.dart';
 class ItemStep1 extends StatelessWidget {
 
   Function() ontap;
+  TextEditingController phonenumber;
 
-
-  ItemStep1({required this.ontap});
+  ItemStep1({
+    required this.ontap,
+    required this.phonenumber});
 
   @override
   Widget build(BuildContext context) {
 
-    final phone = TextEditingController();
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,7 +30,7 @@ class ItemStep1 extends StatelessWidget {
             type: TextFieldType.PHONE,
             hint: "Vui lòng nhập...",
             labeltext: "Số điện thoại",
-            controller: phone,
+            controller: phonenumber,
           ),
           20.height,
           itemButton(

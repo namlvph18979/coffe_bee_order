@@ -50,7 +50,7 @@ class _ItemAllState extends State<ItemAll> {
                   (index) => Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(widget.model.listSp![index].name,style: StyleApp.style600,).expand(flex: 3),
+                      Text(widget.model.listSp![index].name!,style: StyleApp.style600,).expand(flex: 3),
                       Text("SL: ${widget.model.listSp![index].soluong}",style: StyleApp.style600,).expand(flex: 1),
                     ],
                   ).paddingSymmetric(vertical: 5)

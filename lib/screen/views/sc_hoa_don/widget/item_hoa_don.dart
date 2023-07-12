@@ -26,6 +26,17 @@ class ItemHoaDon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    int priceall = 0;
+    for(int i =0; i< model.listSp!.length; i++){
+      if(model.listSp![i].discountPercent != null){
+        priceall += ((model.listSp![i].price! * model.listSp![i].soluong!)
+            * (100 - model.listSp![i].discountPercent!)~/100);
+      }else{
+        priceall += (model.listSp![i].price! * model.listSp![i].soluong!);
+      }
+    }
+
     return Container(
       height: 120,
       margin:const EdgeInsets.all(10),
@@ -43,7 +54,7 @@ class ItemHoaDon extends StatelessWidget {
             children: [
               Text("Bàn số: ${model.idTable} - Tầng: ${model.idfloor}",style: StyleApp.style700.copyWith(fontSize: 18),),
               5.height,
-              Text("Tổng bill: ${model.price.toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
+              Text("Tổng bill: ${priceall.toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
               5.height,
               model.type != 0
                   ? Text("Trạng thái: Đã thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),)

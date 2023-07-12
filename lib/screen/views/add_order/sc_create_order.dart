@@ -2,6 +2,7 @@ import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/floor/floor_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
 import 'package:coffe_bee_order/screen/views/add_order/gep_ban/sc_ghep_ban.dart';
@@ -30,7 +31,6 @@ ModelInvoice modelInvoice = ModelInvoice(
         Type: 0));
 
 class ScreenCreateOrder extends StatefulWidget {
-  ModelInvoice? model;
 
   @override
   State<ScreenCreateOrder> createState() => _ScreenCreateOrderState();
@@ -63,6 +63,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
     return BlocBuilder<ListCatbloc, CubitState>(
       bloc: cartbloc,
       builder: (context, state) {
+        final list = context.read<ListInvoiceBloc>().invoice;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -106,7 +107,9 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 Tab2(),
                 Tab3(),
               ]),
-          bottomSheet: CartBottomBar(),
+          bottomNavigationBar: list.isEmpty
+              ? null
+              : CartBottomBar(),
         );
       },
     );
@@ -186,18 +189,14 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                               .then((value) {
                             print("#################### $value");
                             if(value != null) {
-                              tablebloc.update(
-                                  id: value[0].toString(),
-                                  isActive: true
-                              );
-                              tablebloc.update(
-                                  id: value[1].toString(),
-                                  isActive: true
-                              );
-                              setState(() {
-                                tablebloc.list.clear();
-                                reload();
-                              });
+                                tablebloc.update(
+                                    id: value[0].toString(),
+                                    isActive: true
+                                );
+                                tablebloc.update(
+                                    id: value[1].toString(),
+                                    isActive: true
+                                );
                             }
                             return;
                           });

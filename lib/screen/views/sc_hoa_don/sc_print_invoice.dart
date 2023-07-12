@@ -41,10 +41,10 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
       builder: (context, state) {
         for(int i = 0; i< widget.model.listSp!.length;i++){
           if(widget.model.listSp![i].discountPercent != null){
-            priceAll += ((widget.model.listSp![i].price * widget.model.listSp![i].soluong)
+            priceAll += ((widget.model.listSp![i].price! * widget.model.listSp![i].soluong!)
                 * (100 - widget.model.listSp![i].discountPercent!)~/100);
           }else{
-            priceAll += (widget.model.listSp![i].price * widget.model.listSp![i].soluong);
+            priceAll += (widget.model.listSp![i].price! * widget.model.listSp![i].soluong!);
           }
         }
         return Scaffold(
@@ -145,18 +145,18 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                   children: List.generate(
                       widget.model.listSp!.length,
                       (index) => buildRow([
-                            widget.model.listSp![index].name,
+                            widget.model.listSp![index].name!,
 
                             "${widget.model.listSp![index].discountPercent != null
-                                ? (widget.model.listSp![index].price * (100 - widget.model.listSp![index].discountPercent!)~/100).toPrice()
+                                ? (widget.model.listSp![index].price! * (100 - widget.model.listSp![index].discountPercent!)~/100).toPrice()
                                 : (widget.model.listSp![index].price).toPrice()}đ",
 
                             "${widget.model.listSp![index].soluong}",
 
                         "${widget.model.listSp![index].discountPercent != null
-                            ? ((widget.model.listSp![index].price * widget.model.listSp![index].soluong)
+                            ? ((widget.model.listSp![index].price! * widget.model.listSp![index].soluong!)
                                           * (100 - widget.model.listSp![index].discountPercent!)~/100).toPrice()
-                            : (widget.model.listSp![index].price * widget.model.listSp![index].soluong).toPrice()}đ",
+                            : (widget.model.listSp![index].price! * widget.model.listSp![index].soluong!).toPrice()}đ",
                           ])),
                 ),
                 Table(border: TableBorder.all(), children: [
@@ -189,6 +189,8 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
             onPress: () {
               player.play(AssetSource('sound/cash_pay.mp3'),
                   volume: SizeConfig.screenHeight);
+              int isPay = 1;
+              finish(context,isPay);
               finish(context);
               finish(context);
             },
