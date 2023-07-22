@@ -41,7 +41,6 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
               Align(
                   alignment: Alignment.centerRight,
                   child: ItemtoolTip(
-
                     toolText: toolText,
                   )
               ).paddingRight(20),
