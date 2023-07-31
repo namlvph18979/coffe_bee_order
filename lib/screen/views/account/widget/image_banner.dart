@@ -2,7 +2,7 @@ import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../config/style_app/color_app.dart';
-import '../../../../data/remote_bloc/user/user_model.dart';
+import '../../../../data/remote_bloc/user/model/user_model.dart';
 
 class ImagebannerUser extends StatefulWidget {
   UserModel? model;
@@ -16,7 +16,7 @@ class ImagebannerUser extends StatefulWidget {
 
 class _ImagebannerUserState extends State<ImagebannerUser> {
 
-  String imgEmpty = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMslZfxQ1wrW-XB-2PfM-KSF0zZZAX_D3uyw&usqp=CAU";
+  String imgEmpty = "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +24,7 @@ class _ImagebannerUserState extends State<ImagebannerUser> {
       child: Stack(
         children: [
           ImageNetWorkView(
-              imageUrl: widget.model!.avatar ?? imgEmpty,
+              imageUrl: widget.model!.image ?? imgEmpty,
               height: 200,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
@@ -41,7 +41,7 @@ class _ImagebannerUserState extends State<ImagebannerUser> {
                   border: Border.all(color: ColorApp.text,width: 1.5)
                 ),
                 child: ImageNetWorkView(
-                    imageUrl: widget.model!.avatar ?? imgEmpty,
+                    imageUrl: widget.model!.image ?? imgEmpty,
                     height: 70,
                     width: 70,
                     fit: BoxFit.cover,

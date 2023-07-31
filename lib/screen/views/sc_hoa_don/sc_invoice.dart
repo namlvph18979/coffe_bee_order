@@ -1,4 +1,4 @@
-import 'package:coffe_bee_order/data/remote_bloc/user/user_model.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/item_tabbar_auth.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/detail_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
@@ -11,65 +11,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../data/remote_bloc/invoice/model_invoice.dart';
 import '../../../data/remote_bloc/product/product_model.dart';
 
-List<ModelPro> listFake= [
-  ModelPro(
-      id: 1,
-      idCat: 5,
-      name: "Kem dâu",
-      imageUrl: "https://static.hotdeal.vn/images/695/694824/500x500/146677-ngay-hoi-kem-tuoi-an-kem-thoa-thich-tai-halloween-ice-cream.jpg",
-      price: 250000,
-      description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-  ),
-  ModelPro(
-      id: 2,
-      idCat: 5,
-      name: "Kem dâu",
-      imageUrl: "https://static.hotdeal.vn/images/695/694824/500x500/146677-ngay-hoi-kem-tuoi-an-kem-thoa-thich-tai-halloween-ice-cream.jpg",
-      price: 250000,
-      description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-  ),
-  ModelPro(
-      id: 3,
-      idCat: 4,
-      name: "Bim bim Socola",
-      imageUrl: "https://cf.shopee.vn/file/821b6cea5112d420911211eb563aaa28",
-      price: 30000,
-      discountPercent: 30,
-      description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-          "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-          "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-          "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-          "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-  ),
-  ModelPro(
-      id: 4,
-      idCat: 4,
-      name: "Bim bim gà",
-      imageUrl: "https://cf.shopee.vn/file/821b6cea5112d420911211eb563aaa28",
-      price: 30000,
-      description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-
-  ),
-  ModelPro(
-      id: 5,
-      idCat: 1,
-      name: "Trà sữa kít",
-      imageUrl: "https://phuongnamvina.com/img_data/images/mo-quan-tra-sua-can-nhung-gi-12-buoc-mo-quan-tra-sua-thanh-cong.jpg",
-      price: 30000,
-      description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-
-  ),
-  ModelPro(
-      id: 5,
-      idCat: 1,
-      name: "Trà sữa Ô long",
-      imageUrl: "https://phuongnamvina.com/img_data/images/mo-quan-tra-sua-can-nhung-gi-12-buoc-mo-quan-tra-sua-thanh-cong.jpg",
-      price: 30000,
-      description: "Không ngọt ngào như Bạc sỉu hay Cà phê sữa, Cà phê đen mang trong mình phong vị trầm lắng, thi vị hơn. Người ta thường phải ngồi rất lâu mới cảm nhận được hết hương thơm ngào ngạt, phảng phất mùi cacao và cái đắng mượt mà trôi tuột xuống vòm họng."
-
-  ),
-
-];
+List<ModelPro> listFake= [];
 
 List<ModelInvoice> listInvoice = [
   ModelInvoice(
@@ -81,8 +23,7 @@ List<ModelInvoice> listInvoice = [
       idTable: 1,
       idfloor: 1,
       isDone: true,
-      user: UserModel(id: 1, userName: "Nam lv0", passWord: "12345", phoneNumber: "123456789", Type: 0)
-  ),
+      user: UserModel(idUser: '1', userName: "Nam lv", passwd: "12345", phoneNumber: "123456789", chucNang: "Nhân Viên")  ),
   ModelInvoice(
       id: 2,
       timeIn: "7:30 PM",
@@ -92,8 +33,7 @@ List<ModelInvoice> listInvoice = [
       idTable: 2,
       idfloor: 1,
       isDone: true,
-      user: UserModel(id: 1, userName: "Nam lv1", passWord: "12345", phoneNumber: "123456789", Type: 0)
-  ),
+      user: UserModel(idUser: '1', userName: "Nam lv", passwd: "12345", phoneNumber: "123456789", chucNang: "Nhân Viên")  ),
   ModelInvoice(
       id: 3,
       timeIn: "7:30 PM",
@@ -103,8 +43,7 @@ List<ModelInvoice> listInvoice = [
       idTable: 3,
       idfloor: 2,
       isDone: true,
-      user: UserModel(id: 1, userName: "Nam lv2", passWord: "12345", phoneNumber: "123456789", Type: 0)
-  ),
+      user: UserModel(idUser: '1', userName: "Nam lv", passwd: "12345", phoneNumber: "123456789", chucNang: "Nhân Viên")  ),
   ModelInvoice(
       id: 4,
       timeIn: "7:30 PM",
@@ -114,8 +53,7 @@ List<ModelInvoice> listInvoice = [
       idTable: 4,
       idfloor: 3,
       isDone: true,
-      user: UserModel(id: 1, userName: "Nam lv3", passWord: "12345", phoneNumber: "123456789", Type: 0)
-  ),
+      user: UserModel(idUser: '1', userName: "Nam lv", passwd: "12345", phoneNumber: "123456789", chucNang: "Nhân Viên")  ),
   ModelInvoice(
       id: 5,
       timeIn: "7:30 PM",
@@ -125,8 +63,7 @@ List<ModelInvoice> listInvoice = [
       idTable: 5,
       idfloor: 1,
       isDone: true,
-      user: UserModel(id: 1, userName: "Nam lv4", passWord: "12345", phoneNumber: "123456789", Type: 0)
-  ),
+      user: UserModel(idUser: '1', userName: "Nam lv", passwd: "12345", phoneNumber: "123456789", chucNang: "Nhân Viên")  ),
   ModelInvoice(
       id: 6,
       timeIn: "7:30 PM",
@@ -136,8 +73,7 @@ List<ModelInvoice> listInvoice = [
       idTable: 6,
       idfloor: 3,
       isDone: true,
-      user: UserModel(id: 1, userName: "Nam lv5", passWord: "12345", phoneNumber: "123456789", Type: 0)
-  ),
+      user: UserModel(idUser: '1', userName: "Nam lv", passwd: "12345", phoneNumber: "123456789", chucNang: "Nhân Viên")  ),
   ModelInvoice(
       id: 7,
       timeIn: "7:30 PM",
@@ -147,8 +83,7 @@ List<ModelInvoice> listInvoice = [
       idTable: 7,
       idfloor: 2,
       isDone: true,
-      user: UserModel(id: 1, userName: "Nam lv6", passWord: "12345", phoneNumber: "123456789", Type: 0)
-  ),
+      user: UserModel(idUser: '1', userName: "Nam lv", passwd: "12345", phoneNumber: "123456789", chucNang: "Nhân Viên")  ),
 
 ];
 

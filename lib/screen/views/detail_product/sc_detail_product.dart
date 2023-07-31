@@ -34,13 +34,13 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
             centerTitle: false,
             elevation: 0,
             title: Text(
-              widget.modelPro.name!,
+              widget.modelPro.tenSp ?? "Chưa cập nhật",
               style:
                   StyleApp.style700.copyWith(color: Colors.white, fontSize: 18),
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: ImageNetWorkView(
-                  imageUrl: widget.modelPro.imageUrl!, fit: BoxFit.cover),
+                  imageUrl: widget.modelPro.anhSanPham ?? "", fit: BoxFit.cover),
               collapseMode: CollapseMode.pin,
             ),
           )
@@ -66,20 +66,20 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
                   15.height,
                   inforitem(
                       title: "Tên sản phẩm:",
-                      des: widget.modelPro.name,
+                      des: widget.modelPro.tenSp,
                       style: StyleApp.style600.copyWith(color: Colors.black)),
                   10.height,
                   inforitem(
                       title: "giá bán:",
-                      des: widget.modelPro.discountPercent != null
-                      ? "${((widget.modelPro.price! * widget.modelPro.soluong!) * (100 - widget.modelPro.discountPercent!)~/100).toPrice()}đ"
-                      : "${widget.modelPro.price.toPrice()}đ",
+                      des: widget.modelPro.idGiamGia == "1"
+                      ? "${(((double.tryParse(widget.modelPro.giaSanPham!)!) * (100 - 10)~/100)).toPrice()}đ"
+                      : "${double.tryParse(widget.modelPro.giaSanPham!).toPrice()}đ",
                       style: StyleApp.style500.copyWith(color: Colors.red)),
                   10.height,
                   inforitem(
                       title: "Ưu đãi:",
-                      des: widget.modelPro.discountPercent != null
-                          ? "Giảm ${widget.modelPro.discountPercent}%"
+                      des: widget.modelPro.idGiamGia == "1"
+                          ? "Giảm ${10}%"
                           : "Chưa có ưu đãi",
                       style: StyleApp.style500.copyWith(color: Colors.black)),
                   10.height,
@@ -89,7 +89,7 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
                   ),
                   5.height,
                   ReadMoreText(
-                    widget.modelPro.description!,
+                    widget.modelPro.gioiThieu ?? "Chưa cập nhật",
                     style: StyleApp.style400.copyWith(color: Colors.black),
                     trimLines: 10,
                     trimMode: TrimMode.Line,

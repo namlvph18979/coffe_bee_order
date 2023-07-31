@@ -1,7 +1,7 @@
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/local_bloc/choose_file_bloc.dart';
-import 'package:coffe_bee_order/data/remote_bloc/user/user_model.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
@@ -20,7 +20,7 @@ class ScreenUpdateInfor extends StatefulWidget {
 }
 
 class _ScreenUpdateInforState extends State<ScreenUpdateInfor> {
-  String imgEmpty = "";
+  String imgEmpty = "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg";
   final name = TextEditingController();
   final sdt = TextEditingController();
   final avatarBloc = ChooseFileBloc();
@@ -52,7 +52,7 @@ class _ScreenUpdateInforState extends State<ScreenUpdateInfor> {
                   );
                 }
                 return ImageNetWorkView(
-                    imageUrl: widget.model.avatar ?? imgEmpty,
+                    imageUrl: widget.model.image ?? imgEmpty,
                     fit: BoxFit.cover,
                     radius: BorderRadius.circular(5));
               },

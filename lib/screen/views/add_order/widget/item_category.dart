@@ -37,7 +37,7 @@ class _ItemCategoryState extends State<ItemCategory> {
         children: [
           Positioned(
             child: ImageNetWorkView(
-              imageUrl: widget.model.imageUrl ?? "",
+              imageUrl: widget.model.anhSanPham ?? "",
               fit: BoxFit.cover,
               width: size.width,
               radius: BorderRadius.circular(5),
@@ -46,7 +46,7 @@ class _ItemCategoryState extends State<ItemCategory> {
           Positioned(
               child: Container(
                   height: 120,
-                  width: size.width / 3,
+                  width: size.width / 2.8,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   decoration: BoxDecoration(
@@ -64,13 +64,19 @@ class _ItemCategoryState extends State<ItemCategory> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.model.name ?? "Chưa cập nhật",
+                        widget.model.tenSp ?? "Chưa cập nhật",
                         style: StyleApp.style600
-                            .copyWith(fontSize: 16, color: Colors.white),
+                            .copyWith(fontSize: 15, color: Colors.white),
                       ),
-                      15.height,
+                      10.height,
                       Text(
-                        "Giá: ${widget.model.price.toPrice()}đ",
+                        "Size: ${widget.model.size}",
+                        style: StyleApp.style500
+                            .copyWith(fontSize: 13, color: Colors.white),
+                      ),
+                      10.height,
+                      Text(
+                        "Giá: ${widget.model.giaSanPham}đ",
                         style: StyleApp.style500
                             .copyWith(fontSize: 13, color: Colors.white),
                       ),
@@ -87,7 +93,8 @@ class _ItemCategoryState extends State<ItemCategory> {
                 showModalBottomSheet(
                     context: context,
                     builder: (context) => ModelBottomNote(
-                      model: widget.model),
+                      model: widget.model
+                    ),
                     isScrollControlled: true,
                     shape: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
@@ -97,15 +104,15 @@ class _ItemCategoryState extends State<ItemCategory> {
                                 return;
                               }
                               ModelPro model1 = value;
-                              widget.invoice.listSp!.add(model1);
-                              print("ten luong : ${model1.name}");
+                              // widget.invoice.listSp!.add(model1);
+                              print("ten luong : ${model1.tenSp}");
                 });
               })
           ),
           Positioned(
               top: 8,
               right: 12,
-              child: widget.model.discountPercent != null
+              child: widget.model.idGiamGia == "1"
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 4),
@@ -116,7 +123,7 @@ class _ItemCategoryState extends State<ItemCategory> {
                               end: Alignment.center,
                               colors: <Color>[Colors.transparent, Colors.red])),
                       child: Text(
-                          "Giảm ${widget.model.discountPercent}%".toUpperCase(),
+                          "Giảm ${10}%".toUpperCase(),
                           style: StyleApp.style600
                               .copyWith(color: Colors.white, fontSize: 11)),
                     )

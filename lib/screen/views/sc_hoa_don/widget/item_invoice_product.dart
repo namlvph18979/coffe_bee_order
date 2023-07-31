@@ -29,7 +29,7 @@ class ItemInVoiceProduct extends StatelessWidget {
         children: [
           Positioned(
             child: ImageNetWorkView(
-              imageUrl: model.imageUrl!,
+              imageUrl: model.anhSanPham!,
               fit: BoxFit.cover,
               width: size.width,
               radius: BorderRadius.circular(5),
@@ -55,15 +55,15 @@ class ItemInVoiceProduct extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "${model.name} × ${model.soluong}",
+                        "${model.tenSp} × ${model.soluong}",
                         style: StyleApp.style600
                             .copyWith(fontSize: 16, color: Colors.white),
                       ),
                       5.height,
                       Text(
-                        model.discountPercent == null
-                        ? "${(model.price! * model.soluong!).toPrice()}đ"
-                        : "${((model.price! * model.soluong!) * (100 - model.discountPercent!)~/100).toPrice()}đ",
+                        model.idGiamGia == "1"
+                        ? "${(double.tryParse(model.giaSanPham!)! * model.soluong!).toPrice()}đ"
+                        : "${((double.tryParse(model.giaSanPham!)! * model.soluong!) * (100 - 10)~/100).toPrice()}đ",
                         style: StyleApp.style500
                             .copyWith(fontSize: 13, color: Colors.redAccent),
                       ),
@@ -82,7 +82,7 @@ class ItemInVoiceProduct extends StatelessWidget {
           Positioned(
               top: 8,
               right: 12,
-              child: model.discountPercent != null
+              child: model.idGiamGia == "1"
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 4),
@@ -93,7 +93,7 @@ class ItemInVoiceProduct extends StatelessWidget {
                               end: Alignment.center,
                               colors: <Color>[Colors.transparent, Colors.red])),
                       child: Text(
-                          "Giảm ${model.discountPercent}%".toUpperCase(),
+                          "Giảm ${10}%".toUpperCase(),
                           style: StyleApp.style600
                               .copyWith(color: Colors.white, fontSize: 11)),
                     )

@@ -1,10 +1,12 @@
 class ModelCat {
   String? name;
   int? id;
+  int? count;
 
   ModelCat({
       this.name, 
-      this.id
+      this.id,
+      this.count
   });
 
   ModelCat.fromJson(dynamic json) {

@@ -28,7 +28,7 @@ class ScreenAcceptOrder extends StatelessWidget {
       ),
       body: ListView.separated(
           itemBuilder: (context, index) =>  itemfr(
-              text: invoice.listSp![index].name,
+              text: invoice.listSp![index].tenSp,
               sl: invoice.listSp![index].soluong,
               note: invoice.listSp![index].note
           ),

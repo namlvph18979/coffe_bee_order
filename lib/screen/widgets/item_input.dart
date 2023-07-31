@@ -10,11 +10,13 @@ class itemInputText extends StatelessWidget {
   String? hint;
   TextFieldType? type;
   TextEditingController? controller;
+  Function(String)? validator;
 
 
   itemInputText({
     this.labeltext,
     this.type,
+    this.validator,
     this.hint,
     this.controller});
 
@@ -23,6 +25,12 @@ class itemInputText extends StatelessWidget {
     return AppTextField(
       controller: controller, // Optional
       textFieldType: type!,
+      validator: (val) {
+        if (validator != null) {
+          return validator!(val ?? "");
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: labeltext,
         hintText: hint ?? "Vui lòng nhập",

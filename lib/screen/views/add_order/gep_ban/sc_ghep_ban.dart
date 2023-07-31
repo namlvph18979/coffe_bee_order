@@ -63,13 +63,13 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DragTarget<int>(
-                  onAccept: (data) => setState(() {
-                    if(data == isdrag2){
+                  onAccept: (data1) => setState(() {
+                    if(data1 == isdrag2){
                       toast("không thể gép 2 bàn trùng nhau!",);
                       player.play(AssetSource('sound/erro.mp3'),volume: SizeConfig.screenHeight);
                       return;
                     }
-                    isdrag1 = data;
+                    isdrag1 = data1;
                   }),
                   builder: (context,_,__) => isdrag1 == null
                       ? ItemEmpty()
@@ -77,13 +77,13 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
                 ).expand(),
                 const Icon(Icons.link_outlined,size: 25,color: Colors.black54,).paddingSymmetric(horizontal: 20),
                 DragTarget<int>(
-                    onAccept: (data) => setState(() {
-                      if(data == isdrag1){
+                    onAccept: (data2) => setState(() {
+                      if(data2 == isdrag1){
                           toast("không thể gép 2 bàn trùng nhau!",);
                           player.play(AssetSource('sound/erro.mp3'),volume: SizeConfig.screenHeight);
                           return;
                       }
-                      isdrag2 = data;
+                      isdrag2 = data2;
                     }),
                     builder: (context,_,__) => isdrag2 == null
                         ? ItemEmpty()
@@ -164,14 +164,14 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
         color: ColorApp.bg,
         borderRadius: BorderRadius.circular(3),
         border: Border.all(
-            color: !model!.isActive! ? Colors.green : ColorApp.text,
+            color: model?.isActive == "1" ? Colors.green : ColorApp.text,
             width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(model.name!,style: StyleApp.style600.copyWith(fontSize: 16),),
-          !model.isActive!
+          Text("Bàn ${model?.name}" ,style: StyleApp.style600.copyWith(fontSize: 16),),
+          model?.isActive == "1"
               ? Text("Đang trống",style: StyleApp.style500.copyWith(fontSize: 12,color: Colors.green),)
               : AnimatedTextKit(
                 isRepeatingAnimation: true,

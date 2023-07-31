@@ -31,7 +31,7 @@ class ItemOther extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ImageNetWorkView(
-                  imageUrl: model.imageUrl!,
+                  imageUrl: model.anhSanPham!,
                   height: 155,
                   fit: BoxFit.cover,
                   radius: const BorderRadius.vertical(top: Radius.circular(5)),
@@ -43,14 +43,14 @@ class ItemOther extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        model.name!,
+                        model.tenSp!,
                         style: StyleApp.style600.copyWith(
                             color: Colors.black, overflow: TextOverflow.ellipsis),
                         maxLines: 1,
                       ),
                       5.height,
                       Text(
-                        "${model.price.toPrice()}đ",
+                        "${(double.tryParse(model.giaSanPham!)).toPrice()}đ",
                         style: StyleApp.style500
                             .copyWith(color: Colors.red, fontSize: 13),
                       ),
@@ -63,7 +63,7 @@ class ItemOther extends StatelessWidget {
           Positioned(
               top: 10,
               right: 15,
-              child: model.discountPercent != null
+              child: model.idGiamGia == "1"
                   ? Container(
                     padding:const EdgeInsets.symmetric(horizontal: 3,vertical: 2),
                     decoration: BoxDecoration(
@@ -78,7 +78,7 @@ class ItemOther extends StatelessWidget {
                           // duration: const Duration(milliseconds: 1500)
                           speed: const Duration(milliseconds: 220),
                           curve: Curves.decelerate,
-                          "Giảm ${model.discountPercent}%",
+                          "Giảm ${10}%",
                           textStyle:StyleApp.style700
                               .copyWith(color: Colors.red ))
                     ]

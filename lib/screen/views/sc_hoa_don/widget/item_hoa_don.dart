@@ -27,13 +27,13 @@ class ItemHoaDon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    int priceall = 0;
+    double priceall = 0;
     for(int i =0; i< model.listSp!.length; i++){
-      if(model.listSp![i].discountPercent != null){
-        priceall += ((model.listSp![i].price! * model.listSp![i].soluong!)
-            * (100 - model.listSp![i].discountPercent!)~/100);
+      if(model.listSp![i].idGiamGia != ""){
+        priceall += ((double.tryParse(model.listSp![i].giaSanPham!)! * model.listSp![i].soluong!)
+            * (100 - 10)~/100);
       }else{
-        priceall += (model.listSp![i].price! * model.listSp![i].soluong!);
+        priceall += (double.tryParse(model.listSp![i].giaSanPham!)! * model.listSp![i].soluong!);
       }
     }
 

@@ -13,7 +13,7 @@ List<itemTypeLogin> listType =[
       title: "Nhân Viên"),
   itemTypeLogin(
       imageUrl: "https://images.careerbuilder.vn/content/images/ky-nang-nhan-vien-thu-ngan-careerbuilder.jpg",
-      title: "Thu ngân"),
+      title: "Thu Ngân"),
   itemTypeLogin(
       imageUrl: "https://epicure.vn/wp-content/uploads/2017/08/cafe-capuchino-02-1.jpg",
       title: "Pha Chế"),

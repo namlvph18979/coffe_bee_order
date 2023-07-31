@@ -21,7 +21,7 @@ class ItemtoolTip extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         border: Border.all(color: ColorApp.text,width: 1)
       ),
-      child: const Icon(Icons.help,size: 18,color: Colors.white,),
+      child: const Icon(Icons.help,size: 20,color: Colors.white,),
     );
   }
 }

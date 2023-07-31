@@ -1,5 +1,5 @@
 import '../product/product_model.dart';
-import '../user/user_model.dart';
+import '../user/model/user_model.dart';
 
 class ModelInvoice{
   int? id;

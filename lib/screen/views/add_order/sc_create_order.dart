@@ -5,6 +5,7 @@ import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dar
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
 import 'package:coffe_bee_order/screen/views/add_order/gep_ban/sc_ghep_ban.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/cart_bottom_bar.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/item_table.dart';
@@ -17,18 +18,19 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../config/style_app/color_app.dart';
 import '../../../config/style_app/style_text.dart';
 import '../../../data/cubit_state.dart';
-import '../../../data/remote_bloc/user/user_model.dart';
+
 
 ModelInvoice modelInvoice = ModelInvoice(
     id: 1,
     type: 0,
     listSp: [],
     user: UserModel(
-        id: 1,
+        idUser: "1",
         userName: "Nam lv0",
-        passWord: "12345",
+        passwd: "12345",
         phoneNumber: "123456789",
-        Type: 0));
+        chucNang: "Nhân Viên"
+    ));
 
 class ScreenCreateOrder extends StatefulWidget {
 
@@ -55,7 +57,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
 
   Future<void> reload() async {
     floorbloc.getList();
-    tablebloc.getList();
   }
 
   @override
@@ -142,6 +143,8 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                             title: floorbloc.list[index].name,
                             onClick: () {
                               tabController.animateTo(1);
+                              tablebloc.getList(id: floorbloc.list[index].id.toString());
+
                               modelInvoice.idfloor =
                                   floorbloc.list[index].id.toInt();
                               modelInvoice.timeIn = tdata;
@@ -157,83 +160,82 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   }
 
   Widget Tab2() {
-    return RefreshIndicator(
-      onRefresh: reload,
-      child: BlocBuilder<TableBloc, CubitState>(
-        bloc: tablebloc,
-        builder: (context, state) {
-          return LoadPage(
-            state: state,
+    return BlocBuilder<TableBloc, CubitState>(
+      bloc: tablebloc,
+      builder: (context, state) {
+        return LoadPage(
+          state: state,
+          height: MediaQuery.of(context).size.height,
+          reload: () => tablebloc.getList(id: floorbloc.list[tabController.index].id!),
+          child: Container(
+            color: Colors.white,
             height: MediaQuery.of(context).size.height,
-            reload: () => tablebloc.getList(),
-            child: Container(
-              color: Colors.white,
-              margin: const EdgeInsets.only(bottom: 50),
-              child: SettingSection(
-                  title: Row(
-                    children: [
-                      Text(
-                        "Chọn Bàn".toUpperCase(),
-                        style: StyleApp.style700.copyWith(color: Colors.black),
-                      ),
-                      const Spacer(),
-                      TextIcon(
-                        text: "Ghép",
-                        textStyle: StyleApp.style600
-                            .copyWith(color: ColorApp.text, fontSize: 16),
-                        suffix: const Icon(Icons.compare,
-                            size: 20, color: ColorApp.text),
-                        onTap: () {
-                          ScreenGhepBan(listModel: tablebloc.list)
-                              .launch(context)
-                              .then((value) {
-                            print("#################### $value");
-                            if(value != null) {
-                                tablebloc.update(
-                                    id: value[0].toString(),
-                                    isActive: true
-                                );
-                                tablebloc.update(
-                                    id: value[1].toString(),
-                                    isActive: true
-                                );
-                            }
-                            return;
-                          });
-                        },
-                      )
-                    ],
-                  ),
-                  headerPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  items: [
-                    GridView.count(
-                      crossAxisCount: 3,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisSpacing: 4.0,
-                      mainAxisSpacing: 8.0,
-                      children: List.generate(
-                          tablebloc.list.length,
-                          (index) => ItemTable(
-                                model: tablebloc.list[index],
-                                onClick: () {
-                                  tabController.animateTo(2);
-                                  setState(() {
-                                    modelInvoice.idTable =
-                                        tablebloc.list[index].id.toInt();
-                                    print(
-                                        "############## bàn ${tablebloc.list[index].id} "
-                                        "- tầng ${modelInvoice.idfloor}");
-                                  });
-                                }
-                              ))
+            margin: const EdgeInsets.only(bottom: 50),
+            child: SettingSection(
+                title: Row(
+                  children: [
+                    Text(
+                      "Chọn Bàn".toUpperCase(),
+                      style: StyleApp.style700.copyWith(color: Colors.black),
+                    ),
+                    const Spacer(),
+                    TextIcon(
+                      text: "Ghép",
+                      textStyle: StyleApp.style600
+                          .copyWith(color: ColorApp.text, fontSize: 16),
+                      suffix: const Icon(Icons.compare,
+                          size: 20, color: ColorApp.text),
+                      onTap: () {
+                        ScreenGhepBan(listModel: tablebloc.list)
+                            .launch(context)
+                        //     .then((value) {
+                        //   print("#################### $value");
+                        //   if(value != null) {
+                        //       tablebloc.update(
+                        //           id: value[0].toString(),
+                        //
+                        //       );
+                        //       tablebloc.update(
+                        //           id: value[1].toString(),
+                        //
+                        //       );
+                        //   }
+                        //   return;
+                        // })
+                        ;
+                      },
                     )
-                  ]),
-            ).scrollView(),
-          );
-        }
-      )
+                  ],
+                ),
+                headerPadding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                items: [
+                  GridView.count(
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisSpacing: 4.0,
+                    mainAxisSpacing: 8.0,
+                    children: List.generate(
+                        tablebloc.list.length,
+                        (index) => ItemTable(
+                              model: tablebloc.list[index],
+                              onClick: () {
+                                tabController.animateTo(2);
+                                setState(() {
+                                  modelInvoice.idTable =
+                                      tablebloc.list[index].id.toInt();
+                                  print(
+                                      "############## bàn ${tablebloc.list[index].id} "
+                                      "- tầng ${modelInvoice.idfloor}");
+                                });
+                              }
+                            ))
+                  )
+                ]),
+          ).scrollView(),
+        );
+      }
     );
   }
 
@@ -266,7 +268,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
           color: ColorApp.bg,
           border: Border.all(color: ColorApp.text, width: 2),
           borderRadius: BorderRadius.circular(5)),
-      child: Text(title!, style: StyleApp.style700.copyWith(fontSize: 20)),
+      child: Text("Tầng $title", style: StyleApp.style700.copyWith(fontSize: 20)),
     ).onTap(onClick);
   }
 }

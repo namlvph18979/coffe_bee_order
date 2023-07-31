@@ -46,24 +46,27 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(
-          Icons.clear,
-          size: 30,
-          color: Colors.black,
-        ).onTap(() {
-          finish(context);
-        }),
+        Align(
+          alignment: Alignment.centerRight,
+          child:const Icon(
+            Icons.clear,
+            size: 30,
+            color: Colors.black,
+          ).onTap(() {
+            finish(context);
+          }),
+        ),
         10.height,
         itemAdd(
           count: widget.model.soluong!,
           model: widget.model,
           ontap1: () => setState(() {
-            if (widget.model.soluong! > 0) {
-              widget.model.soluong! - 1;
+            if (widget.model.soluong! > 1) {
+              widget.model.soluong = widget.model.soluong! - 1;
             }
           }),
           ontap2: () => setState(() {
-            widget.model.soluong! + 1;
+            widget.model.soluong = widget.model.soluong! + 1;
           }),
         ),
         15.height,
@@ -110,7 +113,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             }
             widget.model.note = note.text;
             finish(context, widget.model);
-            print("############ ${widget.model.name}");
+            print("############ ${widget.model.tenSp}");
           },
         ).withWidth(MediaQuery.of(context).size.width)
       ],
@@ -179,7 +182,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             height: 100,
             width: 100,
             child: ImageNetWorkView(
-              imageUrl: model.imageUrl ?? "",
+              imageUrl: model.anhSanPham ?? "",
               fit: BoxFit.cover,
             ),
           ),
@@ -189,15 +192,15 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             children: [
               15.height,
               Text(
-                model.name!,
+                model.tenSp!,
                 style: StyleApp.style600.copyWith(color: Colors.black),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
               5.height,
-              model.discountPercent != null
+              model.idGiamGia == "1"
                   ? Text(
-                      "Ưu đãi: giảm ${model.discountPercent}%",
+                      "Ưu đãi: giảm ${10}%",
                       style: StyleApp.style500.copyWith(color: Colors.black),
                     )
                   : Text(
@@ -208,13 +211,13 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  model.discountPercent == null
+                  model.idGiamGia == "1"
                       ? Text(
-                          "Đơn giá: ${(model.price! * model.soluong!).toPrice()}đ",
+                          "Đơn giá: ${(((int.tryParse(model.giaSanPham!)! * model.soluong!)  * (100 - 10) ~/ 100).toPrice())}đ",
                           style: StyleApp.style500.copyWith(color: Colors.red),
                         )
                       : Text(
-                          "Đơn giá: ${((model.price! * model.soluong!) * (100 - model.discountPercent!) ~/ 100).toPrice()}đ",
+                          "Đơn giá: ${(int.tryParse(model.giaSanPham!)! * model.soluong!).toPrice()}đ",
                           style: StyleApp.style500.copyWith(color: Colors.red),
                         ),
                   const Spacer(),

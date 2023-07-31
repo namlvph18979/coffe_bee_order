@@ -5,7 +5,6 @@ import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/screen/views/add_order/sc_create_order.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/detail_invoice.dart';
-import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
 import 'package:coffe_bee_order/screen/widgets/dialog/confirm_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,33 +69,33 @@ class CartBottomBar extends StatelessWidget {
                                     .copyWith(color: Colors.white),
                               ),
                             ).onTap(() {
-                              if (modelInvoice.listSp!.isEmpty) {
-                                toast("Chưa có sản phẩm nào");
-                                return;
-                              }
-                              showInDialog(context,
-                                  builder: (p0) => ConfirmDialog(
-                                        title: "Thanh toán",
-                                        des: "Vui lòng chọn kiểu thanh toán",
-                                        text1: "Trước",
-                                        text2: "Sau",
-                                        ontap1: () {
-                                          finish(context);
-                                          ScreenPrintinvoice(model: modelInvoice)
-                                              .launch(context);
-                                        },
-                                        ontap2: () {
-                                          finish(context);
-                                          finish(context);
-                                          modelInvoice.listSp!.clear();
-                                          modelInvoice.idfloor == null;
-                                          modelInvoice.idTable == null;
-                                          modelInvoice.timeIn == null;
-
-                                          toast("Gửi đơn thành công",
-                                              bgColor: ColorApp.text);
-                                        },
-                                      ));
+                              // if (modelInvoice.listSp!.isEmpty) {
+                              //   toast("Chưa có sản phẩm nào");
+                              //   return;
+                              // }
+                              // showInDialog(context,
+                              //     builder: (p0) => ConfirmDialog(
+                              //           title: "Thanh toán",
+                              //           des: "Vui lòng chọn kiểu thanh toán",
+                              //           text1: "Trước",
+                              //           text2: "Sau",
+                              //           ontap1: () {
+                              //             finish(context);
+                              //             // ScreenPrintinvoice(model: modelInvoice)
+                              //             //     .launch(context);
+                              //           },
+                              //           ontap2: () {
+                              //             finish(context);
+                              //             finish(context);
+                              //             modelInvoice.listSp!.clear();
+                              //             modelInvoice.idfloor == null;
+                              //             modelInvoice.idTable == null;
+                              //             modelInvoice.timeIn == null;
+                              //
+                              //             toast("Gửi đơn thành công",
+                              //                 bgColor: ColorApp.text);
+                              //           },
+                              //         ));
                             }).expand(flex: 2)
                           ],
                         ),

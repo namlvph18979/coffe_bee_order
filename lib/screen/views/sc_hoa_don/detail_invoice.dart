@@ -41,11 +41,11 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
       bloc: invoiceBloc,
       builder: (context, state) {
         for(int i = 0; i< widget.model.listSp!.length;i++){
-          if(widget.model.listSp![i].discountPercent != null){
-            priceAll += ((widget.model.listSp![i].price! * widget.model.listSp![i].soluong!)
-                * (100 - widget.model.listSp![i].discountPercent!)~/100);
+          if(widget.model.listSp![i].idGiamGia == "1"){
+            priceAll += (((int.tryParse(widget.model.listSp![i].giaSanPham!)! * widget.model.listSp![i].soluong!)
+                * (100 - 10)~/100));
           }else{
-            priceAll += (widget.model.listSp![i].price! * widget.model.listSp![i].soluong!);
+            priceAll += ((int.tryParse(widget.model.listSp![i].giaSanPham!)! * widget.model.listSp![i].soluong!));
           }
         }
         return Scaffold(

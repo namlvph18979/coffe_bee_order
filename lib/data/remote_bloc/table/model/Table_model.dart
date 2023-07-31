@@ -1,8 +1,8 @@
 class TableModel {
   String? id;
-  int? idFloor;
+  String? idFloor;
   String? name;
-  bool? isActive;
+  String? isActive;
 
   TableModel({
     this.id,
@@ -12,19 +12,19 @@ class TableModel {
   });
 
   TableModel.fromJson(dynamic json) {
-    isActive = json['isActive'];
-    name = json['name'];
-    id = json['id'];
-    idFloor = json['idFloor'];
+    isActive = json['trangThai'];
+    name = json['soBan'];
+    id = json['Id_Table'];
+    idFloor = json['id_tang'];
   }
 
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['isActive'] = isActive;
-    map['name'] = name;
-    map['id'] = id;
-    map['idFloor'] = idFloor;
+    map['trangThai'] = isActive;
+    map['soBan'] = name;
+    map['Id_Table'] = id;
+    map['id_tang'] = idFloor;
     return map;
   }
 

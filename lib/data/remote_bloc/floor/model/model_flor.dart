@@ -8,15 +8,15 @@ class ModelFloor {
   });
 
   ModelFloor.fromJson(dynamic json) {
-    id = json['id'];
-    name = json['name'];
+    id = json['id_tang'];
+    name = json['soTang'];
   }
 
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
+    map['id_tang'] = id;
+    map['soTang'] = name;
     return map;
   }
 

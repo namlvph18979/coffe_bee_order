@@ -26,14 +26,14 @@ class ItemTable extends StatelessWidget {
         color: ColorApp.bg,
         borderRadius: BorderRadius.circular(3),
         border: Border.all(
-            color: !model!.isActive! ? Colors.green : ColorApp.text,
+            color: model?.isActive == "1" ? Colors.green : ColorApp.text,
             width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(model!.name!,style: StyleApp.style600.copyWith(fontSize: 16),),
-          !model!.isActive!
+          model?.isActive == "1"
               ? Text("Đang trống",style: StyleApp.style500.copyWith(fontSize: 12,color: Colors.green),)
               : AnimatedTextKit(
               isRepeatingAnimation: true,
@@ -46,7 +46,7 @@ class ItemTable extends StatelessWidget {
         ],
       ),
     ).onTap(
-        !model!.isActive!
+        model?.isActive == "1"
             ? onClick
             : (){toast("Bàn hiện đang có người");}
     );

@@ -19,6 +19,7 @@ class floorBloc extends Cubit<CubitState>{
         var res = await Api.getAsync(
             endpoint: ApiPath.floor,
             req: req,
+
         );
         for(var json in res){
           ModelFloor modelFlor = ModelFloor.fromJson(json);

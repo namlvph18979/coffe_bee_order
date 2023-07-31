@@ -11,7 +11,7 @@ class TableBloc extends Cubit<CubitState>{
   List<TableModel> list = [];
   Map<String,dynamic>? req;
 
-  getList() async{
+  getList({required String id}) async{
     list.clear();
     emit(state.copyWith(status: BlocStatus.loading));
     try{
@@ -21,7 +21,9 @@ class TableBloc extends Cubit<CubitState>{
       );
       for(var json in res){
         TableModel model = TableModel.fromJson(json);
-        list.add(model);
+        if(model.idFloor == id){
+          list.add(model);
+        }
       }
       emit(state.copyWith(status: BlocStatus.success));
 
@@ -33,16 +35,13 @@ class TableBloc extends Cubit<CubitState>{
     }
   }
 
-  update({
-    required String id,
-    required bool isActive,
-  }) async {
+  update() async {
     emit(state.copyWith(status: BlocStatus.loading));
     try{
       var res = await Api.putAsync(
-          endpoint: "${ApiPath.table}/$id",
+          endpoint: "${ApiPath.table}",
           req: {
-            "isActive" : isActive
+            "trangThai" : "2"
           }
       );
       if(res['isActive'] == true){

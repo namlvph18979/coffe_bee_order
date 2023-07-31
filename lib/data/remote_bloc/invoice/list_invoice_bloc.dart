@@ -3,7 +3,6 @@ import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nb_utils/nb_utils.dart';
 
 import '../product/product_model.dart';
 
@@ -25,7 +24,7 @@ class ListInvoiceBloc extends Cubit<CubitState>{
         ModelPro model = ModelPro.fromJson(json);
         invoice.add(model);
       }
-      getPrice();
+      // getPrice();
       emit(state.copyWith(
         status: BlocStatus.success,
       ));
@@ -36,16 +35,16 @@ class ListInvoiceBloc extends Cubit<CubitState>{
       ));
     }
   }
-  getPrice(){
-    totalPrice = 0;
-    for (var element in invoice){
-      if(element.discountPercent != null){
-        totalPrice += ((element.price.validate() * element.soluong.validate()) *
-            (100 - element.discountPercent!) ~/100);
-      }else{
-        totalPrice += (element.price.validate() * element.soluong.validate());
-      }
-
-    }
-  }
+  // getPrice(){
+  //   totalPrice = 0;
+  //   for (var element in invoice){
+  //     if(element.discountPercent != null){
+  //       totalPrice += ((element.price.validate() * element.soluong.validate()) *
+  //           (100 - element.discountPercent!) ~/100);
+  //     }else{
+  //       totalPrice += (element.price.validate() * element.soluong.validate());
+  //     }
+  //
+  //   }
+  // }
 }
