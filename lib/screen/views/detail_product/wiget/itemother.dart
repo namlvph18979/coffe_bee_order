@@ -13,7 +13,7 @@ class ItemOther extends StatelessWidget {
   Function? onTap;
 
 
-  ItemOther({
+   ItemOther({
     required this.model,
     this.onTap});
 

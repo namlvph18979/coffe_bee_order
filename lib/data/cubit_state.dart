@@ -15,7 +15,7 @@ class CubitState{
 
   CubitState copyWith({
     BlocStatus? status,
-    dynamic? data,
+    dynamic data,
     String? msg,
     int? total
 }){
