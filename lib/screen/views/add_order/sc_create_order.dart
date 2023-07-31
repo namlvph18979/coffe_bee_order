@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../../../config/api/api_path.dart';
 import '../../../config/style_app/color_app.dart';
 import '../../../config/style_app/style_text.dart';
 import '../../../data/cubit_state.dart';
@@ -54,7 +55,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   }
 
   Future<void> reload() async {
-    floorbloc.getList();
+    // floorbloc.getList();
     tablebloc.getList();
   }
 
@@ -124,7 +125,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
           return LoadPage(
             state: state,
             height: MediaQuery.of(context).size.height,
-            reload: () => floorbloc.getList(),
+            reload: () => floorbloc.getList(ApiPath.FLOOR),
             child: Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.white,
@@ -139,14 +140,14 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                   items: List.generate(
                       floorbloc.list.length,
                       (index) => ItemOption(
-                            title: floorbloc.list[index].name,
+                            title: floorbloc.list[index].soTang,
                             onClick: () {
                               tabController.animateTo(1);
                               modelInvoice.idfloor =
-                                  floorbloc.list[index].id.toInt();
+                                  floorbloc.list[index].idTang.toInt();
                               modelInvoice.timeIn = tdata;
                               print(
-                                  "############## tang: ${floorbloc.list[index].id}");
+                                  "############## tang: ${floorbloc.list[index].idTang}");
                             },
                           ))).scrollView(),
             ),

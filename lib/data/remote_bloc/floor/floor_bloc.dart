@@ -9,20 +9,22 @@ import 'model/model_flor.dart';
 class floorBloc extends Cubit<CubitState>{
   floorBloc():super(CubitState());
 
-  List<ModelFloor> list = [];
+  List<FloorModel> list = [];
   Map<String,dynamic>? req;
+  Map<String, String> _mainHeaders = {};
 
-  getList() async {
-    list.clear();
+  getList(String uri) async {
+    // list.clear();
     emit(state.copyWith(status: BlocStatus.loading));
     try{
         var res = await Api.getAsync(
-            endpoint: ApiPath.floor,
+            endpoint: ApiPath.FLOOR,
             req: req,
         );
         for(var json in res){
-          ModelFloor modelFlor = ModelFloor.fromJson(json);
+          FloorModel modelFlor = FloorModel.fromJson(json);
           list.add(modelFlor);
+          print('====> API Call: $uri\nHeader: $_mainHeaders');
         }
         emit(state.copyWith(status: BlocStatus.success));
 

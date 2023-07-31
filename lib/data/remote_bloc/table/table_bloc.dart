@@ -16,7 +16,7 @@ class TableBloc extends Cubit<CubitState>{
     emit(state.copyWith(status: BlocStatus.loading));
     try{
       var res = await Api.getAsync(
-          endpoint: ApiPath.table,
+          endpoint: ApiPath.TABLE,
           req: req
       );
       for(var json in res){
@@ -40,7 +40,7 @@ class TableBloc extends Cubit<CubitState>{
     emit(state.copyWith(status: BlocStatus.loading));
     try{
       var res = await Api.putAsync(
-          endpoint: "${ApiPath.table}/$id",
+          endpoint: "${ApiPath.TABLE}/$id",
           req: {
             "isActive" : isActive
           }

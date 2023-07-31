@@ -18,7 +18,7 @@ class ListCatbloc extends Cubit<CubitState>{
     emit(state.copyWith(status: BlocStatus.loading));
     try{
       var res = await Api.getAsync(
-          endpoint: ApiPath.Cat,
+          endpoint: ApiPath.CATEGORY,
           req: req,
       );
       for(var json in res){

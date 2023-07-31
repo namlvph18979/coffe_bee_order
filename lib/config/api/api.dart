@@ -48,7 +48,7 @@ class Api {
         headersData['Content-Type'] = "application/json";
 
         var res = await dio.get(
-            ApiPath.domain + endpoint,
+            ApiPath.BASE_URL + endpoint,
             options: Options(
               headers: headers ?? headersData
             ),
@@ -71,7 +71,7 @@ class Api {
       FormData formData = FormData.fromMap(req);
 
       var res = await dio.post(
-        ApiPath.domain + endpoint,
+        ApiPath.BASE_URL + endpoint,
         data: isForm ? formData : req,
         options: Options(
           headers: headersData
@@ -90,7 +90,7 @@ class Api {
 }) async {
     try{
         var res = await dio.put(
-          ApiPath.domain + endpoint,
+          ApiPath.BASE_URL + endpoint,
           data: req ,
         );
         return res.data;
@@ -108,7 +108,7 @@ class Api {
       headersData['Content-Type'] = "application/json";
 
       var res = await dio.delete(
-        ApiPath.domain + endpoint,
+        ApiPath.BASE_URL + endpoint,
         options: Options(
           headers: headers ?? headersData
         )
