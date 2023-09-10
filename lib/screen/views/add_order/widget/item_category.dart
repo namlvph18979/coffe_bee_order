@@ -1,4 +1,6 @@
+
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
+
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/model_bottom_not.dart';
 import 'package:coffe_bee_order/screen/views/detail_product/sc_detail_product.dart';
@@ -76,7 +78,7 @@ class _ItemCategoryState extends State<ItemCategory> {
                       ),
                       10.height,
                       Text(
-                        "Giá: ${widget.model.giaSanPham}đ",
+                        "Giá: ${(double.tryParse(widget.model.giaSanPham.validate())).toPrice()}đ",
                         style: StyleApp.style500
                             .copyWith(fontSize: 13, color: Colors.white),
                       ),

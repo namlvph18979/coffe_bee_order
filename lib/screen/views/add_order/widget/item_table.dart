@@ -6,9 +6,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../../config/style_app/color_app.dart';
 import '../../../../config/style_app/style_text.dart';
 
-
 class ItemTable extends StatelessWidget {
-
   TableModel? model;
   Function()? onClick;
 
@@ -20,35 +18,44 @@ class ItemTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: ColorApp.bg,
         borderRadius: BorderRadius.circular(3),
         border: Border.all(
-            color: model?.isActive == "1" ? Colors.green : ColorApp.text,
+            color: model?.isActive == 0 ? Colors.green : ColorApp.text,
             width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(model!.name!,style: StyleApp.style600.copyWith(fontSize: 16),),
-          model?.isActive == "1"
-              ? Text("Đang trống",style: StyleApp.style500.copyWith(fontSize: 12,color: Colors.green),)
+          Text(
+            "Bàn ${model?.name.validate().toString() ?? "1"}",
+            style: StyleApp.style600.copyWith(
+                fontSize: 16,
+                color: model?.isActive == 0 ? Colors.green : ColorApp.text),
+          ),
+          model?.isActive == 0
+              ? Text(
+                  "Đang trống",
+                  style: StyleApp.style500
+                      .copyWith(fontSize: 12, color: Colors.green),
+                )
               : AnimatedTextKit(
-              isRepeatingAnimation: true,
-              repeatForever: true,
-              pause:const Duration(milliseconds: 100),
-              animatedTexts: [
-                WavyAnimatedText("Đang hoạt động...",
-                    textStyle: StyleApp.style500.copyWith(fontSize: 9))
-              ]),
+                  isRepeatingAnimation: true,
+                  repeatForever: true,
+                  pause: const Duration(milliseconds: 100),
+                  animatedTexts: [
+                      WavyAnimatedText("Đang hoạt động...",
+                          textStyle: StyleApp.style500.copyWith(fontSize: 9))
+                    ]),
         ],
       ),
-    ).onTap(
-        model?.isActive == "1"
-            ? onClick
-            : (){toast("Bàn hiện đang có người");}
-    );
+    ).onTap(model?.isActive == 0
+        ? onClick
+        : () {
+            toast("Bàn hiện đang có người");
+          });
   }
 }

@@ -2,6 +2,7 @@ import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/step2.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/step1.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/step3.dart';
+import 'package:coffe_bee_order/screen/widgets/dialog/dialog_message.dart';
 import 'package:coffe_bee_order/screen/widgets/dialog/success_dialog.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -83,7 +84,16 @@ class _ScreenForgotPassState extends State<ScreenForgotPass> {
                           await FirebaseAuth.instance.verifyPhoneNumber(
                             phoneNumber: contrycode.text + phoneNumber.text,
                             verificationCompleted: (PhoneAuthCredential credential) {},
-                            verificationFailed: (FirebaseAuthException e) {},
+                            verificationFailed: (FirebaseAuthException e) {
+                              return DialogMessage(
+                                  context: context,
+                                  title: "Thông báo!",
+                                  onConfirm: () {
+                                    finish(context);
+                                  },
+                                  message: "Chúng tôi đã khóa số điện thoại ${phoneNumber.text} do vấn đề baảo mật!\n"
+                                      "Vui lòng thử lại sau");
+                            },
                             codeSent: (verificationId, resendToken) {
                               vetifyCode = verificationId;
                               setState(() {

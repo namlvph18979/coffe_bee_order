@@ -9,10 +9,12 @@ class itemTypeLogin extends StatelessWidget {
 
   String imageUrl;
   String title;
+  String type;
 
   itemTypeLogin({
     required this.imageUrl,
-    required this.title
+    required this.title,
+    required this.type,
   });
 
   @override
@@ -59,7 +61,8 @@ class itemTypeLogin extends StatelessWidget {
         ],
       ),
     ).onTap((){
-      ScreenSignIn(title).launch(context,
+      print("##############$type##############");
+      ScreenSignIn(type).launch(context,
         pageRouteAnimation: PageRouteAnimation.Slide);
     });
   }

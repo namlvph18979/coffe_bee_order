@@ -22,18 +22,19 @@ class ScreenAcceptOrder extends StatelessWidget {
     final player = AudioPlayer();
     return Scaffold(
       appBar: itemAppBar(
-          title: "Đơn Bàn số ${invoice.idTable} - Tầng ${invoice.idfloor}",
+          title: "Đơn Bàn số ${invoice.idTable} - Tầng 1",
           isback: false,
           align: true,
       ),
       body: ListView.separated(
           itemBuilder: (context, index) =>  itemfr(
-              text: invoice.listSp![index].tenSp,
-              sl: invoice.listSp![index].soluong,
-              note: invoice.listSp![index].note
+              text: invoice.hoadonItems?[index].tenSp,
+              sl: invoice.hoadonItems?[index].soLuong,
+              // note: invoice.hoadonItems![index].
+
           ),
           separatorBuilder: (context, index) => 15.height,
-          itemCount: invoice.listSp!.length
+          itemCount: invoice.hoadonItems!.length
       ).paddingSymmetric(horizontal: 10,vertical: 15),
       bottomSheet: itemButton(
           textBtn: "Hoàn thành đơn".toUpperCase(),
@@ -44,7 +45,7 @@ class ScreenAcceptOrder extends StatelessWidget {
 
   Widget itemfr({
      required String? text,
-     required int? sl,
+    String? sl,
     String? note})
   {
     return Container(

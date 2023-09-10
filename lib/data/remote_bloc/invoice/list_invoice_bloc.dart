@@ -1,30 +1,33 @@
+import 'dart:convert';
+
 import 'package:coffe_bee_order/config/api/api.dart';
 import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../product/product_model.dart';
+import 'model_invoice.dart';
 
 class ListInvoiceBloc extends Cubit<CubitState>{
   ListInvoiceBloc():super(CubitState());
 
-  List<ModelPro> invoice = [];
-  int totalPrice = 0;
+  List<ModelInvoice> invoices = [];
 
   getList() async {
-    invoice.clear();
+    invoices.clear();
     emit(state.copyWith(status: BlocStatus.loading));
     try{
       var res = await Api.getAsync(
-        endpoint: ApiPath.Cat,
-        req: {},
+        endpoint: ApiPath.hoaDon,
+        hasForm: true
       );
-      for(var json in res){
-        ModelPro model = ModelPro.fromJson(json);
-        invoice.add(model);
+
+      for(var item in res){
+        ModelInvoice model = ModelInvoice.fromJson(item);
+        invoices.add(model);
       }
-      // getPrice();
       emit(state.copyWith(
         status: BlocStatus.success,
       ));
@@ -35,16 +38,5 @@ class ListInvoiceBloc extends Cubit<CubitState>{
       ));
     }
   }
-  // getPrice(){
-  //   totalPrice = 0;
-  //   for (var element in invoice){
-  //     if(element.discountPercent != null){
-  //       totalPrice += ((element.price.validate() * element.soluong.validate()) *
-  //           (100 - element.discountPercent!) ~/100);
-  //     }else{
-  //       totalPrice += (element.price.validate() * element.soluong.validate());
-  //     }
-  //
-  //   }
-  // }
+
 }

@@ -1,4 +1,3 @@
-import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/data/remote_bloc/product/product_model.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
@@ -57,18 +56,18 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
           }),
         ),
         10.height,
-        itemAdd(
-          count: widget.model.soluong!,
-          model: widget.model,
-          ontap1: () => setState(() {
-            if (widget.model.soluong! > 1) {
-              widget.model.soluong = widget.model.soluong! - 1;
-            }
-          }),
-          ontap2: () => setState(() {
-            widget.model.soluong = widget.model.soluong! + 1;
-          }),
-        ),
+        // itemAdd(
+        //   count: widget.model.soluong!,
+        //   model: widget.model,
+        //   ontap1: () => setState(() {
+        //     if (widget.model.soluong! > 1) {
+        //       widget.model.soluong = widget.model.soluong! - 1;
+        //     }
+        //   }),
+        //   ontap2: () => setState(() {
+        //     widget.model.soluong = widget.model.soluong! + 1;
+        //   }),
+        // ),
         15.height,
         Text(
           "Nội dung ghi chú",
@@ -107,10 +106,10 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
         itemButton(
           textBtn: "Thêm sản phẩm",
           onPress: () {
-            if (widget.model.soluong! <= 0) {
-              toast("Vui lòng thêm số lượng!");
-              return;
-            }
+            // if (widget.model.soluong! <= 0) {
+            //   toast("Vui lòng thêm số lượng!");
+            //   return;
+            // }
             widget.model.note = note.text;
             finish(context, widget.model);
             print("############ ${widget.model.tenSp}");
@@ -211,15 +210,15 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  model.idGiamGia == "1"
-                      ? Text(
-                          "Đơn giá: ${(((int.tryParse(model.giaSanPham!)! * model.soluong!)  * (100 - 10) ~/ 100).toPrice())}đ",
-                          style: StyleApp.style500.copyWith(color: Colors.red),
-                        )
-                      : Text(
-                          "Đơn giá: ${(int.tryParse(model.giaSanPham!)! * model.soluong!).toPrice()}đ",
-                          style: StyleApp.style500.copyWith(color: Colors.red),
-                        ),
+                  // model.idGiamGia == "1"
+                  //     ? Text(
+                  //         "Đơn giá: ${(((int.tryParse(model.giaSanPham!)! * model.soluong!)  * (100 - 10) ~/ 100).toPrice())}đ",
+                  //         style: StyleApp.style500.copyWith(color: Colors.red),
+                  //       )
+                  //     : Text(
+                  //         "Đơn giá: ${(int.tryParse(model.giaSanPham!)! * model.soluong!).toPrice()}đ",
+                  //         style: StyleApp.style500.copyWith(color: Colors.red),
+                  //       ),
                   const Spacer(),
                   Row(
                     children: [

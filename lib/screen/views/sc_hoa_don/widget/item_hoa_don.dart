@@ -14,6 +14,7 @@ class ItemHoaDon extends StatelessWidget {
   Function()? ontap3;
   Function()? ontap4;
   bool? isdonhang;
+  String? type;
 
   ItemHoaDon({
     required this.model,
@@ -21,22 +22,12 @@ class ItemHoaDon extends StatelessWidget {
     this.ontap1,
     this.ontap2,
     this.ontap3,
-    this.ontap4
+    this.ontap4,
+    this.type
     });
 
   @override
   Widget build(BuildContext context) {
-
-    double priceall = 0;
-    for(int i =0; i< model.listSp!.length; i++){
-      if(model.listSp![i].idGiamGia != ""){
-        priceall += ((double.tryParse(model.listSp![i].giaSanPham!)! * model.listSp![i].soluong!)
-            * (100 - 10)~/100);
-      }else{
-        priceall += (double.tryParse(model.listSp![i].giaSanPham!)! * model.listSp![i].soluong!);
-      }
-    }
-
     return Container(
       height: 120,
       margin:const EdgeInsets.all(10),
@@ -52,17 +43,17 @@ class ItemHoaDon extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Bàn số: ${model.idTable} - Tầng: ${model.idfloor}",style: StyleApp.style700.copyWith(fontSize: 18),),
+              Text("Bàn số: ${model.idTable} - Tầng: 1",style: StyleApp.style700.copyWith(fontSize: 18),),
               5.height,
-              Text("Tổng bill: ${priceall.toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
+              Text("Tổng bill: ${model.tongTien.toInt().toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
               5.height,
-              model.type != 0
-                  ? Text("Trạng thái: Đã thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),)
-                  : Text("Trạng thái: Chưa thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
+              model.trangThai != "0"
+                  ? Text("Trạng thái: Chưa thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),)
+                  : Text("Trạng thái: Đã thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
               5.height,
-              Text("Nv phụ trách: ${model.user!.userName}",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
+              Text("Nv phụ trách: ${model.fullname.validate()}",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
               const Spacer(),
-              Text("Giờ vào: ${model.timeIn}",style: StyleApp.style400.copyWith(fontSize: 11),),
+              Text("Giờ vào: ${model.timeIn?.substring(0,5).validate()}",style: StyleApp.style400.copyWith(fontSize: 11),),
             ],
           ).expand(flex: 4),
           const Spacer(),
@@ -70,7 +61,7 @@ class ItemHoaDon extends StatelessWidget {
               ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              model.type  != 0
+              model.trangThai != "0"
                   ? const SizedBox()
                   : Container(
                     height: 30,
@@ -103,7 +94,7 @@ class ItemHoaDon extends StatelessWidget {
           ).expand(flex: 2)
               : Align(
                     alignment: Alignment.bottomCenter,
-                    child: !model.isDone!
+                    child: model.trangThai == "0"
                         ? AnimatedTextKit(
                     isRepeatingAnimation: true,
                     repeatForever: true,
@@ -126,8 +117,6 @@ class ItemHoaDon extends StatelessWidget {
                               style: StyleApp.style600.copyWith(color: Colors.white,fontSize: 12),)
                     ).onTap(ontap4)
                 )
-                
-
         ],
       ),
     ).onTap(ontap3);

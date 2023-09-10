@@ -26,10 +26,12 @@ class ValidatorApp {
         return null;
       }
       return "Không bỏ trống";
-    } else if (text.length < 6) {
-      // return "Mật khẩu phải chứa chữ cái viết hoa, thường số và lớn hơn 6 ký tự";
-      return "Mật khẩu phải lớn hơn 6 ký tự";
-    } else if (text != text2 && isSign) {
+    }
+    // else if (text.length < 6) {
+    //   // return "Mật khẩu phải chứa chữ cái viết hoa, thường số và lớn hơn 6 ký tự";
+    //   return "Mật khẩu phải lớn hơn 6 ký tự";
+    // }
+    else if (text != text2 && isSign) {
       return "Mật khẩu không khớp";
     } else {
       return null;

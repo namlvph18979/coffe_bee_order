@@ -7,7 +7,7 @@ import 'package:coffe_bee_order/screen/views/sc_nguyen_lieu/sc_nguyen_lieu.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../home_page/sc_fast_order.dart';
+import '../home_page/home_page.dart';
 import '../order/order_for_pha_che/sc_oder_for_phache.dart';
 
 
@@ -63,6 +63,7 @@ class _ScreenHomeState extends State<ScreenHome> with SingleTickerProviderStateM
               Screeninvoice(),
               ScreenOrder(),
               ScreenAccount(),
+
             ]
         ),
         bottomNavigationBar: BottomNav(isPhaChe: widget.isPhache),

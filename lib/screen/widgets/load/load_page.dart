@@ -16,7 +16,7 @@ Widget LoadPage({
       return SizedBox(
         height: height,
         child:const Center(
-          child: CircularProgressIndicator(color: ColorApp.text,strokeWidth: 2),
+          child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator(color: ColorApp.text,strokeWidth: 2)),
         ),
       );
     case BlocStatus.success:

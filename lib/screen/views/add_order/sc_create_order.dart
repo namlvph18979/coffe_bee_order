@@ -20,18 +20,6 @@ import '../../../config/style_app/style_text.dart';
 import '../../../data/cubit_state.dart';
 
 
-ModelInvoice modelInvoice = ModelInvoice(
-    id: 1,
-    type: 0,
-    listSp: [],
-    user: UserModel(
-        idUser: "1",
-        userName: "Nam lv0",
-        passwd: "12345",
-        phoneNumber: "123456789",
-        chucNang: "Nhân Viên"
-    ));
-
 class ScreenCreateOrder extends StatefulWidget {
 
   @override
@@ -44,6 +32,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   final invoiceBloc = DetailInvoiceBloc();
   final floorbloc = floorBloc();
   final tablebloc = TableBloc();
+  String? idfloor;
 
   late TabController tabController;
   String tdata = DateFormat("hh:mm a").format(DateTime.now());
@@ -64,7 +53,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
     return BlocBuilder<ListCatbloc, CubitState>(
       bloc: cartbloc,
       builder: (context, state) {
-        final list = context.read<ListInvoiceBloc>().invoice;
+        final list = context.read<ListInvoiceBloc>().invoices;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -91,7 +80,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
               IconButton(
                 onPressed: () {
                   finish(context);
-                  modelInvoice.listSp!.clear();
+                  // invoiceBloc..clear();
                 },
                 icon: const Icon(
                   Icons.clear_outlined,
@@ -108,9 +97,9 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 Tab2(),
                 Tab3(),
               ]),
-          bottomNavigationBar: list.isEmpty
-              ? null
-              : CartBottomBar(),
+          // bottomNavigationBar: list.isEmpty
+          //     ? null
+          //     : CartBottomBar(),
         );
       },
     );
@@ -126,32 +115,36 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
             state: state,
             height: MediaQuery.of(context).size.height,
             reload: () => floorbloc.getList(),
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              color: Colors.white,
-              padding: const EdgeInsets.only(bottom: 30),
-              child: SettingSection(
-                  title: Text(
-                    "Chọn Tầng".toUpperCase(),
-                    style: StyleApp.style700.copyWith(color: Colors.black),
-                  ),
-                  headerPadding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                  items: List.generate(
-                      floorbloc.list.length,
-                      (index) => ItemOption(
-                            title: floorbloc.list[index].name,
-                            onClick: () {
-                              tabController.animateTo(1);
-                              tablebloc.getList(id: floorbloc.list[index].id.toString());
-
-                              modelInvoice.idfloor =
-                                  floorbloc.list[index].id.toInt();
-                              modelInvoice.timeIn = tdata;
-                              print(
-                                  "############## tang: ${floorbloc.list[index].id}");
-                            },
-                          ))).scrollView(),
+            child: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                color: Colors.white,
+                padding: const EdgeInsets.only(bottom: 30),
+                child: SettingSection(
+                    title: Text(
+                      "Chọn Tầng".toUpperCase(),
+                      style: StyleApp.style700.copyWith(color: Colors.black),
+                    ),
+                    headerPadding:
+                        const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    items: List.generate(
+                        floorbloc.list.length,
+                        (index) => ItemOption(
+                              title: floorbloc.list[index].soTang,
+                              onClick: () {
+                                tabController.animateTo(1);
+                                idfloor = floorbloc.list[index].idTang;
+                                print("##############$idfloor");
+                                tablebloc.getList(id: floorbloc.list[index].idTang);
+                                // modelInvoice.idfloor =
+                                //     floorbloc.list[index].idTang.toInt();
+                                // modelInvoice.timeIn = tdata;
+                                // print(
+                                //     "############## tang: ${floorbloc.list[index].idTang}");
+                                // setState(() {});
+                              },
+                            ))).scrollView(),
+              ),
             ),
           );
         },
@@ -166,74 +159,76 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
         return LoadPage(
           state: state,
           height: MediaQuery.of(context).size.height,
-          reload: () => tablebloc.getList(id: floorbloc.list[tabController.index].id!),
-          child: Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height,
-            margin: const EdgeInsets.only(bottom: 50),
-            child: SettingSection(
-                title: Row(
-                  children: [
-                    Text(
-                      "Chọn Bàn".toUpperCase(),
-                      style: StyleApp.style700.copyWith(color: Colors.black),
-                    ),
-                    const Spacer(),
-                    TextIcon(
-                      text: "Ghép",
-                      textStyle: StyleApp.style600
-                          .copyWith(color: ColorApp.text, fontSize: 16),
-                      suffix: const Icon(Icons.compare,
-                          size: 20, color: ColorApp.text),
-                      onTap: () {
-                        ScreenGhepBan(listModel: tablebloc.list)
-                            .launch(context)
-                        //     .then((value) {
-                        //   print("#################### $value");
-                        //   if(value != null) {
-                        //       tablebloc.update(
-                        //           id: value[0].toString(),
-                        //
-                        //       );
-                        //       tablebloc.update(
-                        //           id: value[1].toString(),
-                        //
-                        //       );
-                        //   }
-                        //   return;
-                        // })
-                        ;
-                      },
+          reload: () => tablebloc.getList(id: idfloor),
+          child: SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              height: MediaQuery.of(context).size.height,
+              margin: const EdgeInsets.only(bottom: 50),
+              child: SettingSection(
+                  title: Row(
+                    children: [
+                      Text(
+                        "Chọn Bàn".toUpperCase(),
+                        style: StyleApp.style700.copyWith(color: Colors.black),
+                      ),
+                      const Spacer(),
+                      TextIcon(
+                        text: "Ghép",
+                        textStyle: StyleApp.style600
+                            .copyWith(color: ColorApp.text, fontSize: 16),
+                        suffix: const Icon(Icons.compare,
+                            size: 20, color: ColorApp.text),
+                        onTap: () {
+                          ScreenGhepBan(listModel: tablebloc.list)
+                              .launch(context)
+                              .then((value) {
+                            print("#################### $value");
+                            // if(value != null) {
+                            //     tablebloc.update(
+                            //         id: value[0].toString(),
+                            //
+                            //     );
+                            //     tablebloc.update(
+                            //         id: value[1].toString(),
+                            //
+                            //     );
+                            // }
+                            return;
+                          })
+                          ;
+                        },
+                      )
+                    ],
+                  ),
+                  headerPadding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  items: [
+                    GridView.count(
+                      crossAxisCount: 3,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisSpacing: 4.0,
+                      mainAxisSpacing: 8.0,
+                      children: List.generate(
+                          tablebloc.list.length,
+                          (index) => ItemTable(
+                                model: tablebloc.list[index],
+                                onClick: () {
+                                  tabController.animateTo(2);
+                                  setState(() {
+                                    // modelInvoice.idTable =
+                                    //     tablebloc.list[index].id;
+                                    print(
+                                        "############## bàn ${tablebloc.list[index].id} "
+                                        "- tầng 1");
+                                  });
+                                }
+                              ))
                     )
-                  ],
-                ),
-                headerPadding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                items: [
-                  GridView.count(
-                    crossAxisCount: 3,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisSpacing: 4.0,
-                    mainAxisSpacing: 8.0,
-                    children: List.generate(
-                        tablebloc.list.length,
-                        (index) => ItemTable(
-                              model: tablebloc.list[index],
-                              onClick: () {
-                                tabController.animateTo(2);
-                                setState(() {
-                                  modelInvoice.idTable =
-                                      tablebloc.list[index].id.toInt();
-                                  print(
-                                      "############## bàn ${tablebloc.list[index].id} "
-                                      "- tầng ${modelInvoice.idfloor}");
-                                });
-                              }
-                            ))
-                  )
-                ]),
-          ).scrollView(),
+                  ]),
+            ).scrollView(),
+          ),
         );
       }
     );
@@ -251,7 +246,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
           headerPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           items: [
-            Screentab3(invoice: modelInvoice),
+            // Screentab3(invoice: modelInvoice),
           ]),
     );
   }

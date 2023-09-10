@@ -14,5 +14,8 @@ class ImagePath{
 
   // image
   static const image_checkit = "$path/check_it.jpg";
+  static const qr1 = "$path/qr1.jpg";
+  static const qr2 = "$path/qr2.jpg";
+  static const qr3 = "$path/qr3.jpg";
 
 }

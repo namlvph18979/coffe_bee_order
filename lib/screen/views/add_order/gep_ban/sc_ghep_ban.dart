@@ -135,7 +135,7 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
 
   Widget DragItem({TableModel? model}){
     return Draggable <int>(
-        data: model!.id.toInt(),
+        data: model!.id,
         feedback: itemDragTable(model: model),
         childWhenDragging: itemDragTable(model: model).visible(false),
       child: itemDragTable(model: model),
@@ -164,14 +164,14 @@ class _ScreenGhepBanState extends State<ScreenGhepBan> {
         color: ColorApp.bg,
         borderRadius: BorderRadius.circular(3),
         border: Border.all(
-            color: model?.isActive == "1" ? Colors.green : ColorApp.text,
+            color: model?.isActive == 0 ? Colors.green : ColorApp.text,
             width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Bàn ${model?.name}" ,style: StyleApp.style600.copyWith(fontSize: 16),),
-          model?.isActive == "1"
+          Text("Bàn ${model?.name}" ,style: StyleApp.style600.copyWith(fontSize: 16,color: model?.isActive == 0 ? Colors.green : ColorApp.text),),
+          model?.isActive == 0
               ? Text("Đang trống",style: StyleApp.style500.copyWith(fontSize: 12,color: Colors.green),)
               : AnimatedTextKit(
                 isRepeatingAnimation: true,

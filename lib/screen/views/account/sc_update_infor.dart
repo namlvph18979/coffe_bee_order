@@ -99,7 +99,7 @@ class _ScreenUpdateInforState extends State<ScreenUpdateInfor> {
           10.height,
           itemInputText(
             type: TextFieldType.PHONE,
-            labeltext: widget.model.phoneNumber ?? "Số điện thoại",
+            labeltext: widget.model.phone_Number ?? "Số điện thoại",
             hint: "Nhập sđt mới",
             controller: sdt,
           ),

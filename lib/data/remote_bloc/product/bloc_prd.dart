@@ -56,7 +56,6 @@ class BlocProduct extends Cubit<CubitState>{
           if(Modelpro.idDanhMuc == "1"){
             list1.add(Modelpro);
           }
-
         }
         emit(state.copyWith(status: BlocStatus.success));
 

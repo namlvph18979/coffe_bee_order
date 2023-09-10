@@ -39,14 +39,6 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
     return BlocBuilder<DetailInvoiceBloc, CubitState>(
       bloc: invoiceBLoc,
       builder: (context, state) {
-        for(int i = 0; i< widget.model.listSp!.length;i++){
-          if(widget.model.listSp![i].idGiamGia != null){
-            priceAll += ((int.tryParse(widget.model.listSp![i].giaSanPham!)! * widget.model.listSp![i].soluong!)
-                * (100 - 10)~/100);
-          }else{
-            priceAll += ((int.tryParse(widget.model.listSp![i].giaSanPham!)! * widget.model.listSp![i].soluong!));
-          }
-        }
         return Scaffold(
           appBar: itemAppBar(
             title: "Hoá đơn",
@@ -84,7 +76,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Tầng: ${widget.model.idfloor}",
+                          "Tầng: 1",
                           style: StyleApp.style500,
                         ),
                         5.height,
@@ -103,7 +95,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                         ),
                         5.height,
                         Text(
-                          "Giờ ra: $timeout",
+                          "Giờ ra: ${widget.model.timeOut}",
                           style: StyleApp.style500,
                         ),
                       ],
@@ -114,9 +106,10 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                 Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Nv phụ trách: ${widget.model.user!.userName}",
+                      "Nv phụ trách: ${widget.model.fullname.validate(value: "Đang cập nhật")}",
                       style: StyleApp.style500.copyWith(fontSize: 13),
-                    )),
+                    )
+                ),
                 5.height,
                 Table(
                   border: TableBorder.all(width: 1),
@@ -143,20 +136,12 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                     3: FractionColumnWidth(0.25),
                   },
                   children: List.generate(
-                      widget.model.listSp!.length,
+                      widget.model.hoadonItems?.length ?? 0,
                       (index) => buildRow([
-                            widget.model.listSp![index].tenSp!,
-
-                            "${widget.model.listSp![index].idGiamGia != null
-                                ? ((int.tryParse(widget.model.listSp![index].giaSanPham!)! * (100 - 10)~/100).toPrice())
-                                : (int.tryParse(widget.model.listSp![index].giaSanPham!).toPrice())}đ",
-
-                            "${widget.model.listSp![index].soluong}",
-
-                        "${widget.model.listSp![index].idGiamGia != null
-                            ? (((int.tryParse(widget.model.listSp![index].giaSanPham!)! * widget.model.listSp![index].soluong!)
-                                          * (100 - 10)~/100).toPrice())
-                            : ((int.tryParse(widget.model.listSp![index].giaSanPham!)! * widget.model.listSp![index].soluong!).toPrice())}đ",
+                            widget.model.hoadonItems?[index].tenSp.validate() ?? "Đang cập nhật",
+                            "${widget.model.hoadonItems?[index].giaSp.toInt().toPrice()}đ",
+                            "${widget.model.hoadonItems![index].soLuong}",
+                            "${(widget.model.hoadonItems![index].soLuong.toInt() * widget.model.hoadonItems![index].giaSp.toInt()).toPrice()}đ"
                           ])),
                 ),
                 Table(border: TableBorder.all(), children: [

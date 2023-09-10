@@ -10,50 +10,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import 'param/login_param.dart';
+
 
 class userbloc extends Cubit<CubitState> {
   userbloc() : super(CubitState());
 
-  List<UserModel> Luser = [];
 
-  Login({
-    required String username,
-    required String pass,
-    required String type,
-    BuildContext? context
-  }) async {
+  login(LoginParam param,{String? type}) async {
     emit(state.copyWith(status: BlocStatus.loading));
-    try {
-      var res = await Api.getAsync(endpoint: ApiPath.user, req: {});
-      for (var json in res) {
-        UserModel user = UserModel.fromJson(json);
-        Luser.add(user);
-      }
-      if(Luser.isNotEmpty){
-        for (int i = 0; i < Luser.length; i++) {
-          if (Luser[i].userName == username &&
-              Luser[i].passwd == pass &&
-              Luser[i].chucNang == type) {
-            await setValue(DBKeyLocal.user, Luser[i].toJson());
-            if(type != "Pha Chế"){
-              ScreenHome(isPhache: false).launch(context!);
-              toast("Đăng nhâập thành công");
-              return;
-            }else{
-              ScreenHome(isPhache: true).launch(context!);
-              toast("Đăng nhập thành công");
-              return;
-            }
+    try{
+      var res = await Api.postAsync(
+          endpoint: ApiPath.login,
+          req: param.toMap(), isForm: true);
+        if (res['status']) {
+          if(res['data']['chucNang'] == type){
+            emit(state.copyWith(
+                status: BlocStatus.success, msg: "Đăng nhập thành công."));
+            await setValue(DBKeyLocal.user, res['data']);
           }else{
-            toast("Sai tên đăng nhập hoặc mật khẩu");
+            emit(state.copyWith(
+                status: BlocStatus.failure, msg: "Đăng nhập không đúng chức năng!"));
           }
-        }
-      }else{
-
+      } else {
+        emit(state.copyWith(
+            status: BlocStatus.failure,
+            msg: res['message'] ??
+                "Đăng nhập thất bại. Tài khoản hoặc mật khẩu không chính xác."));
       }
-    } catch (e) {
-      toast("Sai tên đăng nhập hoặc mật khẩu");
-      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+    }catch(e){
+      state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e));
     }
   }
 

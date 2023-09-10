@@ -10,7 +10,6 @@ class floorBloc extends Cubit<CubitState>{
   floorBloc():super(CubitState());
 
   List<ModelFloor> list = [];
-  Map<String,dynamic>? req;
 
   getList() async {
     list.clear();
@@ -18,9 +17,8 @@ class floorBloc extends Cubit<CubitState>{
     try{
         var res = await Api.getAsync(
             endpoint: ApiPath.floor,
-            req: req,
-
-        );
+            req: {}
+    );
         for(var json in res){
           ModelFloor modelFlor = ModelFloor.fromJson(json);
           list.add(modelFlor);

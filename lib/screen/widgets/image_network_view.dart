@@ -46,11 +46,11 @@ class ImageNetWorkView extends StatelessWidget {
             placeholderBuilder: (BuildContext context) => isLoad
               ? const Center(
                   child: SizedBox(
-                      height: 40,
-                      width: 40,
+                      height: 30,
+                      width: 30,
                       child: CircularProgressIndicator(
                           color: ColorApp.text,
-                          strokeWidth: 2,
+                          strokeWidth: 2.5,
                       ),
                   ),
               )
@@ -72,11 +72,11 @@ class ImageNetWorkView extends StatelessWidget {
             progressIndicatorBuilder: (context, url, progress) => isLoad
                 ? const Center(
                   child: SizedBox(
-                    height: 40,
-                    width: 40,
+                    height: 30,
+                    width: 30,
                     child: CircularProgressIndicator(
                       color: ColorApp.text,
-                      strokeWidth: 2,
+                      strokeWidth: 2.5,
                 ),
               ),
             )

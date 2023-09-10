@@ -2,8 +2,6 @@ import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/screen/views/order/widget/item_order_for_phache.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-
-import '../../../../config/style_app/color_app.dart';
 import '../../../../data/remote_bloc/invoice/model_invoice.dart';
 import '../../../widgets/expanded_section.dart';
 
@@ -46,12 +44,12 @@ class _ItemAllState extends State<ItemAll> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: List.generate(
-                  widget.model.listSp!.length,
+                  widget.model.hoadonItems?.length ?? 0,
                   (index) => Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(widget.model.listSp![index].tenSp!,style: StyleApp.style600,).expand(flex: 3),
-                      Text("SL: ${widget.model.listSp![index].soluong}",style: StyleApp.style600,).expand(flex: 1),
+                      Text(widget.model.hoadonItems?[index].tenSp.validate() ?? "Đang cập nhat",style: StyleApp.style600,).expand(flex: 3),
+                      Text("SL: ${widget.model.hoadonItems?[index].soLuong}",style: StyleApp.style600,).expand(flex: 1),
                     ],
                   ).paddingSymmetric(vertical: 5)
               ),

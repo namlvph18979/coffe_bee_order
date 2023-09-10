@@ -1,5 +1,9 @@
 import 'package:coffe_bee_order/data/local_bloc/navbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
+import 'package:coffe_bee_order/screen/views/account/sc_account.dart';
+import 'package:coffe_bee_order/screen/views/add_order/sc_create_order.dart';
+import 'package:coffe_bee_order/screen/views/form_auth/sign_in/sc_sign_in.dart';
+import 'package:coffe_bee_order/screen/views/home/sc_home.dart';
 import 'package:coffe_bee_order/screen/views/sc_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +40,7 @@ class _MyAppState extends State<MyApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
         theme: ThemeData(scaffoldBackgroundColor: ColorApp.bg),
-        home: const SplashScreen()
+        home: SplashScreen()
       ),
     );
   }

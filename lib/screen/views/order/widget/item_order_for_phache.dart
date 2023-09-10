@@ -33,14 +33,14 @@ class itemOrderForPhaChe extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text("Tầng: ${model.idfloor} - ",style: StyleApp.style700.copyWith(fontSize: 18),),
+                    Text("Tầng: 1} - ",style: StyleApp.style700.copyWith(fontSize: 18),),
                     Text("Bàn số: ${model.idTable}",style: StyleApp.style700.copyWith(fontSize: 18),),
                   ],
                 ),
                 5.height,
-                Text("Số lượng: ${model.listSp!.length} món",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
+                Text("Số lượng: ${model.hoadonItems!.length} món",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
                 5.height,
-                model.type != 0
+                model.trangThai != "0"
                     ? Text("Trạng thái: Đã thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),)
                     : Text("Trạng thái: Chưa thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
                 const Spacer(),

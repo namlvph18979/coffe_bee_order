@@ -1,23 +1,18 @@
 class ModelFloor {
-  String? id;
-  String? name;
+  String? idTang;
+  String? soTang;
 
-  ModelFloor({
-    this.id,
-    this.name,
-  });
+  ModelFloor({this.idTang, this.soTang});
 
-  ModelFloor.fromJson(dynamic json) {
-    id = json['id_tang'];
-    name = json['soTang'];
+  ModelFloor.fromJson(Map<String, dynamic> json) {
+    idTang = json['id_tang'];
+    soTang = json['soTang'];
   }
-
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id_tang'] = id;
-    map['soTang'] = name;
-    return map;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id_tang'] = this.idTang;
+    data['soTang'] = this.soTang;
+    return data;
   }
-
 }

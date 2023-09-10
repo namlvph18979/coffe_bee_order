@@ -1,8 +1,8 @@
 class TableModel {
-  String? id;
-  String? idFloor;
-  String? name;
-  String? isActive;
+  int? id;
+  int? idFloor;
+  int? name;
+  int? isActive;
 
   TableModel({
     this.id,

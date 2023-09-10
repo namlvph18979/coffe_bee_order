@@ -1,4 +1,5 @@
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
+
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
@@ -33,21 +34,12 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
 
   String timeIn = DateFormat("hh:mm a").format(DateTime.now());
   final invoiceBloc = DetailInvoiceBloc();
-  int priceAll = 0;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailInvoiceBloc, CubitState>(
       bloc: invoiceBloc,
       builder: (context, state) {
-        for(int i = 0; i< widget.model.listSp!.length;i++){
-          if(widget.model.listSp![i].idGiamGia == "1"){
-            priceAll += (((int.tryParse(widget.model.listSp![i].giaSanPham!)! * widget.model.listSp![i].soluong!)
-                * (100 - 10)~/100));
-          }else{
-            priceAll += ((int.tryParse(widget.model.listSp![i].giaSanPham!)! * widget.model.listSp![i].soluong!));
-          }
-        }
         return Scaffold(
           appBar: itemAppBar(
             title: "Hoá đơn bàn ${widget.model.idTable ?? ""}",
@@ -72,39 +64,39 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                           .copyWith(color: Colors.black, fontSize: 16),
                     ),
                     15.height,
-                    itemText(title: "Hoá đơn số:  ", des: "${widget.model.id}"),
+                    itemText(title: "Hoá đơn số:  ", des: "${widget.model.idHoaDonCT}"),
                     8.height,
                     itemText(
                         title: "Tầng số:  ",
-                        des: "${widget.model.idfloor ?? " Chưa cập nhật"}"),
+                        des: "1"),
                     8.height,
                     itemText(
                         title: "Bàn số:  ",
-                        des: "${widget.model.idTable ?? "chưa cập nhật"}"),
+                        des: widget.model.idTable ?? "chưa cập nhật"),
                     8.height,
                     itemText(
                         title: "Tổng tiền:  ",
-                        des: "${priceAll.toPrice()}đ"),
+                        des: "${widget.model.tongTien!.toInt().toPrice()}đ"),
                     8.height,
                     itemText(
                         title: "Trạng thái:  ",
-                        des: widget.model.type != 0
-                            ? "Đã thanh toán"
-                            : "Chưa thanh toán"),
+                        des: widget.model.trangThai != "0"
+                            ? "Chưa thanh toán"
+                            : "Đã thanh toán"),
                     8.height,
                     itemText(
                         title: "Nv phụ trách:  ",
-                        des: "${widget.model.user!.userName}"),
+                        des: "${widget.model.fullname?.validate()}"),
                     20.height,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                            "Giờ vào: ${widget.model.timeIn ?? "Chưa cập nhật"}",
+                            "Giờ vào: ${widget.model.timeIn?.substring(0,5) ?? "Chưa cập nhật"}",
                             style: StyleApp.style400.copyWith(fontSize: 12)),
                         15.width,
                         Text(
-                            "Giờ ra: ${widget.model.timeout ?? "Chưa cập nhật"}",
+                            "Giờ ra: ${timeIn?? "Chưa cập nhật"}",
                             style: StyleApp.style400.copyWith(fontSize: 12)),
                       ],
                     )
@@ -115,20 +107,20 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) => ItemInVoiceProduct(
-                        model: widget.model.listSp![index],
+                        model: widget.model.hoadonItems?[index],
                         isWatch: widget.isWatch,
                         onTap: () {
                           setState(() {
-                            widget.model.listSp!.removeAt(index);
+                            widget.model.hoadonItems?.removeAt(index);
                           });
                         },
                       ),
                   separatorBuilder: (context, index) => 1.height,
-                  itemCount: widget.model.listSp!.length),
+                  itemCount: widget.model.hoadonItems?.length ?? 0),
               70.height,
             ],
           ).scrollView(),
-          bottomSheet: widget.model.type != 0
+          bottomSheet: widget.model.trangThai == "0"
               ? const SizedBox()
               : Row(
                   children: [
@@ -136,8 +128,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                         ? itemButton(
                             textBtn: "Huỷ đơn",
                             onPress: () {
-                                widget.model.listSp!.clear();
-                                widget.model.idfloor = null;
+                                widget.model.hoadonItems?.clear();
                                 widget.model.idTable = null;
                                 widget.model.timeIn = null;
                               finish(context);
@@ -148,7 +139,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                     itemButton(
                       textBtn: "Thanh toán",
                       onPress: () {
-                        if (widget.model.listSp!.isEmpty) {
+                        if (widget.model.hoadonItems == []) {
                           toast("Chưa có sản phẩm cho đơn hàng");
                           return;
                         }

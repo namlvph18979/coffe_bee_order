@@ -50,11 +50,11 @@ class _bottomChooseNlState extends State<bottomChooseNl> {
                   widget.list.length,
                       (index) {
                     return DropdownMenuItem(
-                        value: widget.list[index].name,
+                        value: widget.list[index].tenNguyenLieu,
                         child: Text(
-                          widget.list[index].soluong != null
-                            ? "${widget.list[index].name!} - Còn lại: ${widget.list[index].soluong}/${widget.list[index].type}"
-                            : "${widget.list[index].name!} - Còn lại: Chưa cập nhật",
+                          widget.list[index].soLuong != null
+                            ? "${widget.list[index].tenNguyenLieu!} - Còn lại: ${widget.list[index].soLuong}"
+                            : "${widget.list[index].tenNguyenLieu!} - Còn lại: Chưa cập nhật",
                           style: StyleApp.style600,)
                     );
                   }),
