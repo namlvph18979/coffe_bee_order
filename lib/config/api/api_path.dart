@@ -5,6 +5,7 @@ class ApiPath{
   static const String table ="/api/ban-get-tang.php?id_tang=";
 
   static const String prod ="/api/sanPham-show.php";
+  static const String prodCat ="/api/get-sanPham-danhMuc.php?id_danhMuc=";
 
   static const String Cat ="/category";
   static const String user ="/api/user-get.php";

@@ -3,11 +3,8 @@ import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/floor/floor_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
-import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
-import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
 import 'package:coffe_bee_order/screen/views/add_order/gep_ban/sc_ghep_ban.dart';
-import 'package:coffe_bee_order/screen/views/add_order/widget/cart_bottom_bar.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/item_table.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/tab3.dart';
 import 'package:coffe_bee_order/screen/widgets/load/load_page.dart';
@@ -246,7 +243,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
           headerPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           items: [
-            // Screentab3(invoice: modelInvoice),
+            Screentab3(),
           ]),
     );
   }
