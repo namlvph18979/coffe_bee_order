@@ -4,6 +4,7 @@ import 'package:coffe_bee_order/config/api/api.dart';
 import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -39,4 +40,30 @@ class ListInvoiceBloc extends Cubit<CubitState>{
     }
   }
 
+  createHoaDon(CreateHDParam param) async {
+    emit(state.copyWith(status: BlocStatus.loading));
+    try{
+      var res = await Api.postAsync(
+          endpoint: ApiPath.createHoaDon,
+          req: param.toMap(),
+          isForm: true
+      );
+      if(res != null){
+        emit(state.copyWith(
+          status: BlocStatus.success,
+          msg: "Gửi đơn thành công"
+        ));
+      }else{
+        emit(state.copyWith(
+            status: BlocStatus.failure,
+            msg: "Gửi đơn thất bại"
+        ));
+      }
+    }catch(e){
+      emit(state.copyWith(
+          status: BlocStatus.failure,
+          msg: "Gửi đơn thất bại"
+      ));
+    }
+  }
 }

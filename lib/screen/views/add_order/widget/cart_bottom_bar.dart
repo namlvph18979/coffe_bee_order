@@ -21,7 +21,7 @@
 //     final Listinvoice = context.read<ListInvoiceBloc>();
 //     return Listinvoice.invoices.isNotEmpty
 //         ? BlocBuilder<ListInvoiceBloc, CubitState>(
-//             bloc: invoicebloc,
+//             bloc: bloc,
 //             builder: (context, state) {
 //               return BottomSheet(
 //                   onClosing: () {},
@@ -54,7 +54,7 @@
 //                                 },
 //                             ),
 //                             Text(
-//                               "Tổng: ${Listinvoice.totalPrice.toPrice()})}đ",
+//                               "Tổng: )}đ",
 //                               style:
 //                                   StyleApp.style600.copyWith(color: Colors.red),
 //                               textAlign: TextAlign.center,

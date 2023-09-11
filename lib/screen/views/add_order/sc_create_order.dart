@@ -1,9 +1,12 @@
+import 'package:coffe_bee_order/config/db/db_key_local.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/floor/floor_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
 import 'package:coffe_bee_order/screen/views/add_order/gep_ban/sc_ghep_ban.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/item_table.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/tab3.dart';
@@ -27,17 +30,26 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
     with SingleTickerProviderStateMixin {
   final cartbloc = ListCatbloc();
   final invoiceBloc = DetailInvoiceBloc();
+  final blocCreate = ListInvoiceBloc();
   final floorbloc = floorBloc();
   final tablebloc = TableBloc();
+  CreateHDParam param = CreateHDParam();
+  UserModel user = UserModel();
+  String timein = DateFormat("hh:mm a").format(DateTime.now());
   String? idfloor;
 
   late TabController tabController;
   String tdata = DateFormat("hh:mm a").format(DateTime.now());
 
+
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
+    var res = getJSONAsync(DBKeyLocal.user);
+    if (res != null) {
+      user = UserModel.fromJson(res);
+    }
     reload();
   }
 
@@ -47,10 +59,18 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
 
   @override
   Widget build(BuildContext context) {
+     param = CreateHDParam(
+      id_giamGia: "0",
+      Id_user: user.Id_User.toString(),
+      time_in: timein,
+      time_out: "24:00",
+      time_Data: timein,
+      trangThai: "1",
+    );
+
     return BlocBuilder<ListCatbloc, CubitState>(
       bloc: cartbloc,
       builder: (context, state) {
-        final list = context.read<ListInvoiceBloc>().invoices;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -177,23 +197,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                         suffix: const Icon(Icons.compare,
                             size: 20, color: ColorApp.text),
                         onTap: () {
-                          ScreenGhepBan(listModel: tablebloc.list)
-                              .launch(context)
-                              .then((value) {
-                            print("#################### $value");
-                            // if(value != null) {
-                            //     tablebloc.update(
-                            //         id: value[0].toString(),
-                            //
-                            //     );
-                            //     tablebloc.update(
-                            //         id: value[1].toString(),
-                            //
-                            //     );
-                            // }
-                            return;
-                          })
-                          ;
+                          ScreenGhepBan(listModel: tablebloc.list).launch(context);
                         },
                       )
                     ],
@@ -214,8 +218,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                 onClick: () {
                                   tabController.animateTo(2);
                                   setState(() {
-                                    // modelInvoice.idTable =
-                                    //     tablebloc.list[index].id;
+                                    param.id_Table = tablebloc.list[index].id.toString();
                                     print(
                                         "############## bàn ${tablebloc.list[index].id} "
                                         "- tầng 1");

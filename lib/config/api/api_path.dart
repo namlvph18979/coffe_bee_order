@@ -11,6 +11,7 @@ class ApiPath{
   static const String user ="/api/user-get.php";
   static const String login = "/api/login.php";
   static const String hoaDon = "/api/get-hoaDon-all.php";
+  static const String createHoaDon = "/api/add-hoaDon.php";
   static const String nguyenlieu = "/api/nguyenLieu-get.php";
 
 }
