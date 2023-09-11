@@ -14,13 +14,13 @@ import '../../../../data/remote_bloc/product/product_model.dart';
 class ItemCategory extends StatefulWidget {
   ModelPro model;
   List<ModelPro> list;
-  ModelInvoice invoice;
+  ModelInvoice? invoice;
 
 
   ItemCategory({
     required this.model,
     required this.list,
-    required this.invoice
+    this.invoice
   });
 
   @override

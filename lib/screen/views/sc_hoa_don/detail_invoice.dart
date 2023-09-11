@@ -80,9 +80,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                     8.height,
                     itemText(
                         title: "Trạng thái:  ",
-                        des: widget.model.trangThai != "0"
-                            ? "Chưa thanh toán"
-                            : "Đã thanh toán"),
+                        des: "Đã thanh toán"),
                     8.height,
                     itemText(
                         title: "Nv phụ trách:  ",
@@ -110,9 +108,9 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                         model: widget.model.hoadonItems?[index],
                         isWatch: widget.isWatch,
                         onTap: () {
-                          setState(() {
-                            widget.model.hoadonItems?.removeAt(index);
-                          });
+                          // setState(() {
+                          //   widget.model.hoadonItems?.removeAt(index);
+                          // });
                         },
                       ),
                   separatorBuilder: (context, index) => 1.height,

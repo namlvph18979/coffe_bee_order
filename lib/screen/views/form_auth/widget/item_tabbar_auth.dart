@@ -10,12 +10,14 @@ class ItemTabbarAuth extends StatelessWidget {
   List<Widget> listTapBarView;
   TabController? tabController;
   bool? scroll;
+  Function(int)? onchange;
 
   ItemTabbarAuth(
       {required this.length,
       required this.listTap,
       required this.listTapBarView,
       this.scroll,
+      this.onchange,
       this.tabController});
 
   @override
@@ -37,9 +39,11 @@ class ItemTabbarAuth extends StatelessWidget {
             indicatorColor: ColorApp.text,
             dividerColor: ColorApp.text,
             tabs: listTap,
+            onTap: onchange,
           ),
           TabBarView(
             controller: tabController,
+            physics: NeverScrollableScrollPhysics(),
             children: listTapBarView,
           ).expand()
         ],

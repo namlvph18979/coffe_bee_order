@@ -8,6 +8,7 @@ class ModelPro {
   String? tenSp;
   String? size;
   String? note;
+  int? soluong;
 
   ModelPro(
       {this.idSanPham,
@@ -18,7 +19,9 @@ class ModelPro {
         this.idGiamGia,
         this.tenSp,
         this.size,
-        this.note});
+        this.note,
+        this.soluong = 1,
+      });
 
   ModelPro.fromJson(Map<String, dynamic> json) {
     idSanPham = json['Id_sanPham'];

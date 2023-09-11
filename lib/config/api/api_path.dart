@@ -5,13 +5,13 @@ class ApiPath{
   static const String table ="/api/ban-get-tang.php?id_tang=";
 
   static const String prod ="/api/sanPham-show.php";
+  static const String prodCat ="/api/get-sanPham-danhMuc.php?id_danhMuc=";
 
   static const String Cat ="/category";
   static const String user ="/api/user-get.php";
   static const String login = "/api/login.php";
   static const String hoaDon = "/api/get-hoaDon-all.php";
-  static const String hoaDonPost = "/api/add-hoaDon.php";
+  static const String createHoaDon = "/api/add-hoaDon.php";
   static const String nguyenlieu = "/api/nguyenLieu-get.php";
-
 
 }

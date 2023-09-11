@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/color_app.dart';
 import 'package:coffe_bee_order/config/style_app/image_path.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
@@ -110,7 +109,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                           nameimg: listTypePro[index].nameimg,
                           title: listTypePro[index].title,
                           ontap: () {
-                            transiton(index * 250 + 500);
+                            transiton(index * 250 + 400);
                           },
                         ),
                     separatorBuilder: (context, index) => 5.width,
@@ -124,7 +123,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       state: state,
                       reload: () => bloc.getList1(),
                       msg: state.msg,
-                      child: ListHorizon(text: "Coffee", list: bloc.list1));
+                      child: ListHorizon(text: "Coffee", list: bloc.listCoffees));
                 },
               ),
               BlocBuilder<BlocProduct, CubitState>(
@@ -134,7 +133,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       state: state,
                       msg: state.msg,
                       reload: () => bloc.getList2(),
-                      child: ListHorizon(text: "Trà sữa", list: bloc.list2));
+                      child: ListHorizon(text: "Trà sữa", list: bloc.listMilkTeas));
                 },
               ),
               BlocBuilder<BlocProduct, CubitState>(
@@ -145,7 +144,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       reload: () => bloc.getList3(),
                       msg: state.msg,
                       child:
-                          ListHorizon(text: "Đồ uống khác", list: bloc.list3));
+                          ListHorizon(text: "Đồ uống khác", list: bloc.listOtherDrinks));
                 },
               ),
               BlocBuilder<BlocProduct, CubitState>(
@@ -155,7 +154,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       state: state,
                       msg: state.msg,
                       reload: () => bloc.getList4(),
-                      child: ListHorizon(text: "Đồ ăn vặt", list: bloc.list4));
+                      child: ListHorizon(text: "Đồ ăn vặt", list: bloc.listSnacks));
                 },
               ),
               BlocBuilder<BlocProduct, CubitState>(
@@ -166,7 +165,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       reload: () => bloc.getList5(),
                       msg: state.msg,
                       child:
-                          ListHorizon(text: "Kem các loại", list: bloc.list5));
+                          ListHorizon(text: "Kem các loại", list: bloc.listIceCreams));
                 },
               ),
             ],
