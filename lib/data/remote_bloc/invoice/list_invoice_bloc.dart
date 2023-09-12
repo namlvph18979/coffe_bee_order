@@ -54,6 +54,7 @@ class ListInvoiceBloc extends Cubit<CubitState>{
           status: BlocStatus.success,
           msg: "Gửi đơn thành công"
         ));
+        print("##########DOn Hang" + res.toString());
       }else{
         emit(state.copyWith(
             status: BlocStatus.failure,

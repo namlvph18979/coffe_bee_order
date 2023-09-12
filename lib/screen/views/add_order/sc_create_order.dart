@@ -1,5 +1,6 @@
 import 'package:coffe_bee_order/config/db/db_key_local.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
+import 'package:coffe_bee_order/data/check_state.dart';
 import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/floor/floor_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
@@ -37,15 +38,14 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   final CreateHD = ListInvoiceBloc();
   CreateHDParam param = CreateHDParam();
   UserModel user = UserModel();
-  String timein = DateFormat("hh:mm a").format(DateTime.now());
   String? idfloor;
   ModelInvoice? invoice;
   List<String> items = [];
   List<HoadonItemsAdd> list_hd_items = [];
-
+  int tien = 0;
   late TabController tabController;
-  String tdata = DateFormat("hh:mm a").format(DateTime.now());
-
+  String tdata = DateTime.now().toString().splitBefore(" ");
+  String timein = DateFormat("hh:mm:ss").format(DateTime.now());
 
   @override
   void initState() {
@@ -56,30 +56,31 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
       user = UserModel.fromJson(res);
     }
     reload();
+    print("#################${timein}");
   }
 
   Future<void> reload() async {
     floorbloc.getList();
   }
 
+
   sendHD(){
     print("gửi đơn");
-    if(items.isNotEmpty){
+    if(items != null || items != ""){
       CreateHD.param = param;
       CreateHD.createHoaDon();
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
      param = CreateHDParam(
       id_giamGia: "0",
       Id_user: user.Id_User.toString(),
-      time_in: timein,
-      time_out: "24:00",
+      time_in: tdata,
+      time_out: timein,
       time_Data: timein,
-      trangThai: "1",
+      trangThai: "0",
     );
 
     return BlocBuilder<ListCatbloc, CubitState>(
@@ -128,20 +129,33 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 Tab2(),
                 Tab3(),
               ]),
-          bottomNavigationBar: items.isNotEmpty ? CartBottomBar(
-            invoice: ModelInvoice(
-              idTable: param.id_Table,
-              idHoaDonCT: "0",
-              idGiamGia: "0",
-              fullname: user.fullName.validate(),
-              trangThai: "0",
-              timeData: timein,
-              timeIn: timein,
-              timeOut: "Đang cập nhật",
-              tongTien: "250.000đ",
+          bottomNavigationBar: tabController.index == 2 ?
+          BlocConsumer<ListInvoiceBloc,CubitState>(
+            bloc: CreateHD,
+            listener: (context, state) {
+                CheckStateBloc.checkNoLoad(
+                    context,
+                    state,
+                    success: () {
+                      toast(state.msg);
+                    },
+                );
+            },
+            builder:(context, state) => CartBottomBar(
+              invoice: ModelInvoice(
+                idTable: param.id_Table,
+                idHoaDonCT: "0",
+                idGiamGia: "0",
+                fullname: user.fullName.validate(),
+                trangThai: "0",
+                timeData: tdata,
+                timeIn: timein,
+                timeOut: timein,
+                tongTien: "999999"
+              ),
+              items: list_hd_items,
+              send: sendHD,
             ),
-            items: list_hd_items,
-            send: sendHD,
           ) : const SizedBox(),
         );
       },

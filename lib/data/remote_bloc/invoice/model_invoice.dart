@@ -129,7 +129,7 @@ class HoadonItemsAdd {
     map['id_sanPham'] = idSanPham;
     map['soLuong'] = soLuong;
     map['giaSp'] = giaSp;
-    map['tenSp'] = tenSp;
+    map['tenSp'] = tenSp ;
     map['ghiChu'] = ghiChu;
     return map;
   }

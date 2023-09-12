@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
+import 'package:coffe_bee_order/config/style_app/color_app.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
@@ -8,22 +11,41 @@ import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-import 'widget/item_invoice_product.dart';
-
 class ScInvoiceHoaDon extends StatefulWidget {
 
   ModelInvoice? invoice;
   List<HoadonItemsAdd>? items;
-  int? tongtien;
-  ScInvoiceHoaDon({this.invoice,this.items,this.tongtien});
+
+  ScInvoiceHoaDon({this.invoice,this.items});
 
   @override
   State<ScInvoiceHoaDon> createState() => _ScInvoiceHoaDonState();
 }
 
 class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
+
+  int tien = 0;
+
+  @override
+  void initState() {
+    TinhTien;
+    super.initState();
+    print("#####scInvoice######${widget.items?[0].tenSp}");
+    print("#####scInvoice######${widget.items?[0].soLuong}");
+    print("#####scInvoice######${widget.items?[0].giaSp}");
+
+  }
+  TinhTien(){
+    for(int i = 0;i <= widget.items!.length; i++){
+      tien += (widget.items?[i].giaSp).toInt() * (widget.items?[i].soLuong).toInt();
+    }
+    return tien;
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: itemAppBar(
         title: "Hoá đơn bàn ${widget.invoice?.idTable ?? ""}",
@@ -58,7 +80,7 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 8.height,
                 itemText(
                     title: "Tổng tiền:  ",
-                    des: "${widget.tongtien?.toPrice()}đ"),
+                    des: "${tien.toPrice()}đ"),
                 8.height,
                 itemText(
                     title: "Trạng thái:  ",
@@ -83,9 +105,10 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
               ],
             ),
           ),
-          widget.items!.isNotEmpty ? ListView.separated(
+          ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               itemBuilder: (context, index) => Container(
                 padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                 decoration: BoxDecoration(
@@ -95,12 +118,17 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
+                    Text("Tên:  ${widget.items?[index].tenSp.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                    Text("SL:  ${widget.items?[index].soLuong.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),
+                    Text("Giá:  ${widget.items?[index].giaSp?.toInt().toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),
+                    widget.items![index].ghiChu.validate().isNotEmpty
+                        ? Text("${widget.items![index].ghiChu.validate(value: "")}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),)
+                        : const SizedBox()
                   ],
                 ),
               ),
-              separatorBuilder: (context, index) => 1.height,
-              itemCount: widget.invoice?.hoadonItems?.length ?? 0) : const SizedBox(),
+              separatorBuilder: (context, index) => 8.height,
+              itemCount: widget.items?.length ?? 0),
           70.height,
         ],
       ).scrollView(),

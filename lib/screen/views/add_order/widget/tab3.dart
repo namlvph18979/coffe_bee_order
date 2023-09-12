@@ -18,8 +18,6 @@ class Screentab3 extends StatefulWidget {
   List<String>? items;
   List<HoadonItemsAdd>? lst_hd_items;
 
-
-
   Screentab3({required this.param,this.items,this.lst_hd_items});
 
   @override
@@ -31,6 +29,7 @@ class _Screentab3State extends State<Screentab3>
   late TabController tabController;
   final bloc = BlocProduct();
   int page = 0;
+
   
   @override
   void initState() {
@@ -102,7 +101,6 @@ class _Screentab3State extends State<Screentab3>
                                       widget.items?.add(item.toJson().toString());
                                       widget.param.id_hd_items = widget.items.toString();
                                       print("#################list san pham : ${widget.items.toString()}");
-                                      setState(() {});
                                     }else{
                                       return;
                                     }
