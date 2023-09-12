@@ -105,9 +105,9 @@ class _ItemCategoryState extends State<ItemCategory> {
                               if(value == null){
                                 return;
                               }
-                              ModelPro model1 = value;
-                              // widget.invoice.listSp!.add(model1);
-                              print("ten luong : ${model1.tenSp}");
+                              ModelPro model = value;
+                              // widget.invoice.listSp!.add(model);
+                              print("ten san pham : ${model.tenSp}");
                 });
               })
           ),
