@@ -105,12 +105,14 @@ class HoadonItemsAdd {
   String? soLuong;
   String? giaSp;
   String? tenSp;
+  String? ghiChu;
 
   HoadonItemsAdd({
     this.idSanPham,
     this.soLuong,
     this.giaSp,
     this.tenSp,
+    this.ghiChu,
     });
 
   HoadonItemsAdd.fromJson(dynamic json) {
@@ -118,6 +120,7 @@ class HoadonItemsAdd {
     soLuong = json['soLuong'];
     giaSp = json['giaSp'];
     tenSp = json['tenSp'];
+    ghiChu = json['ghiChu'];
   }
 
 
@@ -127,6 +130,7 @@ class HoadonItemsAdd {
     map['soLuong'] = soLuong;
     map['giaSp'] = giaSp;
     map['tenSp'] = tenSp;
+    map['ghiChu'] = ghiChu;
     return map;
   }
 

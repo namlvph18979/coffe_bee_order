@@ -14,7 +14,6 @@ import '../../../../data/remote_bloc/product/product_model.dart';
 class ItemCategory extends StatelessWidget {
   ModelPro model;
   List<ModelPro> list;
-  ModelInvoice? invoice;
   Function()? ontap;
 
 
@@ -22,7 +21,6 @@ class ItemCategory extends StatelessWidget {
     required this.model,
     required this.list,
     this.ontap,
-    this.invoice
   });
 
   @override

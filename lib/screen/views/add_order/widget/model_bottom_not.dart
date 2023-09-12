@@ -117,7 +117,8 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
               giaSp: widget.model.giaSanPham,
               idSanPham: widget.model.idSanPham,
               soLuong: widget.model.soluong.toString(),
-              tenSp: widget.model.tenSp
+              tenSp: widget.model.tenSp,
+              ghiChu: note.text.validate(value: "")
             );
             finish(context, item);
             print("############ ${widget.model.tenSp}");
