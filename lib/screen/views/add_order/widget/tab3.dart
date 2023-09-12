@@ -1,6 +1,8 @@
 
 import 'package:coffe_bee_order/data/cubit_state.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/product/bloc_prd.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/item_category.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/item_tabbar_auth.dart';
@@ -9,8 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import 'model_bottom_not.dart';
+
 class Screentab3 extends StatefulWidget {
   ModelInvoice? invoice;
+  CreateHDParam param;
+
+
+  Screentab3({this.invoice,required this.param});
 
   @override
   State<Screentab3> createState() => _Screentab3State();
@@ -20,6 +28,8 @@ class _Screentab3State extends State<Screentab3>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   final bloc = BlocProduct();
+  final CreateHD = ListInvoiceBloc();
+  List<HoadonItemsAdd> items = [];
   int page = 0;
   
   @override
@@ -34,7 +44,13 @@ class _Screentab3State extends State<Screentab3>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    tabController.dispose();
+  }
+
+  sendHD(){
+    if(items.isNotEmpty){
+      CreateHD.param = widget.param;
+      CreateHD.createHoaDon();
+    }
   }
   
 
@@ -77,6 +93,27 @@ class _Screentab3State extends State<Screentab3>
                                 model: bloc.listAll[index],
                                 list: bloc.listAll,
                                 invoice: widget.invoice,
+                                ontap: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => ModelBottomNote(
+                                          model: bloc.listAll[index]
+                                      ),
+                                      isScrollControlled: true,
+                                      shape: const OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white),
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(20)))).then((value){
+                                    if(value != null){
+                                      HoadonItemsAdd item = value;
+                                      items.add(item);
+                                      setState(() {});
+                                      print("#################ten san pham : ${item.tenSp.validate()}");
+                                    }else{
+                                      return;
+                                    }
+                                  });
+                                },
                               ),
                               separatorBuilder: (context, index) => 0.height,
                               itemCount: bloc.listAll.length),

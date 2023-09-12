@@ -11,6 +11,7 @@ import '../../../../data/remote_bloc/invoice/model_invoice.dart';
 
 class ModelBottomNote extends StatefulWidget {
   ModelPro model;
+
   ModelInvoice? invoice;
 
   ModelBottomNote({required this.model, this.invoice});
@@ -20,6 +21,7 @@ class ModelBottomNote extends StatefulWidget {
 }
 
 class _ModelBottomNoteState extends State<ModelBottomNote> {
+  HoadonItemsAdd? item;
   List<String> listNote = [
     "Thêm đường",
     "Thêm sữa",
@@ -111,8 +113,13 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
               toast("Vui lòng thêm số lượng!");
               return;
             }
-            widget.model.note = note.text;
-            finish(context, widget.model);
+            item = HoadonItemsAdd(
+              giaSp: widget.model.giaSanPham,
+              idSanPham: widget.model.idSanPham,
+              soLuong: widget.model.soluong.toString(),
+              tenSp: widget.model.tenSp
+            );
+            finish(context, item);
             print("############ ${widget.model.tenSp}");
           },
         ).withWidth(MediaQuery.of(context).size.width)

@@ -15,6 +15,7 @@ class ListInvoiceBloc extends Cubit<CubitState>{
   ListInvoiceBloc():super(CubitState());
 
   List<ModelInvoice> invoices = [];
+  CreateHDParam param = CreateHDParam();
 
   getList() async {
     invoices.clear();
@@ -40,7 +41,7 @@ class ListInvoiceBloc extends Cubit<CubitState>{
     }
   }
 
-  createHoaDon(CreateHDParam param) async {
+  createHoaDon() async {
     emit(state.copyWith(status: BlocStatus.loading));
     try{
       var res = await Api.postAsync(

@@ -113,7 +113,12 @@ class _ScreenForgotPassState extends State<ScreenForgotPass> {
                         style: StyleApp.style600.copyWith(color: Colors.black)),
                     content: ItemStep2(
                         otpCode: otpCode,
-                        onTap: () {})),
+                        onTap: () {
+
+                          setState(() {
+                            currentStep++;
+                          });
+                        })),
 
                 Step(
                     isActive: currentStep >= 2,
