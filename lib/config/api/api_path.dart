@@ -4,7 +4,10 @@ class ApiPath{
   static const String floor ="/api/tang-get.php";
   static const String table ="/api/ban-get-tang.php?id_tang=";
 
+  static const String emptyTable = "/api/get-ban-trangthai.php?trangThai=0";
+
   static const String prod ="/api/sanPham-show.php";
+
   static const String prodCat ="/api/get-sanPham-danhMuc.php?id_danhMuc=";
 
   static const String Cat ="/category";

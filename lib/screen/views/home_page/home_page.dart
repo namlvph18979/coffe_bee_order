@@ -1,11 +1,14 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coffe_bee_order/config/style_app/color_app.dart';
 import 'package:coffe_bee_order/config/style_app/image_path.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/remote_bloc/product/bloc_prd.dart';
+import 'package:coffe_bee_order/data/remote_bloc/table/model/Table_model.dart';
+import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
+import 'package:coffe_bee_order/screen/views/home_page/widget/item_empty_table.dart';
 import 'package:coffe_bee_order/screen/views/home_page/widget/item_list_type_pro.dart';
 import 'package:coffe_bee_order/screen/views/sc_more_item/sc_more.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
+import 'package:coffe_bee_order/screen/widgets/load/grid_view_custom.dart';
 import 'package:coffe_bee_order/screen/widgets/load/load_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +16,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../../config/style_app/style_text.dart';
 import '../../../data/remote_bloc/product/product_model.dart';
-import '../../widgets/image_network_view.dart';
+
 import '../detail_product/sc_detail_product.dart';
 import '../detail_product/wiget/itemother.dart';
 
@@ -26,12 +29,16 @@ class ScreenFastOrder extends StatefulWidget {
 
 class _ScreenFastOrderState extends State<ScreenFastOrder> {
   final bloc = BlocProduct();
+  final tableBloc = TableBloc();
   ScrollController? _controller;
+  String? trangThai;
+  TableModel? model;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    tableBloc.getListEmpty();
     reload();
     _controller = ScrollController();
   }
@@ -70,18 +77,15 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CarouselSlider(
-                  items: List.generate(
-                      listSlide.length,
-                      (index) => ImageNetWorkView(
-                            imageUrl: listSlide[index],
-                            fit: BoxFit.cover,
-                          )),
-                  options: CarouselOptions(
-                      height: 230,
-                      viewportFraction: 1,
-                      scrollDirection: Axis.horizontal,
-                      autoPlay: listSlide.length > 1)),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Danh sách bàn trống",
+                  style: StyleApp.style700
+                      .copyWith(color: Colors.black, fontSize: 18),
+                ).paddingOnly(left: 10, top: 10),
+              ),
+              emptyTable(),
               20.height,
               Align(
                 alignment: Alignment.center,
@@ -123,7 +127,8 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       state: state,
                       reload: () => bloc.getList1(),
                       msg: state.msg,
-                      child: ListHorizon(text: "Coffee", list: bloc.listCoffees));
+                      child:
+                          ListHorizon(text: "Coffee", list: bloc.listCoffees));
                 },
               ),
               BlocBuilder<BlocProduct, CubitState>(
@@ -133,7 +138,8 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       state: state,
                       msg: state.msg,
                       reload: () => bloc.getList2(),
-                      child: ListHorizon(text: "Trà sữa", list: bloc.listMilkTeas));
+                      child: ListHorizon(
+                          text: "Trà sữa", list: bloc.listMilkTeas));
                 },
               ),
               BlocBuilder<BlocProduct, CubitState>(
@@ -143,8 +149,8 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       state: state,
                       reload: () => bloc.getList3(),
                       msg: state.msg,
-                      child:
-                          ListHorizon(text: "Đồ uống khác", list: bloc.listOtherDrinks));
+                      child: ListHorizon(
+                          text: "Đồ uống khác", list: bloc.listOtherDrinks));
                 },
               ),
               BlocBuilder<BlocProduct, CubitState>(
@@ -154,7 +160,8 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       state: state,
                       msg: state.msg,
                       reload: () => bloc.getList4(),
-                      child: ListHorizon(text: "Đồ ăn vặt", list: bloc.listSnacks));
+                      child: ListHorizon(
+                          text: "Đồ ăn vặt", list: bloc.listSnacks));
                 },
               ),
               BlocBuilder<BlocProduct, CubitState>(
@@ -164,8 +171,8 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                       state: state,
                       reload: () => bloc.getList5(),
                       msg: state.msg,
-                      child:
-                          ListHorizon(text: "Kem các loại", list: bloc.listIceCreams));
+                      child: ListHorizon(
+                          text: "Kem các loại", list: bloc.listIceCreams));
                 },
               ),
             ],
@@ -173,6 +180,30 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
         ),
       ),
     );
+  }
+
+  Widget emptyTable() {
+    return BlocBuilder<TableBloc, CubitState>(
+        bloc: tableBloc,
+        builder: (context, state) {
+          return LoadPage(
+            state: state,
+            reload: () => tableBloc.getListEmpty(),
+            height: 200,
+            child: GridViewCustom(
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              showFull: true,
+              mainAxisExtent: 90,
+              padding: EdgeInsets.all(10),
+              scrollDirection: Axis.horizontal,
+              itemCount: tableBloc.listEmpty.length,
+              itemBuilder: (context, index) => ItemTabEmpty(
+                  text: tableBloc.listEmpty[index].soBan,
+                  text1: tableBloc.listEmpty[index].idTang)
+            ).withHeight(200),
+          );
+        });
   }
 
   Widget ListHorizon({String? text, List<ModelPro>? list}) {
@@ -190,8 +221,9 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                     ).expand(),
                     list.length > 2
                         ? TextIcon(
-                            onTap: (){
-                                ScMoreItem(list: list,title: text).launch(context);
+                            onTap: () {
+                              ScMoreItem(list: list, title: text)
+                                  .launch(context);
                             },
                             text: "Xem thêm",
                             textStyle: StyleApp.style400
