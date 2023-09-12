@@ -11,23 +11,20 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../../config/style_app/style_text.dart';
 import '../../../../data/remote_bloc/product/product_model.dart';
 
-class ItemCategory extends StatefulWidget {
+class ItemCategory extends StatelessWidget {
   ModelPro model;
   List<ModelPro> list;
   ModelInvoice? invoice;
+  Function()? ontap;
 
 
   ItemCategory({
     required this.model,
     required this.list,
+    this.ontap,
     this.invoice
   });
 
-  @override
-  State<ItemCategory> createState() => _ItemCategoryState();
-}
-
-class _ItemCategoryState extends State<ItemCategory> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -39,7 +36,7 @@ class _ItemCategoryState extends State<ItemCategory> {
         children: [
           Positioned(
             child: ImageNetWorkView(
-              imageUrl: widget.model.anhSanPham ?? "",
+              imageUrl: model.anhSanPham ?? "",
               fit: BoxFit.cover,
               width: size.width,
               radius: BorderRadius.circular(5),
@@ -66,19 +63,19 @@ class _ItemCategoryState extends State<ItemCategory> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.model.tenSp ?? "Chưa cập nhật",
+                        model.tenSp ?? "Chưa cập nhật",
                         style: StyleApp.style600
                             .copyWith(fontSize: 15, color: Colors.white),
                       ),
                       10.height,
                       Text(
-                        "Size: ${widget.model.size}",
+                        "Size: ${model.size}",
                         style: StyleApp.style500
                             .copyWith(fontSize: 13, color: Colors.white),
                       ),
                       10.height,
                       Text(
-                        "Giá: ${(double.tryParse(widget.model.giaSanPham.validate())).toPrice()}đ",
+                        "Giá: ${(double.tryParse(model.giaSanPham.validate())).toPrice()}đ",
                         style: StyleApp.style500
                             .copyWith(fontSize: 13, color: Colors.white),
                       ),
@@ -91,30 +88,12 @@ class _ItemCategoryState extends State<ItemCategory> {
                 Icons.add_box,
                 color: Colors.red,
                 size: 28,
-              ).onTap((){
-                showModalBottomSheet(
-                    context: context,
-                    builder: (context) => ModelBottomNote(
-                      model: widget.model
-                    ),
-                    isScrollControlled: true,
-                    shape: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20)))).then((value){
-                              if(value == null){
-                                return;
-                              }
-                              ModelPro model1 = value;
-                              // widget.invoice.listSp!.add(model1);
-                              print("ten luong : ${model1.tenSp}");
-                });
-              })
+              ).onTap(ontap)
           ),
           Positioned(
               top: 8,
               right: 12,
-              child: widget.model.idGiamGia == "1"
+              child: model.idGiamGia == "1"
                   ? Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 4),
@@ -134,8 +113,8 @@ class _ItemCategoryState extends State<ItemCategory> {
       ),
     ).onTap(() {
       ScreenDetailProduct(
-          modelPro: widget.model,
-          list: widget.list,
+          modelPro: model,
+          list: list,
       ).launch(context);
     });
   }

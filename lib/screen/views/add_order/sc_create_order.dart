@@ -18,6 +18,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../config/style_app/color_app.dart';
 import '../../../config/style_app/style_text.dart';
 import '../../../data/cubit_state.dart';
+import 'widget/cart_bottom_bar.dart';
 
 
 class ScreenCreateOrder extends StatefulWidget {
@@ -30,7 +31,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
     with SingleTickerProviderStateMixin {
   final cartbloc = ListCatbloc();
   final invoiceBloc = DetailInvoiceBloc();
-  final blocCreate = ListInvoiceBloc();
   final floorbloc = floorBloc();
   final tablebloc = TableBloc();
   CreateHDParam param = CreateHDParam();
@@ -114,9 +114,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 Tab2(),
                 Tab3(),
               ]),
-          // bottomNavigationBar: list.isEmpty
-          //     ? null
-          //     : CartBottomBar(),
+          bottomNavigationBar: CartBottomBar(),
         );
       },
     );
@@ -238,16 +236,18 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
     return Container(
       color: Colors.white,
       height: MediaQuery.of(context).size.height,
-      child: SettingSection(
-          title: Text(
-            "Chọn Đồ uống".toUpperCase(),
-            style: StyleApp.style700.copyWith(color: Colors.black),
-          ),
-          headerPadding:
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          items: [
-            Screentab3(),
-          ]),
+      child: SingleChildScrollView(
+        child: SettingSection(
+            title: Text(
+              "Chọn Đồ uống".toUpperCase(),
+              style: StyleApp.style700.copyWith(color: Colors.black),
+            ),
+            headerPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            items: [
+              Screentab3(param: param),
+            ]),
+      ),
     );
   }
 

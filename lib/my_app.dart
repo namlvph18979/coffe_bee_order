@@ -30,7 +30,6 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider (create: (context) => NavBloc()),
-        BlocProvider (create: (context) => ListInvoiceBloc()..getList()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

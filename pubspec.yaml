@@ -27,7 +27,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
   dio: ^5.1.2
   audioplayers: ^4.1.0
-  intl: ^0.17.0
+  intl: ^0.18.0
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
   firebase_analytics: ^10.4.3

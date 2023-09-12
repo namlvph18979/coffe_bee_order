@@ -99,3 +99,35 @@ class HoadonItems {
   }
 
 }
+
+class HoadonItemsAdd {
+  String? idSanPham;
+  String? soLuong;
+  String? giaSp;
+  String? tenSp;
+
+  HoadonItemsAdd({
+    this.idSanPham,
+    this.soLuong,
+    this.giaSp,
+    this.tenSp,
+    });
+
+  HoadonItemsAdd.fromJson(dynamic json) {
+    idSanPham = json['id_sanPham'];
+    soLuong = json['soLuong'];
+    giaSp = json['giaSp'];
+    tenSp = json['tenSp'];
+  }
+
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id_sanPham'] = idSanPham;
+    map['soLuong'] = soLuong;
+    map['giaSp'] = giaSp;
+    map['tenSp'] = tenSp;
+    return map;
+  }
+
+}
