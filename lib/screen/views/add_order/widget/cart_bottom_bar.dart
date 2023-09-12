@@ -86,7 +86,7 @@ class _CartBottomBarState extends State<CartBottomBar> {
                 ScInvoiceHoaDon(
                 invoice: widget.invoice!,
                 items: widget.items,
-                  tongtien: tongtien(),
+                tongtien: tongtien(),
               ).launch(context);
             }));
   }

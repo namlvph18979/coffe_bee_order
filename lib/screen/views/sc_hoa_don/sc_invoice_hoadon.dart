@@ -1,7 +1,10 @@
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
+import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
+import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
+import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -97,35 +100,31 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 ),
               ),
               separatorBuilder: (context, index) => 1.height,
-              itemCount: widget.model.hoadonItems?.length ?? 0),
+              itemCount: widget.invoice?.hoadonItems?.length ?? 0) : const SizedBox(),
           70.height,
         ],
       ).scrollView(),
-      bottomSheet: widget.model.trangThai == "0"
-          ? const SizedBox()
-          : Row(
+      bottomSheet: Row(
         children: [
-          !widget.isdonhang
-              ? itemButton(
+           itemButton(
             textBtn: "Huỷ đơn",
             onPress: () {
-              widget.model.hoadonItems?.clear();
-              widget.model.idTable = null;
-              widget.model.timeIn = null;
+              widget.invoice?.hoadonItems?.clear();
+              widget.invoice?.idTable = null;
+              widget.invoice?.timeIn = null;
               finish(context);
               finish(context);
             },
-          ).expand()
-              : const SizedBox(),
+          ).expand(),
           itemButton(
             textBtn: "Thanh toán",
             onPress: () {
-              if (widget.model.hoadonItems == []) {
+              if (widget.invoice?.hoadonItems == []) {
                 toast("Chưa có sản phẩm cho đơn hàng");
                 return;
               }
               ScreenPrintinvoice(
-                model: widget.model,
+                model: widget.invoice!,
               ).launch(context);
             },
           ).expand(),
