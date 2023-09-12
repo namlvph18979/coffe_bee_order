@@ -4,6 +4,7 @@ import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/floor/floor_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
@@ -33,10 +34,14 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   final invoiceBloc = DetailInvoiceBloc();
   final floorbloc = floorBloc();
   final tablebloc = TableBloc();
+  final CreateHD = ListInvoiceBloc();
   CreateHDParam param = CreateHDParam();
   UserModel user = UserModel();
   String timein = DateFormat("hh:mm a").format(DateTime.now());
   String? idfloor;
+  ModelInvoice? invoice;
+  List<String> items = [];
+  List<HoadonItemsAdd> list_hd_items = [];
 
   late TabController tabController;
   String tdata = DateFormat("hh:mm a").format(DateTime.now());
@@ -56,6 +61,15 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   Future<void> reload() async {
     floorbloc.getList();
   }
+
+  sendHD(){
+    print("gửi đơn");
+    if(items.isNotEmpty){
+      CreateHD.param = param;
+      CreateHD.createHoaDon();
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +128,21 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 Tab2(),
                 Tab3(),
               ]),
-          bottomNavigationBar: CartBottomBar(),
+          bottomNavigationBar: items.isNotEmpty ? CartBottomBar(
+            invoice: ModelInvoice(
+              idTable: param.id_Table,
+              idHoaDonCT: "0",
+              idGiamGia: "0",
+              fullname: user.fullName.validate(),
+              trangThai: "0",
+              timeData: timein,
+              timeIn: timein,
+              timeOut: "Đang cập nhật",
+              tongTien: "250.000đ",
+            ),
+            items: list_hd_items,
+            send: sendHD,
+          ) : const SizedBox(),
         );
       },
     );
@@ -245,7 +273,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
             headerPadding:
                 const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             items: [
-              Screentab3(param: param),
+              Screentab3(param: param,items: items,lst_hd_items: list_hd_items),
             ]),
       ),
     );

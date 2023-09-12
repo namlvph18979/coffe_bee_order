@@ -14,11 +14,13 @@ import 'package:nb_utils/nb_utils.dart';
 import 'model_bottom_not.dart';
 
 class Screentab3 extends StatefulWidget {
-  ModelInvoice? invoice;
   CreateHDParam param;
+  List<String>? items;
+  List<HoadonItemsAdd>? lst_hd_items;
 
 
-  Screentab3({this.invoice,required this.param});
+
+  Screentab3({required this.param,this.items,this.lst_hd_items});
 
   @override
   State<Screentab3> createState() => _Screentab3State();
@@ -28,8 +30,6 @@ class _Screentab3State extends State<Screentab3>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   final bloc = BlocProduct();
-  final CreateHD = ListInvoiceBloc();
-  List<HoadonItemsAdd> items = [];
   int page = 0;
   
   @override
@@ -38,6 +38,7 @@ class _Screentab3State extends State<Screentab3>
     tabController.animateTo(page);
     super.initState();
     bloc.getListAll(id: page+2);
+    print("######PARAM######"+widget.param.id_Table.toString());
   }
   
   @override
@@ -45,14 +46,6 @@ class _Screentab3State extends State<Screentab3>
     // TODO: implement dispose
     super.dispose();
   }
-
-  sendHD(){
-    if(items.isNotEmpty){
-      CreateHD.param = widget.param;
-      CreateHD.createHoaDon();
-    }
-  }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +85,6 @@ class _Screentab3State extends State<Screentab3>
                               itemBuilder: (context, index) => ItemCategory(
                                 model: bloc.listAll[index],
                                 list: bloc.listAll,
-                                invoice: widget.invoice,
                                 ontap: () {
                                   showModalBottomSheet(
                                       context: context,
@@ -106,9 +98,11 @@ class _Screentab3State extends State<Screentab3>
                                               top: Radius.circular(20)))).then((value){
                                     if(value != null){
                                       HoadonItemsAdd item = value;
-                                      items.add(item);
+                                      widget.lst_hd_items?.add(item);
+                                      widget.items?.add(item.toJson().toString());
+                                      widget.param.id_hd_items = widget.items.toString();
+                                      print("#################list san pham : ${widget.items.toString()}");
                                       setState(() {});
-                                      print("#################ten san pham : ${item.tenSp.validate()}");
                                     }else{
                                       return;
                                     }

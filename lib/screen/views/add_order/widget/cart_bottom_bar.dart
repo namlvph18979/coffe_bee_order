@@ -1,17 +1,39 @@
-import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
-import 'package:coffe_bee_order/data/cubit_state.dart';
-import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
-import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
-import 'package:coffe_bee_order/screen/views/add_order/sc_create_order.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/detail_invoice.dart';
+import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_invoice_hoadon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../../config/style_app/color_app.dart';
 
-class CartBottomBar extends StatelessWidget {
+class CartBottomBar extends StatefulWidget {
+
+  Function()? send;
+  ModelInvoice? invoice;
+  List<HoadonItemsAdd>? items;
+
+  CartBottomBar({this.send, this.invoice,this.items});
+
+  @override
+  State<CartBottomBar> createState() => _CartBottomBarState();
+}
+
+class _CartBottomBarState extends State<CartBottomBar> {
+
+  int tien = 0;
+
+  tongtien(){
+    if(widget.items != null){
+      for(int i = 0;i <= widget.items!.length; i++){
+        tien = widget.items![i].giaSp.toInt() * widget.items![i].soLuong.toInt();
+      }
+      return tien;
+    }else {
+      return 0;
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +65,7 @@ class CartBottomBar extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Tổng: 0đ",
+                    "Tổng: ${tongtien()}",
                     style:
                         StyleApp.style600.copyWith(color: Colors.red),
                     textAlign: TextAlign.center,
@@ -57,42 +79,15 @@ class CartBottomBar extends StatelessWidget {
                       style: StyleApp.style700
                           .copyWith(color: Colors.white),
                     ),
-                  ).onTap(() {
-                    // if (modelInvoice.listSp!.isEmpty) {
-                    //   toast("Chưa có sản phẩm nào");
-                    //   return;
-                    // }
-                    // showInDialog(context,
-                    //     builder: (p0) => ConfirmDialog(
-                    //           title: "Thanh toán",
-                    //           des: "Vui lòng chọn kiểu thanh toán",
-                    //           text1: "Trước",
-                    //           text2: "Sau",
-                    //           ontap1: () {
-                    //             finish(context);
-                    //             // ScreenPrintinvoice(model: modelInvoice)
-                    //             //     .launch(context);
-                    //           },
-                    //           ontap2: () {
-                    //             finish(context);
-                    //             finish(context);
-                    //             modelInvoice.listSp!.clear();
-                    //             modelInvoice.idfloor == null;
-                    //             modelInvoice.idTable == null;
-                    //             modelInvoice.timeIn == null;
-                    //
-                    //             toast("Gửi đơn thành công",
-                    //                 bgColor: ColorApp.text);
-                    //           },
-                    //         ));
-                  }).expand(flex: 2)
+                  ).onTap(widget.send).expand(flex: 2)
                 ],
               ),
             ).onTap(() {
-              // ScreenDetailInvoice(
-              //   model: bloc.invoices,
-              //   isWatch: false,
-              // ).launch(context);
+                ScInvoiceHoaDon(
+                invoice: widget.invoice!,
+                items: widget.items,
+                tongtien: tongtien(),
+              ).launch(context);
             }));
   }
 }
