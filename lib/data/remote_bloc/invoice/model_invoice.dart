@@ -72,6 +72,7 @@ class HoadonItems {
   String? giaSp;
   String? tenSp;
   String? idHoaDonCT;
+  String? ghiChu;
 
   HoadonItems({
     this.idHdItem,
@@ -79,7 +80,9 @@ class HoadonItems {
     this.soLuong,
     this.giaSp,
     this.tenSp,
-    this.idHoaDonCT,});
+    this.idHoaDonCT,
+    this.ghiChu,
+  });
 
   HoadonItems.fromJson(dynamic json) {
     idHdItem = json['id_hd_item'];
@@ -88,6 +91,7 @@ class HoadonItems {
     giaSp = json['giaSp'];
     tenSp = json['tenSp'];
     idHoaDonCT = json['Id_hoaDonCT'];
+    ghiChu = json['ghiChu'];
   }
 
 
@@ -99,6 +103,7 @@ class HoadonItems {
     map['giaSp'] = giaSp;
     map['tenSp'] = tenSp;
     map['Id_hoaDonCT'] = idHoaDonCT;
+    map['ghiChu'] = ghiChu;
     return map;
   }
 

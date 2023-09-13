@@ -35,7 +35,7 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    bloc.getList();
+    bloc.getListDone();
   }
 
   @override

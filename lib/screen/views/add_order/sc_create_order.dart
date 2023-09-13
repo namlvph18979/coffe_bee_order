@@ -71,7 +71,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
       time_in: timein,
       time_out: "Đang cập nhật",
       time_Data: tdata,
-      trangThai: 1,
+      trangThai: 0,
       id_Table: idtable
     );
 

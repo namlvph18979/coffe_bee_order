@@ -33,7 +33,7 @@ class itemOrderForPhaChe extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text("Tầng: 1} - ",style: StyleApp.style700.copyWith(fontSize: 18),),
+                    Text("Tầng: 1 - ",style: StyleApp.style700.copyWith(fontSize: 18),),
                     Text("Bàn số: ${model.idTable}",style: StyleApp.style700.copyWith(fontSize: 18),),
                   ],
                 ),

@@ -41,6 +41,35 @@ class ListInvoiceBloc extends Cubit<CubitState>{
     }
   }
 
+  getListDone() async {
+    invoices.clear();
+    emit(state.copyWith(status: BlocStatus.loading));
+    try{
+      var res = await Api.getAsync(
+        endpoint: ApiPath.hoaDonDone,
+        hasForm: true
+      );
+      if(res != null){
+        for(var item in res){
+          ModelInvoice model = ModelInvoice.fromJson(item);
+          invoices.add(model);
+        }
+        emit(state.copyWith(
+          status: BlocStatus.success,
+        ));
+      }else{
+        emit(state.copyWith(
+          status: BlocStatus.failure,
+        ));
+      }
+    }catch(e){
+      emit(state.copyWith(
+          status: BlocStatus.failure,
+          msg: Api.checkError(e)
+      ));
+    }
+  }
+
   createHoaDon() async {
     emit(state.copyWith(status: BlocStatus.loading));
     try{
@@ -66,5 +95,9 @@ class ListInvoiceBloc extends Cubit<CubitState>{
           msg: "Gửi đơn thất bại"
       ));
     }
+  }
+
+  updateTTDon(){
+
   }
 }

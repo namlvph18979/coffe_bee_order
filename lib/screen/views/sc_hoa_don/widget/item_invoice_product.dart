@@ -26,17 +26,17 @@ class ItemInVoiceProduct extends StatelessWidget {
         children: [
           Text(
             "Tên sản phẩm: ${model?.tenSp.validate()}",
-            style: StyleApp.style400.copyWith(color: ColorApp.text),
+            style: StyleApp.style500.copyWith(color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,
           ),
           5.height,
           Text(
             "Số lượng: ${model?.soLuong.validate()}",
-            style: StyleApp.style400.copyWith(color: ColorApp.text),
+            style: StyleApp.style500.copyWith(color: ColorApp.text),
           ),
           5.height,
           Text(
             "Giá: ${(double.tryParse(model?.giaSp.validate() ?? "0")).toPrice()}đ",
-            style: StyleApp.style400.copyWith(color: ColorApp.text),
+            style: StyleApp.style500.copyWith(color: ColorApp.text),
           ),
         ],
       ),
