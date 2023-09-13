@@ -95,7 +95,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
         ),
         5.height,
         Text(
-          "Bạn chỉ có thể phản hồi 1 lần.",
+          "Bạn chỉ có thể ghi chú nhanh 1 lần.",
           style: StyleApp.style400.copyWith(fontSize: 12, color: Colors.grey),
         ),
         15.height,
@@ -114,9 +114,9 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
               return;
             }
             item = HoadonItemsAdd(
-              giaSp: widget.model.giaSanPham,
-              idSanPham: widget.model.idSanPham,
-              soLuong: widget.model.soluong.toString(),
+              giaSp: widget.model.giaSanPham.toInt(),
+              idSanPham: widget.model.idSanPham.toInt(),
+              soLuong: widget.model.soluong,
               tenSp: widget.model.tenSp,
               ghiChu: note.text.validate(value: "")
             );

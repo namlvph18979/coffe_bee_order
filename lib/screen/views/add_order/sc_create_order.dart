@@ -35,17 +35,17 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   final invoiceBloc = DetailInvoiceBloc();
   final floorbloc = floorBloc();
   final tablebloc = TableBloc();
-  final CreateHD = ListInvoiceBloc();
   CreateHDParam param = CreateHDParam();
   UserModel user = UserModel();
   String? idfloor;
   ModelInvoice? invoice;
+  int? idtable;
+  int? tongtien;
   List<String> items = [];
   List<HoadonItemsAdd> list_hd_items = [];
-  int tien = 0;
   late TabController tabController;
   String tdata = DateTime.now().toString().splitBefore(" ");
-  String timein = DateFormat("hh:mm:ss").format(DateTime.now());
+  String timein = DateFormat("hh:mm a").format(DateTime.now());
 
   @override
   void initState() {
@@ -63,24 +63,16 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
     floorbloc.getList();
   }
 
-
-  sendHD(){
-    print("gửi đơn");
-    if(items != null || items != ""){
-      CreateHD.param = param;
-      CreateHD.createHoaDon();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
      param = CreateHDParam(
-      id_giamGia: "0",
-      Id_user: user.Id_User.toString(),
-      time_in: tdata,
-      time_out: timein,
-      time_Data: timein,
-      trangThai: "0",
+      id_giamGia: 0,
+      Id_user: user.Id_User,
+      time_in: timein,
+      time_out: "Đang cập nhật",
+      time_Data: tdata,
+      trangThai: 1,
+      id_Table: idtable
     );
 
     return BlocBuilder<ListCatbloc, CubitState>(
@@ -130,32 +122,22 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 Tab3(),
               ]),
           bottomNavigationBar: tabController.index == 2 ?
-          BlocConsumer<ListInvoiceBloc,CubitState>(
-            bloc: CreateHD,
-            listener: (context, state) {
-                CheckStateBloc.checkNoLoad(
-                    context,
-                    state,
-                    success: () {
-                      toast(state.msg);
-                    },
-                );
-            },
-            builder:(context, state) => CartBottomBar(
-              invoice: ModelInvoice(
-                idTable: param.id_Table,
-                idHoaDonCT: "0",
-                idGiamGia: "0",
-                fullname: user.fullName.validate(),
-                trangThai: "0",
-                timeData: tdata,
-                timeIn: timein,
-                timeOut: timein,
-                tongTien: "999999"
-              ),
-              items: list_hd_items,
-              send: sendHD,
+          CartBottomBar(
+            param: param,
+            state: state,
+            invoice: ModelInvoice(
+              idTang: idfloor.toString(),
+              idTable: idtable.toString(),
+              idHoaDonCT: "0",
+              idGiamGia: "0",
+              fullname: user.fullName.validate(),
+              trangThai: "0",
+              timeData: tdata,
+              timeIn: timein,
+              timeOut: "Đang cập nhật",
+              tongTien: tongtien.toString(),
             ),
+            items: list_hd_items,
           ) : const SizedBox(),
         );
       },
@@ -190,8 +172,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                               title: floorbloc.list[index].soTang,
                               onClick: () {
                                 tabController.animateTo(1);
-                                idfloor = floorbloc.list[index].idTang;
-                                print("##############$idfloor");
                                 tablebloc.getList(id: floorbloc.list[index].idTang);
                                 // modelInvoice.idfloor =
                                 //     floorbloc.list[index].idTang.toInt();
@@ -258,10 +238,12 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                 onClick: () {
                                   tabController.animateTo(2);
                                   setState(() {
-                                    param.id_Table = tablebloc.list[index].id.toString();
+                                    idtable = tablebloc.list[index].id;
+                                    idfloor = tablebloc.list[index].idFloor.toString();
                                     print(
                                         "############## bàn ${tablebloc.list[index].id} "
-                                        "- tầng 1");
+                                        "- tầng ${tablebloc.list[index].idFloor}");
+                                    print("#############paramidtable"+idtable.toString());
                                   });
                                 }
                               ))

@@ -1,187 +1,208 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
+import 'package:coffe_bee_order/config/style_app/color_app.dart';
+import 'package:coffe_bee_order/config/style_app/image_path.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
+import 'package:coffe_bee_order/data/check_state.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
-import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
+import 'package:coffe_bee_order/data/enum/blocstatus.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
+import 'package:coffe_bee_order/screen/widgets/custom_button.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
-import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ScreenPrintinvoice extends StatefulWidget {
   ModelInvoice model;
+  CreateHDParam? param;
+  List<HoadonItemsAdd> items;
 
-  ScreenPrintinvoice({required this.model});
+  ScreenPrintinvoice(
+      {required this.model, required this.param, required this.items});
 
   @override
   State<ScreenPrintinvoice> createState() => _ScreenPrintinvoiceState();
 }
 
 class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
-
-  final invoiceBLoc = DetailInvoiceBloc();
-  int priceAll = 0;
+  final bloc = ListInvoiceBloc();
 
   @override
   void initState() {
     super.initState();
+    print("###############" + widget.items[0].tenSp.toString());
+  }
+
+  sendHD(){
+    print("gửi đơn");
+    bloc.param = widget.param!;
+    bloc.createHoaDon();
   }
 
   @override
   Widget build(BuildContext context) {
     final player = AudioPlayer();
-    String timeout = DateFormat("hh:mm a").format(DateTime.now());
-
-    return BlocBuilder<DetailInvoiceBloc, CubitState>(
-      bloc: invoiceBLoc,
-      builder: (context, state) {
-        return Scaffold(
-          appBar: itemAppBar(
-            title: "Hoá đơn",
-            isback: true,
-            align: true,
-          ),
-          body: Container(
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Column(
+    return Scaffold(
+      appBar: itemAppBar(
+        title: "Hoá đơn",
+        isback: true,
+        align: true,
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+          // decoration: BoxDecoration(
+          //     image: DecorationImage(image: AssetImage(ImagePath.logo),fit: BoxFit.cover,opacity: 0.25,)),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: Column(
+          children: [
+            15.height,
+            Text(
+              "Coffee Bee Order".toUpperCase(),
+              style: StyleApp.style600
+                  .copyWith(fontSize: 25, wordSpacing: 6, letterSpacing: 3),
+              textAlign: TextAlign.center,
+            ),
+            10.height,
+            Text(
+              "Số 18, Trịnh Văn Bô, Phương Canh, Nam Từ Liêm, Hà Nội",
+              style: StyleApp.style400,
+              textAlign: TextAlign.center,
+            ),
+            20.height,
+            Text(
+              "Phiếu Thanh Toán",
+              style: StyleApp.style600.copyWith(fontSize: 23),
+              textAlign: TextAlign.center,
+            ),
+            20.height,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                15.height,
-                Text(
-                  "Coffee Bee Order".toUpperCase(),
-                  style: StyleApp.style600
-                      .copyWith(fontSize: 25, wordSpacing: 6, letterSpacing: 3),
-                  textAlign: TextAlign.center,
-                ),
-                10.height,
-                Text(
-                  "Số 18, Trịnh Văn Bô, Phương Canh, Nam Từ Liêm, Hà Nội",
-                  style: StyleApp.style400,
-                  textAlign: TextAlign.center,
-                ),
-                20.height,
-                Text(
-                  "Phiếu Thanh Toán",
-                  style: StyleApp.style600.copyWith(fontSize: 23),
-                  textAlign: TextAlign.center,
-                ),
-                20.height,
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Tầng: 1",
-                          style: StyleApp.style500,
-                        ),
-                        5.height,
-                        Text(
-                          "Bàn số: ${widget.model.idTable}",
-                          style: StyleApp.style500,
-                        ),
-                      ],
-                    ).paddingLeft(40).expand(flex: 1),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Giờ vào: ${widget.model.timeIn}",
-                          style: StyleApp.style500,
-                        ),
-                        5.height,
-                        Text(
-                          "Giờ ra: ${widget.model.timeOut}",
-                          style: StyleApp.style500,
-                        ),
-                      ],
-                    ).paddingRight(40).expand(flex: 1),
+                    TextRow(title: "Tầng số",data: widget.model.idTang),
+                    5.height,
+                    TextRow(title: "Bàn số",data: widget.model.idTable),
                   ],
                 ),
-                20.height,
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Nv phụ trách: ${widget.model.fullname.validate(value: "Đang cập nhật")}",
-                      style: StyleApp.style500.copyWith(fontSize: 13),
-                    )
-                ),
-                5.height,
-                Table(
-                  border: TableBorder.all(width: 1),
-                  columnWidths: const {
-                    0: FractionColumnWidth(0.4),
-                    1: FractionColumnWidth(0.25),
-                    2: FractionColumnWidth(0.1),
-                    3: FractionColumnWidth(0.25),
-                  },
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildRow(["Tên Sản Phẩm", "Đơn giá", "SL", "Thành tiền"],
-                        isheader: true),
+                    TextRow(title: "Giờ vào",data: widget.model.timeIn),
+                    5.height,
+                    TextRow(title: "Giờ ra",data: "Đang cập nhật"),
                   ],
                 ),
-                Table(
-                  border: const TableBorder(
-                      verticalInside: BorderSide(),
-                      right: BorderSide(),
-                      left: BorderSide()),
-                  columnWidths: const {
-                    0: FractionColumnWidth(0.4),
-                    1: FractionColumnWidth(0.25),
-                    2: FractionColumnWidth(0.1),
-                    3: FractionColumnWidth(0.25),
-                  },
-                  children: List.generate(
-                      widget.model.hoadonItems?.length ?? 0,
-                      (index) => buildRow([
-                            widget.model.hoadonItems?[index].tenSp.validate() ?? "Đang cập nhật",
-                            "${widget.model.hoadonItems?[index].giaSp.toInt().toPrice()}đ",
-                            "${widget.model.hoadonItems![index].soLuong}",
-                            "${(widget.model.hoadonItems![index].soLuong.toInt() * widget.model.hoadonItems![index].giaSp.toInt()).toPrice()}đ"
-                          ])),
-                ),
-                Table(border: TableBorder.all(), children: [
-                  TableRow(children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Thanh toán: ${priceAll.toPrice()}đ",
-                            style: StyleApp.style600.copyWith(fontSize: 16),
-                          ),
-                          20.height,
-                          Text(
-                            "Chúc quý khách vui vẻ, hẹn gặp lại!",
-                            style: StyleApp.style400
-                                .copyWith(fontStyle: FontStyle.italic),
-                          )
-                        ],
-                      ),
-                    )
-                  ])
-                ]),
               ],
-            ).scrollView(),
-          ),
-          bottomSheet: itemButton(
-            textBtn: "in hóa đơn".toUpperCase(),
-            width: MediaQuery.of(context).size.width,
-            onPress: () {
-              player.play(AssetSource('sound/cash_pay.mp3'),
-                  volume: SizeConfig.screenHeight);
-              int isPay = 1;
-              finish(context,isPay);
-              finish(context);
-              finish(context);
-            },
-          ),
-        );
-      },
+            ),
+            20.height,
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Nv phụ trách: ${widget.model.fullname.validate(value: "Đang cập nhật")}",
+                  style: StyleApp.style500.copyWith(fontSize: 13),
+                )),
+            5.height,
+            Table(
+              border: TableBorder.all(width: 1),
+              columnWidths: const {
+                0: FractionColumnWidth(0.4),
+                1: FractionColumnWidth(0.25),
+                2: FractionColumnWidth(0.1),
+                3: FractionColumnWidth(0.25),
+              },
+              children: [
+                buildRow(["Tên Sản Phẩm", "Đơn giá", "SL", "Thành tiền"],
+                    isheader: true),
+              ],
+            ),
+            Table(
+              border: const TableBorder(
+                  verticalInside: BorderSide(),
+                  right: BorderSide(),
+                  left: BorderSide()),
+              columnWidths: const {
+                0: FractionColumnWidth(0.4),
+                1: FractionColumnWidth(0.25),
+                2: FractionColumnWidth(0.1),
+                3: FractionColumnWidth(0.25),
+              },
+              children: List.generate(
+                  widget.items.length,
+                  (index) => buildRow([
+                        widget.items[index].tenSp.validate(),
+                        "${widget.items[index].giaSp.toPrice()}đ",
+                        "${widget.items[index].soLuong}",
+                        "${((widget.items[index].soLuong).validate() * (widget.items[index].giaSp).validate()).toPrice()}đ"
+                      ])),
+            ),
+            Table(border: TableBorder.all(), children: [
+              TableRow(children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Thanh toán: ${widget.param?.tongTien.toPrice()}đ",
+                        style: StyleApp.style600.copyWith(fontSize: 16),
+                      ),
+                      20.height,
+                      Text(
+                        "Chúc quý khách vui vẻ, hẹn gặp lại!",
+                        style: StyleApp.style400
+                            .copyWith(fontStyle: FontStyle.italic),
+                      )
+                    ],
+                  ),
+                )
+              ])
+            ]),
+          ],
+        ).scrollView(),
+      ),
+      bottomSheet: BlocConsumer<ListInvoiceBloc, CubitState>(
+        bloc: bloc,
+        listener: (context, state) {
+          CheckStateBloc.checkNoLoad(
+              context,
+              state,
+              msg: state.msg,
+              isShowMsg: true,
+              success: () {
+                player.play(AssetSource('sound/cash_pay.mp3'),
+                    volume: SizeConfig.screenHeight);
+                finish(context);
+                finish(context);
+                finish(context);
+              },
+          );
+        },
+        builder: (context, state) {
+          return CustomButton(
+            title: "In hoá đơn".toUpperCase(),
+            color: ColorApp.text,
+              textColor: Colors.white,
+            isLoad: state.status == BlocStatus.loading,
+            onTap: sendHD
+          ).withWidth(double.infinity).paddingSymmetric(horizontal: 10,vertical: 5);
+        },
+      ),
+    );
+  }
+
+  Widget TextRow({String? title,String? data}){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(title!,style: StyleApp.style500.copyWith(color: ColorApp.text),).withWidth(60),
+        Text(": ${data.validate()}",style: StyleApp.style500.copyWith(color: ColorApp.text),),
+      ],
     );
   }
 

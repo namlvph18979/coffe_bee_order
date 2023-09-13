@@ -1,22 +1,27 @@
-import 'dart:ffi';
 
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/color_app.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+
+
 class ScInvoiceHoaDon extends StatefulWidget {
 
   ModelInvoice? invoice;
-  List<HoadonItemsAdd>? items;
+  List<HoadonItemsAdd> items;
+  int? tongtien;
+  CreateHDParam param;
 
-  ScInvoiceHoaDon({this.invoice,this.items});
+  ScInvoiceHoaDon({this.invoice,required this.items,this.tongtien,required this.param});
 
   @override
   State<ScInvoiceHoaDon> createState() => _ScInvoiceHoaDonState();
@@ -24,24 +29,12 @@ class ScInvoiceHoaDon extends StatefulWidget {
 
 class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
 
-  int tien = 0;
 
   @override
   void initState() {
-    TinhTien;
     super.initState();
-    print("#####scInvoice######${widget.items?[0].tenSp}");
-    print("#####scInvoice######${widget.items?[0].soLuong}");
-    print("#####scInvoice######${widget.items?[0].giaSp}");
-
+    widget.param.tongTien = widget.tongtien;
   }
-  TinhTien(){
-    for(int i = 0;i <= widget.items!.length; i++){
-      tien += (widget.items?[i].giaSp).toInt() * (widget.items?[i].soLuong).toInt();
-    }
-    return tien;
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,15 +65,15 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 15.height,
                 itemText(
                     title: "Tầng số:  ",
-                    des: "1"),
+                    des: widget.invoice?.idTang ?? "Đang cập nhật"),
                 8.height,
                 itemText(
                     title: "Bàn số:  ",
-                    des: widget.invoice?.idTable ?? "chưa cập nhật"),
+                    des: widget.invoice?.idTable ?? "Đang cập nhật"),
                 8.height,
                 itemText(
                     title: "Tổng tiền:  ",
-                    des: "${tien.toPrice()}đ"),
+                    des: "${widget.tongtien.toPrice()}đ"),
                 8.height,
                 itemText(
                     title: "Trạng thái:  ",
@@ -114,21 +107,22 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: ColorApp.text,width: 0.8)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Tên:  ${widget.items?[index].tenSp.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,),
-                    Text("SL:  ${widget.items?[index].soLuong.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),
-                    Text("Giá:  ${widget.items?[index].giaSp?.toInt().toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),
-                    widget.items![index].ghiChu.validate().isNotEmpty
-                        ? Text("${widget.items![index].ghiChu.validate(value: "")}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),)
+                    Text("Tên:  ${widget.items[index].tenSp.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,),2.height,
+                    Text("SL:  ${widget.items[index].soLuong.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
+                    Text("Giá:  ${widget.items[index].giaSp?.toInt().toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
+                    widget.items[index].ghiChu.validate().isNotEmpty
+                        ? Text("Lưu ý: ${widget.items[index].ghiChu.validate(value: "")}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),)
                         : const SizedBox()
                   ],
                 ),
               ),
               separatorBuilder: (context, index) => 8.height,
-              itemCount: widget.items?.length ?? 0),
+              itemCount: widget.items.length ?? 0),
           70.height,
         ],
       ).scrollView(),
@@ -137,9 +131,6 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
            itemButton(
             textBtn: "Huỷ đơn",
             onPress: () {
-              widget.invoice?.hoadonItems?.clear();
-              widget.invoice?.idTable = null;
-              widget.invoice?.timeIn = null;
               finish(context);
               finish(context);
             },
@@ -147,11 +138,9 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
           itemButton(
             textBtn: "Thanh toán",
             onPress: () {
-              if (widget.invoice?.hoadonItems == []) {
-                toast("Chưa có sản phẩm cho đơn hàng");
-                return;
-              }
               ScreenPrintinvoice(
+                items: widget.items,
+                param: widget.param,
                 model: widget.invoice!,
               ).launch(context);
             },
@@ -165,8 +154,8 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
     return RichText(
         text: TextSpan(children: [
           TextSpan(
-              text: title, style: StyleApp.style400.copyWith(color: Colors.black)),
-          TextSpan(text: des, style: StyleApp.style400.copyWith(color: Colors.red)),
+              text: title, style: StyleApp.style600.copyWith(color: Colors.black)),
+          TextSpan(text: des, style: StyleApp.style600.copyWith(color: Colors.red)),
         ]));
   }
 }

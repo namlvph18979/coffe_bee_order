@@ -1,5 +1,8 @@
 
+import 'dart:convert';
+
 class ModelInvoice {
+  String? idTang;
   String? idHoaDonCT;
   String? timeData;
   String? tongTien;
@@ -15,6 +18,7 @@ class ModelInvoice {
   ModelInvoice({
     this.idHoaDonCT,
     this.timeData,
+    this.idTang,
     this.tongTien,
     this.trangThai,
     this.idGiamGia,
@@ -101,9 +105,9 @@ class HoadonItems {
 }
 
 class HoadonItemsAdd {
-  String? idSanPham;
-  String? soLuong;
-  String? giaSp;
+  int? idSanPham;
+  int? soLuong;
+  int? giaSp;
   String? tenSp;
   String? ghiChu;
 
@@ -113,7 +117,7 @@ class HoadonItemsAdd {
     this.giaSp,
     this.tenSp,
     this.ghiChu,
-    });
+  });
 
   HoadonItemsAdd.fromJson(dynamic json) {
     idSanPham = json['id_sanPham'];
@@ -125,13 +129,12 @@ class HoadonItemsAdd {
 
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id_sanPham'] = idSanPham;
-    map['soLuong'] = soLuong;
-    map['giaSp'] = giaSp;
-    map['tenSp'] = tenSp ;
-    map['ghiChu'] = ghiChu;
-    return map;
+    return {
+      jsonEncode("id_sanPham"): jsonEncode(idSanPham),
+      jsonEncode("soLuong"): jsonEncode(soLuong),
+      jsonEncode("giaSp"): jsonEncode(giaSp),
+      jsonEncode("tenSp"): jsonEncode(tenSp),
+      jsonEncode("ghiChu"): jsonEncode(ghiChu),
+    };
   }
-
 }

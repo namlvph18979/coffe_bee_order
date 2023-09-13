@@ -139,8 +139,10 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
             onPress: () {
               showModalBottomSheet(
                   context: context,
-                  builder: (context) => ModelBottomNote(
-                      model: widget.modelPro),
+                  // builder: (context) => ModelBottomNote(
+                  //
+                  //     model: widget.modelPro),
+                  builder: (context) => Container(),
                   isScrollControlled: true,
                   shape: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),

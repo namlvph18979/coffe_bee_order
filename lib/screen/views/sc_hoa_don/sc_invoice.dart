@@ -75,47 +75,11 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
               itemBuilder: (context, index) => ItemHoaDon(
                 model: bloc.invoices[index],
                 isdonhang: true,
-                ontap1: (){
-                  ScreenPrintinvoice(
-                      model: bloc.invoices[index]
-                  ).launch(context).then((value) {
-                    if (value != null){
-                      setState(() {
-                        bloc.invoices[index] = value;
-                      });
-                    }
-                    return;
-                  });
-                },
-                ontap2: () {
-                  showInDialog(
-                    context,
-                    dialogAnimation: DialogAnimation.SCALE,
-                    transitionDuration: const Duration(milliseconds: 250),
-                    builder: (p0) => ConfirmDialog(
-                        ontap1: (){
-                          finish(context);},
-                        ontap2: () {
-                          setState(() {
-                            if(bloc.invoices[index].trangThai == "0"){
-                              toast("Hóa đơn chưa được thanh toán");
-                            }else{
-                              toast("ĐÓng bàn thành công");
-                              // bloc.invoices.removeAt(index);
-                              // finish(context);
-                            }
 
-                          });},
-                        title: "Đóng Bàn",
-                        des: "Bạn xác nhận đóng bàn."
-                            " Khi đã đóng bàn sẽ không thể khôi phục được dữ liệu."),
-                  );
-                },
-                ontap3: (){
+                ontap: (){
                   ScreenDetailInvoice(
                     model: bloc.invoices[index],
-                    isWatch: true,
-                    isdonhang: true,
+                    isdonhang: false,
                   ).launch(context);
                 },
               ),

@@ -16,7 +16,7 @@ Widget CustomButton({
     color: color ?? ColorApp.text,
     elevation: 0,
     shapeBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(3),
       borderSide: borderSide,
     ),
     child: isLoad

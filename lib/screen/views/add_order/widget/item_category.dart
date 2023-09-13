@@ -1,13 +1,9 @@
 
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
-
-import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
-import 'package:coffe_bee_order/screen/views/add_order/widget/model_bottom_not.dart';
 import 'package:coffe_bee_order/screen/views/detail_product/sc_detail_product.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import '../../../../config/style_app/style_text.dart';
 import '../../../../data/remote_bloc/product/product_model.dart';
 
