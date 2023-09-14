@@ -148,8 +148,8 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
     return RichText(
         text: TextSpan(children: [
           TextSpan(
-              text: title, style: StyleApp.style600.copyWith(color: Colors.black)),
-          TextSpan(text: des, style: StyleApp.style600.copyWith(color: Colors.red)),
+              text: title, style: StyleApp.style500.copyWith(color: Colors.black)),
+          TextSpan(text: des, style: StyleApp.style500.copyWith(color: Colors.red)),
         ]));
   }
 }

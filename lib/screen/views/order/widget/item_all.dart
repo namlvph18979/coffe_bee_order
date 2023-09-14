@@ -7,9 +7,8 @@ import '../../../widgets/expanded_section.dart';
 
 class ItemAll extends StatefulWidget {
   ModelInvoice model;
-  Function()? ontap1;
 
-  ItemAll({required this.model,required this.ontap1});
+  ItemAll({required this.model});
 
   @override
   State<ItemAll> createState() => _ItemAllState();
@@ -29,7 +28,6 @@ class _ItemAllState extends State<ItemAll> {
           },
           child: itemOrderForPhaChe(
             model: widget.model,
-            ontap1: widget.ontap1,
           ),
         ),
         ExpandedSection(

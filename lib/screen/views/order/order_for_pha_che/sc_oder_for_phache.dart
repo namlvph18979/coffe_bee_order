@@ -30,10 +30,9 @@ class _ScreenOrderForPhaCheState extends State<ScreenOrderForPhaChe> {
 
   @override
   Widget build(BuildContext context) {
-    final player = AudioPlayer();
     return Scaffold(
       appBar: itemAppBar(
-        title: "Đơn hàng chờ",
+        title: "Đơn Chờ Xử Lý",
         align: true,
         isback: false,
       ),
@@ -46,19 +45,6 @@ class _ScreenOrderForPhaCheState extends State<ScreenOrderForPhaChe> {
           child: bloc.invoices.isNotEmpty ? ListView.separated(
               itemBuilder: (context, index) => ItemAll(
                   model: bloc.invoices[index],
-                  ontap1: () {
-                    ScreenAcceptOrder(
-                        invoice: bloc.invoices[index],
-                        ontap: () {
-                          player.play(AssetSource('sound/success_order.mp3'));
-                          setState(() {
-                            finish(context);
-                            bloc.invoices.removeAt(index);
-                          });
-                        },
-                    ).launch(context);
-                  },
-
               ),
               separatorBuilder: (context, index) => 20.height,
               itemCount: bloc.invoices.length).paddingTop(15):Center(child: Text("Danh sách trống",style: StyleApp.style600,),)
