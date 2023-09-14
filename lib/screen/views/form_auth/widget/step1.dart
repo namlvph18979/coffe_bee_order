@@ -1,23 +1,72 @@
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
+import 'package:coffe_bee_order/data/cubit_state.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/param/change_pass_param.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/user_bloc.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:coffe_bee_order/screen/widgets/item_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class ItemStep1 extends StatelessWidget {
+import '../../../../config/db/db_key_local.dart';
+import '../../../../config/style_app/validator.dart';
+import '../../../../data/check_state.dart';
+import '../../../../data/enum/blocstatus.dart';
 
-  Function() ontap;
+class ItemStep1 extends StatefulWidget {
+
+  Function()? ontap;
   TextEditingController phonenumber;
+  TextEditingController passOld;
+  TextEditingController passNew;
+  TextEditingController enterANewPass;
+
 
   ItemStep1({
-    required this.ontap,
-    required this.phonenumber});
+    this.ontap,
+    required this.phonenumber,
+    required this.passOld,
+    required this.passNew,
+    required this.enterANewPass,});
+
+  @override
+  State<ItemStep1> createState() => _ItemStep1State();
+}
+
+class _ItemStep1State extends State<ItemStep1> {
+  final bloc = userbloc();
+  UserModel userModel = UserModel();
+
+  @override
+  void initState() {
+    var res = getJSONAsync(DBKeyLocal.user);
+    userModel = UserModel.fromJson(res);
+    print("###################" + res.toString());
+    super.initState();
+  }
+
+
+  changePass(){
+    bloc.changePass(
+      ChangePassParam(
+        id: userModel.Id_User.toString(),
+        pass: widget.passOld.text,
+        newPasswd: widget.passNew.text
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    return Column(
+    return BlocConsumer<userbloc, CubitState>(
+      bloc: bloc,
+      listener: (context, state) {
+        CheckStateBloc.checkNoLoad(context, state, success: () => finish(context),);
+      },
+      builder: (context, state) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           30.height,
@@ -25,20 +74,55 @@ class ItemStep1 extends StatelessWidget {
           15.height,
           Text("Vui lòng nhập số điện thoại đã đăng ký để xác thực định danh người dùng",
             style: StyleApp.style400.copyWith(color: Colors.black),),
-          25.height,
+          // 25.height,
+          // itemInputText(
+          //   type: TextFieldType.PHONE,
+          //   hint: "Vui lòng nhập...",
+          //   labeltext: "Số điện thoại",
+          //   controller: phonenumber,
+          // ),
+          SizedBox(height: 10,),
           itemInputText(
-            type: TextFieldType.PHONE,
+            type: TextFieldType.PASSWORD,
             hint: "Vui lòng nhập...",
-            labeltext: "Số điện thoại",
-            controller: phonenumber,
+            labeltext: "Mật khẩu cũ",
+            controller: widget.passOld,
+            validator: (val) {
+              return ValidatorApp.checkPass(
+                  text: val, text2: widget.passOld.text, isSign: true);
+            },
+          ),
+          SizedBox(height: 10,),
+          itemInputText(
+            type: TextFieldType.PASSWORD,
+            hint: "Vui lòng nhập...",
+            labeltext: "Mật khẩu mới",
+            controller: widget.passNew,
+            validator: (val) {
+              return ValidatorApp.checkPass(
+                  text: val, text2: widget.passNew.text, isSign: true);
+            },
+          ),
+          SizedBox(height: 10,),
+          itemInputText(
+            type: TextFieldType.PASSWORD,
+            hint: "Vui lòng nhập lại...",
+            labeltext: "Mật khẩu mới",
+            controller: widget.enterANewPass,
+            validator: (val) {
+              return ValidatorApp.checkPass(
+                  text: val, text2: widget.enterANewPass.text, isSign: true);
+            },
           ),
           20.height,
           itemButton(
-              textBtn: "Tiếp tục",
-              width: MediaQuery.of(context).size.width,
-              onPress: ontap,
+            textBtn: "Tiếp tục",
+            width: MediaQuery.of(context).size.width,
+            onPress: changePass,
+            // isLoad: state.status == BlocStatus.loading,
           ).scrollView()
         ],
+      ),
     );
   }
 }

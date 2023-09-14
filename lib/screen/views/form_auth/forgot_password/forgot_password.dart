@@ -1,4 +1,5 @@
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/step2.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/step1.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/widget/step3.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:otp_text_field/otp_field.dart';
 
+import '../../../../config/db/db_key_local.dart';
 import '../../../../config/style_app/color_app.dart';
 
 class ScreenForgotPass extends StatefulWidget {
@@ -24,15 +26,26 @@ class _ScreenForgotPassState extends State<ScreenForgotPass> {
 
   int currentStep = 0;
   final phoneNumber = TextEditingController();
+  final passOld = TextEditingController();
+  final passNew = TextEditingController();
+  final enterPassNew = TextEditingController();
   final contrycode = TextEditingController();
-  final FirebaseAuth auth = FirebaseAuth.instance;
-
-  var vetifyCode = '';
-  final otpCode = OtpFieldController();
+  // final FirebaseAuth auth = FirebaseAuth.instance;
+  //
+  // var vetifyCode = '';
+  // final otpCode = OtpFieldController();
+  UserModel user = UserModel();
 
   @override
   void initState() {
-    contrycode.text = "+84";
+    // contrycode.text = "+84";
+
+    var res = getJSONAsync(DBKeyLocal.user);
+    if (res != null) {
+      user = UserModel.fromJson(res);
+    }
+    print("###################" + res.toString());
+
     super.initState();
   }
 
@@ -78,71 +91,51 @@ class _ScreenForgotPassState extends State<ScreenForgotPass> {
                       style: StyleApp.style600.copyWith(color: Colors.black),
                     ),
                     content: ItemStep1(
+                        passOld: passOld,
+                        passNew: passNew,
+                        enterANewPass: enterPassNew,
                         phonenumber: phoneNumber,
-                        ontap: () async {
-                          Validate(phoneNumber.text);
-                          await FirebaseAuth.instance.verifyPhoneNumber(
-                            phoneNumber: contrycode.text + phoneNumber.text,
-                            verificationCompleted: (PhoneAuthCredential credential) {},
-                            verificationFailed: (FirebaseAuthException e) {
-                              return DialogMessage(
-                                  context: context,
-                                  title: "Thông báo!",
-                                  onConfirm: () {
-                                    finish(context);
-                                  },
-                                  message: "Chúng tôi đã khóa số điện thoại ${phoneNumber.text} do vấn đề baảo mật!\n"
-                                      "Vui lòng thử lại sau");
-                            },
-                            codeSent: (verificationId, resendToken) {
-                              vetifyCode = verificationId;
-                              setState(() {
-                                currentStep++;
-                              });
-                            },
-                            codeAutoRetrievalTimeout: (verificationId) {},
-                          );
-                        })),
-
-                Step(
-                    isActive: currentStep >= 1,
-                    state: currentStep > 1
-                        ? StepState.complete
-                        : StepState.indexed,
-                    title: Text("OTP",
-                        style: StyleApp.style600.copyWith(color: Colors.black)),
-                    content: ItemStep2(
-                        otpCode: otpCode,
-                        onTap: () {
-
-                          setState(() {
-                            currentStep++;
-                          });
-                        })),
-
-                Step(
-                    isActive: currentStep >= 2,
-                    state: currentStep > 2
-                        ? StepState.complete
-                        : StepState.indexed,
-                    title: Text("Hoàn Tất",
-                        style: StyleApp.style600.copyWith(color: Colors.black)),
-                    content: ItemStep3(onTap: () {
-                      showInDialog(
-                        context,
-                        dialogAnimation: DialogAnimation.SCALE,
-                        transitionDuration: const Duration(milliseconds: 250),
-                        builder: (p0) => SuccessDialog(
-                            ontap1: () {
-                              finish(context);
-                              finish(context);
-                              finish(context);
-                            },
-                            title: "Hoàn tất",
-                            des: "Bạn đã thay đổi mật khẩu thành công "
-                                "vui lòng đăng nhập với mật khẩu vừa tạo"),
-                      );
-                    })),
+                    )),
+                //
+                // Step(
+                //     isActive: currentStep >= 1,
+                //     state: currentStep > 1
+                //         ? StepState.complete
+                //         : StepState.indexed,
+                //     title: Text("OTP",
+                //         style: StyleApp.style600.copyWith(color: Colors.black)),
+                //     content: ItemStep2(
+                //         otpCode: otpCode,
+                //         onTap: () {
+                //
+                //           setState(() {
+                //             currentStep++;
+                //           });
+                //         })),
+                //
+                // Step(
+                //     isActive: currentStep >= 2,
+                //     state: currentStep > 2
+                //         ? StepState.complete
+                //         : StepState.indexed,
+                //     title: Text("Hoàn Tất",
+                //         style: StyleApp.style600.copyWith(color: Colors.black)),
+                //     content: ItemStep3(onTap: () {
+                //       showInDialog(
+                //         context,
+                //         dialogAnimation: DialogAnimation.SCALE,
+                //         transitionDuration: const Duration(milliseconds: 250),
+                //         builder: (p0) => SuccessDialog(
+                //             ontap1: () {
+                //               finish(context);
+                //               finish(context);
+                //               finish(context);
+                //             },
+                //             title: "Hoàn tất",
+                //             des: "Bạn đã thay đổi mật khẩu thành công "
+                //                 "vui lòng đăng nhập với mật khẩu vừa tạo"),
+                //       );
+                //     })),
               ])),
     );
   }
