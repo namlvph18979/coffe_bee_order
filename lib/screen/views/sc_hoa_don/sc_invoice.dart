@@ -35,7 +35,7 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    bloc.getList();
+    bloc.getListDone();
   }
 
   @override
@@ -70,57 +70,21 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
             bloc.getList();
           },
           msg: state.msg,
-          child:bloc.invoices.isNotEmpty ? ListView.separated(
+          child:bloc.invoicesTT3.isNotEmpty ? ListView.separated(
               shrinkWrap: true,
               itemBuilder: (context, index) => ItemHoaDon(
-                model: bloc.invoices[index],
+                model: bloc.invoicesTT3[index],
                 isdonhang: true,
-                ontap1: (){
-                  ScreenPrintinvoice(
-                      model: bloc.invoices[index]
-                  ).launch(context).then((value) {
-                    if (value != null){
-                      setState(() {
-                        bloc.invoices[index] = value;
-                      });
-                    }
-                    return;
-                  });
-                },
-                ontap2: () {
-                  showInDialog(
-                    context,
-                    dialogAnimation: DialogAnimation.SCALE,
-                    transitionDuration: const Duration(milliseconds: 250),
-                    builder: (p0) => ConfirmDialog(
-                        ontap1: (){
-                          finish(context);},
-                        ontap2: () {
-                          setState(() {
-                            if(bloc.invoices[index].trangThai == "0"){
-                              toast("Hóa đơn chưa được thanh toán");
-                            }else{
-                              toast("ĐÓng bàn thành công");
-                              // bloc.invoices.removeAt(index);
-                              // finish(context);
-                            }
 
-                          });},
-                        title: "Đóng Bàn",
-                        des: "Bạn xác nhận đóng bàn."
-                            " Khi đã đóng bàn sẽ không thể khôi phục được dữ liệu."),
-                  );
-                },
-                ontap3: (){
+                ontap: (){
                   ScreenDetailInvoice(
-                    model: bloc.invoices[index],
-                    isWatch: true,
-                    isdonhang: true,
+                    model: bloc.invoicesTT3[index],
+                    isdonhang: false,
                   ).launch(context);
                 },
               ),
               separatorBuilder: (context, index) => 1.height,
-              itemCount: bloc.invoices.length
+              itemCount: bloc.invoicesTT3.length
           ) : Center(child: Text("Danh sách trống",style: StyleApp.style600,),)
         );
       },

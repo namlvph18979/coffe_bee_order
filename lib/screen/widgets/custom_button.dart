@@ -9,14 +9,16 @@ Widget CustomButton({
   required String title,
   BorderSide borderSide = BorderSide.none,
   Function()? onTap,
+  double? padding,
   bool isLoad = false,
 }) {
   return AppButton(
     onTap: isLoad ? () {} : onTap,
     color: color ?? ColorApp.text,
     elevation: 0,
+    padding: EdgeInsets.symmetric(vertical: padding ?? 15,horizontal: 10),
     shapeBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(3),
       borderSide: borderSide,
     ),
     child: isLoad

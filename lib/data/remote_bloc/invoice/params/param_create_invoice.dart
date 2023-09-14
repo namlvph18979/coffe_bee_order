@@ -1,12 +1,13 @@
 class CreateHDParam {
   String? time_in;
   String? time_out;
-  String? Id_user;
+  int? Id_user;
   String? time_Data;
-  String? tongTien;
-  String? trangThai;
-  String? id_giamGia;
-  String? id_Table;
+  int? tongTien;
+  int? trangThai;
+  int? id_giamGia;
+  int? id_Table;
+  int? id_tang;
   String? id_hd_items;
 
 
@@ -19,6 +20,7 @@ class CreateHDParam {
       this.trangThai,
       this.id_giamGia,
       this.id_Table,
+      this.id_tang,
       this.id_hd_items});
 
   Map<String, dynamic> toMap() {
@@ -39,12 +41,12 @@ class CreateHDParam {
     return CreateHDParam(
       time_in: map['time_in'] as String,
       time_out: map['time_out'] as String,
-      Id_user: map['Id_user'] as String,
+      Id_user: map['Id_user'] as int,
       time_Data: map['time_Data'] as String,
-      tongTien: map['tongTien'] as String,
-      trangThai: map['trangThai'] as String,
-      id_giamGia: map['id_giamGia'] as String,
-      id_Table: map['id_Table'] as String,
+      tongTien: map['tongTien'] as int,
+      trangThai: map['trangThai'] as int,
+      id_giamGia: map['id_giamGia'] as int,
+      id_Table: map['Id_Table'] as int,
       id_hd_items: map['id_hd_items'] as String,
     );
   }

@@ -9,20 +9,18 @@ import '../../../../config/style_app/color_app.dart';
 
 class ItemHoaDon extends StatelessWidget {
   ModelInvoice model;
-  Function()? ontap1;
-  Function()? ontap2;
-  Function()? ontap3;
-  Function()? ontap4;
+  Function()? closeTb;
+  Function()? ontap;
+  Function()? accepOrder;
   bool? isdonhang;
   String? type;
 
   ItemHoaDon({
     required this.model,
     this.isdonhang = false,
-    this.ontap1,
-    this.ontap2,
-    this.ontap3,
-    this.ontap4,
+    this.closeTb,
+    this.ontap,
+    this.accepOrder,
     this.type
     });
 
@@ -43,13 +41,11 @@ class ItemHoaDon extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Bàn số: ${model.idTable} - Tầng: 1",style: StyleApp.style700.copyWith(fontSize: 18),),
+              Text("Bàn số: ${model.idTable}",style: StyleApp.style700.copyWith(fontSize: 18),),
               5.height,
               Text("Tổng bill: ${model.tongTien.toInt().toPrice()}đ",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
               5.height,
-              model.trangThai != "0"
-                  ? Text("Trạng thái: Chưa thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),)
-                  : Text("Trạng thái: Đã thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
+              Text("Trạng thái: Đã thanh toán",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
               5.height,
               Text("Nv phụ trách: ${model.fullname.validate()}",style: StyleApp.style500.copyWith(color: Colors.red,fontSize: 12),),
               const Spacer(),
@@ -58,40 +54,19 @@ class ItemHoaDon extends StatelessWidget {
           ).expand(flex: 4),
           const Spacer(),
           isdonhang!
-              ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              model.trangThai != "0"
-                  ? const SizedBox()
-                  : Container(
-                    height: 30,
-                    width: 90,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: ColorApp.text,
-                        borderRadius: BorderRadius.circular(5)
-                    ),
-                    padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                    child: Text(
-                      "Thanh toán",
-                      style: StyleApp.style600.copyWith(color: Colors.white,fontSize: 12),)
-                ).onTap(ontap1),
-              15.height,
-              Container(
-                height: 30,
-                width: 90,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: ColorApp.text,
-                    borderRadius: BorderRadius.circular(5)
-                ),
-                padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                child:Text(
-                  "Đóng bàn",
-                  style: StyleApp.style600.copyWith(color: Colors.white,fontSize: 12),),
-              ).onTap(ontap2)
-            ],
-          ).expand(flex: 2)
+              ? Container(
+            height: 30,
+            width: 90,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: ColorApp.text,
+                borderRadius: BorderRadius.circular(5)
+            ),
+            padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+            child:Text(
+              "Đóng bàn",
+              style: StyleApp.style600.copyWith(color: Colors.white,fontSize: 12),),
+          ).onTap(closeTb)
               : Align(
                     alignment: Alignment.bottomCenter,
                     child: model.trangThai == "0"
@@ -115,10 +90,10 @@ class ItemHoaDon extends StatelessWidget {
                             child: Text(
                               "Nhận đơn",
                               style: StyleApp.style600.copyWith(color: Colors.white,fontSize: 12),)
-                    ).onTap(ontap4)
+                    ).onTap(accepOrder)
                 )
         ],
       ),
-    ).onTap(ontap3);
+    ).onTap(ontap);
   }
 }

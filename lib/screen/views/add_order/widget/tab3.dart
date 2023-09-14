@@ -1,4 +1,5 @@
 
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
@@ -14,11 +15,8 @@ import 'package:nb_utils/nb_utils.dart';
 import 'model_bottom_not.dart';
 
 class Screentab3 extends StatefulWidget {
-  CreateHDParam param;
-  List<String>? items;
-  List<HoadonItemsAdd>? lst_hd_items;
 
-  Screentab3({required this.param,this.items,this.lst_hd_items});
+  Screentab3();
 
   @override
   State<Screentab3> createState() => _Screentab3State();
@@ -28,8 +26,8 @@ class _Screentab3State extends State<Screentab3>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   final bloc = BlocProduct();
+  final blocInvoice = BlocProduct();
   int page = 0;
-
   
   @override
   void initState() {
@@ -37,7 +35,6 @@ class _Screentab3State extends State<Screentab3>
     tabController.animateTo(page);
     super.initState();
     bloc.getListAll(id: page+2);
-    print("######PARAM######"+widget.param.id_Table.toString());
   }
   
   @override
@@ -45,6 +42,8 @@ class _Screentab3State extends State<Screentab3>
     // TODO: implement dispose
     super.dispose();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,23 +87,14 @@ class _Screentab3State extends State<Screentab3>
                                   showModalBottomSheet(
                                       context: context,
                                       builder: (context) => ModelBottomNote(
-                                          model: bloc.listAll[index]
+                                          model: bloc.listAll[index],
                                       ),
                                       isScrollControlled: true,
                                       shape: const OutlineInputBorder(
                                           borderSide: BorderSide(color: Colors.white),
                                           borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(20)))).then((value){
-                                    if(value != null){
-                                      HoadonItemsAdd item = value;
-                                      widget.lst_hd_items?.add(item);
-                                      widget.items?.add(item.toJson().toString());
-                                      widget.param.id_hd_items = widget.items.toString();
-                                      print("#################list san pham : ${widget.items.toString()}");
-                                    }else{
-                                      return;
-                                    }
-                                  });
+                                              top: Radius.circular(20))))
+                                  ;
                                 },
                               ),
                               separatorBuilder: (context, index) => 0.height,

@@ -30,8 +30,7 @@ class ScreenAcceptOrder extends StatelessWidget {
           itemBuilder: (context, index) =>  itemfr(
               text: invoice.hoadonItems?[index].tenSp,
               sl: invoice.hoadonItems?[index].soLuong,
-              // note: invoice.hoadonItems![index].
-
+              note: invoice.hoadonItems![index].ghiChu
           ),
           separatorBuilder: (context, index) => 15.height,
           itemCount: invoice.hoadonItems!.length
@@ -49,7 +48,7 @@ class ScreenAcceptOrder extends StatelessWidget {
     String? note})
   {
     return Container(
-      height: 60,
+
       padding:const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -64,11 +63,11 @@ class ScreenAcceptOrder extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
                   Text("$text",style: StyleApp.style600.copyWith(fontSize: 15),).expand(flex: 3),
-                  Text("SL: ×$sl",style: StyleApp.style500,).expand(flex: 1)
+                  Text("SL: ×$sl",style: StyleApp.style600,).expand(flex: 1)
             ],
           ),
           note != null
-          ? Text("Lưu ý: $note",style: StyleApp.style400,).paddingTop(10)
+          ? Text("Lưu ý: $note",style: StyleApp.style400,maxLines: 10,overflow: TextOverflow.ellipsis,).paddingTop(10)
           : const SizedBox()
         ],
       ),

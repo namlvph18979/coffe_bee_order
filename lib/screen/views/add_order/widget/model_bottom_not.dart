@@ -1,8 +1,10 @@
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/product/product_model.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config/style_app/color_app.dart';
@@ -11,7 +13,6 @@ import '../../../../data/remote_bloc/invoice/model_invoice.dart';
 
 class ModelBottomNote extends StatefulWidget {
   ModelPro model;
-
   ModelInvoice? invoice;
 
   ModelBottomNote({required this.model, this.invoice});
@@ -50,7 +51,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
       children: [
         Align(
           alignment: Alignment.centerRight,
-          child:const Icon(
+          child: const Icon(
             Icons.clear,
             size: 30,
             color: Colors.black,
@@ -95,7 +96,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
         ),
         5.height,
         Text(
-          "Bạn chỉ có thể phản hồi 1 lần.",
+          "Bạn chỉ có thể ghi chú nhanh 1 lần.",
           style: StyleApp.style400.copyWith(fontSize: 12, color: Colors.grey),
         ),
         15.height,
@@ -114,14 +115,15 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
               return;
             }
             item = HoadonItemsAdd(
-              giaSp: widget.model.giaSanPham,
-              idSanPham: widget.model.idSanPham,
-              soLuong: widget.model.soluong.toString(),
+              giaSp: widget.model.giaSanPham.toInt(),
+              idSanPham: widget.model.idSanPham.toInt(),
+              soLuong: widget.model.soluong,
               tenSp: widget.model.tenSp,
               ghiChu: note.text.validate(value: "")
             );
-            finish(context, item);
-            print("############ ${widget.model.tenSp}");
+            context.read<ListInvoiceBloc>()..addCart(item: item);
+            finish(context);
+            toast("Thêm thành công");
           },
         ).withWidth(MediaQuery.of(context).size.width)
       ],
@@ -179,8 +181,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
       {required ModelPro model,
       required int count,
       required Function() ontap1,
-      required Function() ontap2
-      }) {
+      required Function() ontap2}) {
     return SizedBox(
       height: 110,
       child: Row(
@@ -211,34 +212,34 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
                 "Đơn giá: ${(int.tryParse(model.giaSanPham.validate()).validate() * model.soluong.validate()).toPrice()}đ",
                 style: StyleApp.style500.copyWith(color: Colors.red),
               ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      SizedBox(
-              width: 30,
-              child: const Icon(
-                Icons.indeterminate_check_box,
-                size: 28,
-                color: ColorApp.text,
-              ).onTap(ontap1),
-                      ),
-                      Container(
-                alignment: Alignment.center,
-                width: 40,
-                child: Text(
-                  "$count",
-                  style: StyleApp.style600.copyWith(fontSize: 16),
-                )),
-                      SizedBox(
-              width: 30,
-              child: const Icon(
-                Icons.add_box,
-                size: 28,
-                color: ColorApp.text,
-              ).onTap(ontap2),
-                      ),
-                    ],
+              const Spacer(),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 30,
+                    child: const Icon(
+                      Icons.indeterminate_check_box,
+                      size: 28,
+                      color: ColorApp.text,
+                    ).onTap(ontap1),
                   ),
+                  Container(
+                      alignment: Alignment.center,
+                      width: 40,
+                      child: Text(
+                        "$count",
+                        style: StyleApp.style600.copyWith(fontSize: 16),
+                      )),
+                  SizedBox(
+                    width: 30,
+                    child: const Icon(
+                      Icons.add_box,
+                      size: 28,
+                      color: ColorApp.text,
+                    ).onTap(ontap2),
+                  ),
+                ],
+              ),
               10.height
             ],
           ).expand()

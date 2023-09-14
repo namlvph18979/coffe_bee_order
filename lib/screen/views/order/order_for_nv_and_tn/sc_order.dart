@@ -42,14 +42,16 @@ class _ScreenOrderState extends State<ScreenOrder> {
           child: bloc.invoices.isNotEmpty ?  ListView.separated(
               itemBuilder: (context, index) => ItemHoaDon(
                 model: bloc.invoices[index],
-                ontap3: () {
+                ontap: () {
                   ScreenDetailInvoice(
                     model: bloc.invoices[index],
-                    isWatch: true,
                     isdonhang: true,
                   ).launch(context);
                 },
-                ontap4: () {setState(() => bloc.invoices.removeAt(index));},
+                accepOrder: () {
+                  toast("Xác nhận đơn thành công");
+                },
+                closeTb: () {setState(() => bloc.invoices.removeAt(index));},
               ),
               separatorBuilder: (context, index) => 1.height,
               itemCount: bloc.invoices.length) : Center(child: Text("Dang sách tống",style: StyleApp.style600,),)
