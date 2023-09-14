@@ -30,7 +30,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   final invoiceBloc = DetailInvoiceBloc();
   final floorbloc = floorBloc();
   final tablebloc = TableBloc();
-  final bloc = ListInvoiceBloc();
   CreateHDParam param = CreateHDParam();
   late TabController tabController;
 
@@ -76,7 +75,8 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
               IconButton(
                 onPressed: () {
                   finish(context);
-                  bloc.clear();
+                  context.read<ListInvoiceBloc>()..clear();
+                  setState(() {});
                 },
                 icon: const Icon(
                   Icons.clear_outlined,

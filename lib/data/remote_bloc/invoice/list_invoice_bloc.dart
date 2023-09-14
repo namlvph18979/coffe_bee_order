@@ -167,6 +167,7 @@ class ListInvoiceBloc extends Cubit<CubitState>{
       return 0;
     }
   }
+
   clear(){
     param == null;
     items.clear();
