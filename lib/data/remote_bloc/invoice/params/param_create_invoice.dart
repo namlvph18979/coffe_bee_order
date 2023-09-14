@@ -7,6 +7,7 @@ class CreateHDParam {
   int? trangThai;
   int? id_giamGia;
   int? id_Table;
+  int? id_tang;
   String? id_hd_items;
 
 
@@ -19,6 +20,7 @@ class CreateHDParam {
       this.trangThai,
       this.id_giamGia,
       this.id_Table,
+      this.id_tang,
       this.id_hd_items});
 
   Map<String, dynamic> toMap() {

@@ -16,12 +16,7 @@ import 'model_bottom_not.dart';
 
 class Screentab3 extends StatefulWidget {
 
-  CreateHDParam param;
-  List<String>? items;
-
-  List<HoadonItemsAdd>? lst_hd_items;
-
-  Screentab3({required this.param,this.items,this.lst_hd_items});
+  Screentab3();
 
   @override
   State<Screentab3> createState() => _Screentab3State();
@@ -31,6 +26,7 @@ class _Screentab3State extends State<Screentab3>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   final bloc = BlocProduct();
+  final blocInvoice = BlocProduct();
   int page = 0;
   
   @override
@@ -97,20 +93,8 @@ class _Screentab3State extends State<Screentab3>
                                       shape: const OutlineInputBorder(
                                           borderSide: BorderSide(color: Colors.white),
                                           borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(20)))).then((value){
-                                    if(value != null){
-                                      HoadonItemsAdd item = value;
-                                      widget.lst_hd_items?.add(item);
-                                      widget.items?.add(item.toJson().toString());
-                                      widget.param.id_hd_items = widget.items.toString();
-                                      toast("Thêm thành công");
-                                      setState(() {});
-                                      print("#################list san pham : ${widget.items.toString()}");
-
-                                    }else{
-                                      return;
-                                    }
-                                  });
+                                              top: Radius.circular(20))))
+                                  ;
                                 },
                               ),
                               separatorBuilder: (context, index) => 0.height,

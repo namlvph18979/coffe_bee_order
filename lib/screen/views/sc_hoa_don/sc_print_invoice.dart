@@ -17,12 +17,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ScreenPrintinvoice extends StatefulWidget {
-  ModelInvoice model;
   CreateHDParam? param;
   List<HoadonItemsAdd> items;
 
   ScreenPrintinvoice(
-      {required this.model, required this.param, required this.items});
+      { required this.param, required this.items});
 
   @override
   State<ScreenPrintinvoice> createState() => _ScreenPrintinvoiceState();
@@ -85,16 +84,16 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextRow(title: "Tầng số",data: widget.model.idTang),
+                    TextRow(title: "Tầng số",data: widget.param?.id_tang.toString()),
                     5.height,
-                    TextRow(title: "Bàn số",data: widget.model.idTable),
+                    TextRow(title: "Bàn số",data: widget.param?.id_Table.toString()),
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextRow(title: "Giờ vào",data: widget.model.timeIn),
+                    TextRow(title: "Giờ vào",data: widget.param?.time_in),
                     5.height,
                     TextRow(title: "Giờ ra",data: "Đang cập nhật"),
                   ],
@@ -105,7 +104,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
             Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Nv phụ trách: ${widget.model.fullname.validate(value: "Đang cập nhật")}",
+                  "Nv phụ trách: ${context.watch<ListInvoiceBloc>().user.fullName.validate(value: "Đang cập nhật")}",
                   style: StyleApp.style500.copyWith(fontSize: 13),
                 )),
             5.height,

@@ -1,21 +1,16 @@
-import 'package:coffe_bee_order/config/db/db_key_local.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
-import 'package:coffe_bee_order/data/check_state.dart';
 import 'package:coffe_bee_order/data/remote_bloc/category/catbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/floor/floor_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/detail_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
-import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
-import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
 import 'package:coffe_bee_order/screen/views/add_order/gep_ban/sc_ghep_ban.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/item_table.dart';
 import 'package:coffe_bee_order/screen/views/add_order/widget/tab3.dart';
 import 'package:coffe_bee_order/screen/widgets/load/load_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../config/style_app/color_app.dart';
 import '../../../config/style_app/style_text.dart';
@@ -35,28 +30,15 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   final invoiceBloc = DetailInvoiceBloc();
   final floorbloc = floorBloc();
   final tablebloc = TableBloc();
+  final bloc = ListInvoiceBloc();
   CreateHDParam param = CreateHDParam();
-  UserModel user = UserModel();
-  String? idfloor;
-  ModelInvoice? invoice;
-  int? idtable;
-  int? tongtien;
-  List<String> items = [];
-  List<HoadonItemsAdd> list_hd_items = [];
   late TabController tabController;
-  String tdata = DateTime.now().toString().splitBefore(" ");
-  String timein = DateFormat("hh:mm a").format(DateTime.now());
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
-    var res = getJSONAsync(DBKeyLocal.user);
-    if (res != null) {
-      user = UserModel.fromJson(res);
-    }
     reload();
-    print("#################${timein}");
   }
 
   Future<void> reload() async {
@@ -65,16 +47,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
 
   @override
   Widget build(BuildContext context) {
-     param = CreateHDParam(
-      id_giamGia: 0,
-      Id_user: user.Id_User,
-      time_in: timein,
-      time_out: "Đang cập nhật",
-      time_Data: tdata,
-      trangThai: 0,
-      id_Table: idtable
-    );
-
     return BlocBuilder<ListCatbloc, CubitState>(
       bloc: cartbloc,
       builder: (context, state) {
@@ -104,7 +76,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
               IconButton(
                 onPressed: () {
                   finish(context);
-                  // invoiceBloc..clear();
+                  bloc.clear();
                 },
                 icon: const Icon(
                   Icons.clear_outlined,
@@ -121,24 +93,8 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 Tab2(),
                 Tab3(),
               ]),
-          bottomNavigationBar: tabController.index == 2 ?
-          CartBottomBar(
-            param: param,
-            state: state,
-            invoice: ModelInvoice(
-              idTang: idfloor.toString(),
-              idTable: idtable.toString(),
-              idHoaDonCT: "0",
-              idGiamGia: "0",
-              fullname: user.fullName.validate(),
-              trangThai: "0",
-              timeData: tdata,
-              timeIn: timein,
-              timeOut: "Đang cập nhật",
-              tongTien: tongtien.toString(),
-            ),
-            items: list_hd_items,
-          ) : const SizedBox(),
+          bottomNavigationBar: context.watch<ListInvoiceBloc>().items.isNotEmpty?
+          CartBottomBar() : const SizedBox(),
         );
       },
     );
@@ -173,12 +129,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                               onClick: () {
                                 tabController.animateTo(1);
                                 tablebloc.getList(id: floorbloc.list[index].idTang);
-                                // modelInvoice.idfloor =
-                                //     floorbloc.list[index].idTang.toInt();
-                                // modelInvoice.timeIn = tdata;
-                                // print(
-                                //     "############## tang: ${floorbloc.list[index].idTang}");
-                                // setState(() {});
+                                context.read<ListInvoiceBloc>().param.id_tang = floorbloc.list[index].idTang.toInt();
                               },
                             ))).scrollView(),
               ),
@@ -196,7 +147,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
         return LoadPage(
           state: state,
           height: MediaQuery.of(context).size.height,
-          reload: () => tablebloc.getList(id: idfloor),
+          reload: () => tablebloc.getList(id: context.watch()<ListInvoiceBloc>().param.id_tang.toString()),
           child: SingleChildScrollView(
             child: Container(
               color: Colors.white,
@@ -237,14 +188,8 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                 model: tablebloc.list[index],
                                 onClick: () {
                                   tabController.animateTo(2);
-                                  setState(() {
-                                    idtable = tablebloc.list[index].id;
-                                    idfloor = tablebloc.list[index].idFloor.toString();
-                                    print(
-                                        "############## bàn ${tablebloc.list[index].id} "
-                                        "- tầng ${tablebloc.list[index].idFloor}");
-                                    print("#############paramidtable"+idtable.toString());
-                                  });
+                                  context.read<ListInvoiceBloc>().param.id_Table = tablebloc.list[index].id;
+                                  setState(() {});
                                 }
                               ))
                     )
@@ -269,7 +214,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
             headerPadding:
                 const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             items: [
-              Screentab3(param: param,items: items,lst_hd_items: list_hd_items),
+              Screentab3(),
             ]),
       ),
     );

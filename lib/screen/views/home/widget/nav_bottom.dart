@@ -1,6 +1,7 @@
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/local_bloc/navbloc.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/screen/views/add_order/sc_create_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +9,23 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../config/style_app/color_app.dart';
 
-class BottomNav extends StatelessWidget {
+class BottomNav extends StatefulWidget {
 
   bool isPhaChe;
   BottomNav({required this.isPhaChe});
 
+  @override
+  State<BottomNav> createState() => _BottomNavState();
+}
+
+class _BottomNavState extends State<BottomNav> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ListInvoiceBloc>()..getListDone();
+    context.read<ListInvoiceBloc>()..getList();
+  }
   @override
   Widget build(BuildContext context) {
     double padding = MediaQuery.of(context).padding.bottom;
@@ -30,7 +43,7 @@ class BottomNav extends StatelessWidget {
             ),
           ]
         ),
-      child: isPhaChe
+      child: widget.isPhaChe
         ? Row(
         children: [
           ItemNav(icon: Icons.chat, title: "Đơn hàng",index: 0),
@@ -40,9 +53,9 @@ class BottomNav extends StatelessWidget {
         : Row(
             children: [
                 ItemNav(icon: Icons.home, title: "Trang chủ",index: 0),
-                ItemNav(icon: Icons.article, title: "Hóa đơn", index: 1),
+                ItemNav(icon: Icons.article, title: "Hóa đơn", index: 1,isbadge: true,count: context.watch<ListInvoiceBloc>().invoicesTT3.length,isvisible: context.watch<ListInvoiceBloc>().invoicesTT3.isNotEmpty),
                 ItemNavAdd(context),
-                ItemNav(icon: Icons.chat, title: "Đơn hàng",index: 2),
+                ItemNav(icon: Icons.chat, title: "Đơn hàng",index: 2,isbadge: true,count: context.watch<ListInvoiceBloc>().invoices.length,isvisible: context.watch<ListInvoiceBloc>().invoices.isNotEmpty),
                 ItemNav(icon: Icons.account_circle, title: "Tài khoản",index: 3),
 
             ],
@@ -53,6 +66,9 @@ class BottomNav extends StatelessWidget {
   Widget ItemNav({
     required IconData icon,
     required String title,
+    bool isbadge = false,
+    bool isvisible = false,
+    int? count,
     int index = 0
 }){
     return Expanded(
@@ -62,10 +78,18 @@ class BottomNav extends StatelessWidget {
                 onTap: () => context.read<NavBloc>().change(index),
                 child: Column(
                   children: [
-                      Icon(
+                    !isbadge ? Icon(
                         icon,
                         color: state == index ? ColorApp.text : Colors.grey,
-                      ),
+                      )
+                        : Badge.count(
+                        count: count.validate(),
+                        child: Icon(
+                          icon,
+                          color: state == index ? ColorApp.text : Colors.grey,
+                        ),
+                        isLabelVisible: isvisible,
+                    ),
                       Text(title,
                         style: StyleApp.style400.copyWith(
                           fontSize: 12,

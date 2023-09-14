@@ -10,18 +10,14 @@ import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 
 
 class ScInvoiceHoaDon extends StatefulWidget {
 
-  ModelInvoice? invoice;
-  List<HoadonItemsAdd> items;
-  int? tongtien;
-  CreateHDParam param;
-
-  ScInvoiceHoaDon({this.invoice,required this.items,this.tongtien,required this.param});
+  ScInvoiceHoaDon();
 
   @override
   State<ScInvoiceHoaDon> createState() => _ScInvoiceHoaDonState();
@@ -33,15 +29,14 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
   @override
   void initState() {
     super.initState();
-    widget.param.tongTien = widget.tongtien;
   }
 
   @override
   Widget build(BuildContext context) {
-
+    final param = context.read<ListInvoiceBloc>().param;
     return Scaffold(
       appBar: itemAppBar(
-        title: "Hoá đơn bàn ${widget.invoice?.idTable ?? ""}",
+        title: "Hoá đơn bàn ${param.id_Table ?? ""}",
         align: false,
         isback: true,
       ),
@@ -65,15 +60,15 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 15.height,
                 itemText(
                     title: "Tầng số:  ",
-                    des: widget.invoice?.idTang ?? "Đang cập nhật"),
+                    des: param.id_tang.toString() ?? "Đang cập nhật"),
                 8.height,
                 itemText(
                     title: "Bàn số:  ",
-                    des: widget.invoice?.idTable ?? "Đang cập nhật"),
+                    des: param.id_Table.toString() ?? "Đang cập nhật"),
                 8.height,
                 itemText(
                     title: "Tổng tiền:  ",
-                    des: "${widget.tongtien.toPrice()}đ"),
+                    des: "${param.tongTien.toPrice()}đ"),
                 8.height,
                 itemText(
                     title: "Trạng thái:  ",
@@ -81,13 +76,13 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 8.height,
                 itemText(
                     title: "Nv phụ trách:  ",
-                    des: "${widget.invoice?.fullname.validate()}"),
+                    des: "${context.read<ListInvoiceBloc>().user.fullName.validate()}"),
                 20.height,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                        "Giờ vào: ${widget.invoice?.timeIn.validate() ?? "Chưa cập nhật"}",
+                        "Giờ vào: ${param.time_in.validate() ?? "Chưa cập nhật"}",
                         style: StyleApp.style400.copyWith(fontSize: 12)),
                     15.width,
                     Text(
@@ -112,17 +107,17 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Tên:  ${widget.items[index].tenSp.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,),2.height,
-                    Text("SL:  ${widget.items[index].soLuong.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
-                    Text("Giá:  ${widget.items[index].giaSp?.toInt().toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
-                    widget.items[index].ghiChu.validate().isNotEmpty
-                        ? Text("Lưu ý: ${widget.items[index].ghiChu.validate(value: "")}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),)
+                    Text("Tên:  ${context.read<ListInvoiceBloc>().items[index].tenSp.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,),2.height,
+                    Text("SL:  ${context.read<ListInvoiceBloc>().items[index].soLuong.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
+                    Text("Giá:  ${context.read<ListInvoiceBloc>().items[index].giaSp?.toInt().toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
+                    context.read<ListInvoiceBloc>().items[index].ghiChu.validate().isNotEmpty
+                        ? Text("Lưu ý: ${context.read<ListInvoiceBloc>().items[index].ghiChu.validate(value: "")}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),)
                         : const SizedBox()
                   ],
                 ),
               ),
               separatorBuilder: (context, index) => 8.height,
-              itemCount: widget.items.length ?? 0),
+              itemCount: context.read<ListInvoiceBloc>().items.length),
           70.height,
         ],
       ).scrollView(),
@@ -139,9 +134,8 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
             textBtn: "Thanh toán",
             onPress: () {
               ScreenPrintinvoice(
-                items: widget.items,
-                param: widget.param,
-                model: widget.invoice!,
+                items: context.read<ListInvoiceBloc>().items,
+                param: context.read<ListInvoiceBloc>().param,
               ).launch(context);
             },
           ).expand(),

@@ -16,6 +16,7 @@ class ApiPath{
   static const String hoaDon = "/api/get-hoaDon-all.php";
   static const String hoaDonDone = "/api/get-hoaDon-trangThai-3.php";
   static const String createHoaDon = "/api/add-hoaDon-table.php";
+  static const String updateHoaDon = "/api/update-trangThai-hoaDon.php";
   static const String nguyenlieu = "/api/nguyenLieu-get.php";
 
 }

@@ -70,21 +70,21 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
             bloc.getList();
           },
           msg: state.msg,
-          child:bloc.invoices.isNotEmpty ? ListView.separated(
+          child:bloc.invoicesTT3.isNotEmpty ? ListView.separated(
               shrinkWrap: true,
               itemBuilder: (context, index) => ItemHoaDon(
-                model: bloc.invoices[index],
+                model: bloc.invoicesTT3[index],
                 isdonhang: true,
 
                 ontap: (){
                   ScreenDetailInvoice(
-                    model: bloc.invoices[index],
+                    model: bloc.invoicesTT3[index],
                     isdonhang: false,
                   ).launch(context);
                 },
               ),
               separatorBuilder: (context, index) => 1.height,
-              itemCount: bloc.invoices.length
+              itemCount: bloc.invoicesTT3.length
           ) : Center(child: Text("Danh sách trống",style: StyleApp.style600,),)
         );
       },
