@@ -8,8 +8,7 @@ import 'package:coffe_bee_order/data/check_state.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
-import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
-import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
+
 import 'package:coffe_bee_order/screen/widgets/custom_button.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ScreenPrintinvoice extends StatefulWidget {
-  CreateHDParam? param;
-  List<HoadonItemsAdd> items;
-
-  ScreenPrintinvoice(
-      { required this.param, required this.items});
+  ScreenPrintinvoice();
 
   @override
   State<ScreenPrintinvoice> createState() => _ScreenPrintinvoiceState();
@@ -33,12 +28,11 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
   @override
   void initState() {
     super.initState();
-    print("###############" + widget.items[0].tenSp.toString());
   }
 
-  sendHD(){
+  sendHD() {
     print("gửi đơn");
-    bloc.param = widget.param!;
+    bloc.param = context.watch<ListInvoiceBloc>().param;
     bloc.createHoaDon();
   }
 
@@ -53,8 +47,8 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
-          // decoration: BoxDecoration(
-          //     image: DecorationImage(image: AssetImage(ImagePath.logo),fit: BoxFit.cover,opacity: 0.25,)),
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(image: AssetImage(ImagePath.logo),fit: BoxFit.cover,opacity: 0.25,)),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           children: [
@@ -84,18 +78,28 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextRow(title: "Tầng số",data: widget.param?.id_tang.toString()),
+                    TextRow(
+                        title: "Tầng số",
+                        data: context.read<ListInvoiceBloc>().param.toString()),
                     5.height,
-                    TextRow(title: "Bàn số",data: widget.param?.id_Table.toString()),
+                    TextRow(
+                        title: "Bàn số",
+                        data: context
+                            .read<ListInvoiceBloc>()
+                            .param
+                            .id_Table
+                            .toString()),
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextRow(title: "Giờ vào",data: widget.param?.time_in),
+                    TextRow(
+                        title: "Giờ vào",
+                        data: context.read<ListInvoiceBloc>().param.time_in),
                     5.height,
-                    TextRow(title: "Giờ ra",data: "Đang cập nhật"),
+                    TextRow(title: "Giờ ra", data: "Đang cập nhật"),
                   ],
                 ),
               ],
@@ -133,12 +137,16 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                 3: FractionColumnWidth(0.25),
               },
               children: List.generate(
-                  widget.items.length,
+                  context.read<ListInvoiceBloc>().items.length,
                   (index) => buildRow([
-                        widget.items[index].tenSp.validate(),
-                        "${widget.items[index].giaSp.toPrice()}đ",
-                        "${widget.items[index].soLuong}",
-                        "${((widget.items[index].soLuong).validate() * (widget.items[index].giaSp).validate()).toPrice()}đ"
+                        context
+                            .read<ListInvoiceBloc>()
+                            .items[index]
+                            .tenSp
+                            .validate(),
+                        "${context.read<ListInvoiceBloc>().items[index].giaSp.toPrice()}đ",
+                        "${context.read<ListInvoiceBloc>().items[index].soLuong}",
+                        "${((context.read<ListInvoiceBloc>().items[index].soLuong).validate() * (context.read<ListInvoiceBloc>().items[index].giaSp).validate()).toPrice()}đ"
                       ])),
             ),
             Table(border: TableBorder.all(), children: [
@@ -148,7 +156,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                   child: Column(
                     children: [
                       Text(
-                        "Thanh toán: ${widget.param?.tongTien.toPrice()}đ",
+                        "Thanh toán: ${context.read<ListInvoiceBloc>().param.tongTien.toPrice()}đ",
                         style: StyleApp.style600.copyWith(fontSize: 16),
                       ),
                       20.height,
@@ -169,38 +177,45 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
         bloc: bloc,
         listener: (context, state) {
           CheckStateBloc.checkNoLoad(
-              context,
-              state,
-              msg: state.msg,
-              isShowMsg: true,
-              success: () {
-                player.play(AssetSource('sound/cash_pay.mp3'),
-                    volume: SizeConfig.screenHeight);
-                finish(context);
-                finish(context);
-                finish(context);
-              },
+            context,
+            state,
+            msg: state.msg,
+            isShowMsg: true,
+            success: () {
+              player.play(AssetSource('sound/cash_pay.mp3'),
+                  volume: SizeConfig.screenHeight);
+              finish(context);
+              finish(context);
+              finish(context);
+            },
           );
         },
         builder: (context, state) {
           return CustomButton(
-            title: "In hoá đơn".toUpperCase(),
-            color: ColorApp.text,
-              textColor: Colors.white,
-            isLoad: state.status == BlocStatus.loading,
-            onTap: sendHD
-          ).withWidth(double.infinity).paddingSymmetric(horizontal: 10,vertical: 5);
+                  title: "In hoá đơn".toUpperCase(),
+                  color: ColorApp.text,
+                  textColor: Colors.white,
+                  isLoad: state.status == BlocStatus.loading,
+                  onTap: sendHD)
+              .withWidth(double.infinity)
+              .paddingSymmetric(horizontal: 10, vertical: 5);
         },
       ),
     );
   }
 
-  Widget TextRow({String? title,String? data}){
+  Widget TextRow({String? title, String? data}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(title!,style: StyleApp.style500.copyWith(color: ColorApp.text),).withWidth(60),
-        Text(": ${data.validate()}",style: StyleApp.style500.copyWith(color: ColorApp.text),),
+        Text(
+          title!,
+          style: StyleApp.style500.copyWith(color: ColorApp.text),
+        ).withWidth(60),
+        Text(
+          ": ${data.validate()}",
+          style: StyleApp.style500.copyWith(color: ColorApp.text),
+        ),
       ],
     );
   }

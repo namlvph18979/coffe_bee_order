@@ -20,7 +20,6 @@ class _CartBottomBarState extends State<CartBottomBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<ListInvoiceBloc>()..addCart();
   }
 
   @override
@@ -37,9 +36,9 @@ class _CartBottomBarState extends State<CartBottomBar> {
               children: [
                 10.width,
                 Badge.count(
-                  count: context.watch<ListInvoiceBloc>().count,
+                  count: context.read<ListInvoiceBloc>().count,
                   isLabelVisible:
-                      context.watch<ListInvoiceBloc>().items.isNotEmpty,
+                      context.read<ListInvoiceBloc>().items.isNotEmpty,
                   textStyle: StyleApp.style400
                       .copyWith(fontSize: 10, color: Colors.white),
                   padding:
@@ -51,7 +50,7 @@ class _CartBottomBarState extends State<CartBottomBar> {
                   ),
                 ).expand(flex: 1),
                 Text(
-                  "Tổng: ${context.watch<ListInvoiceBloc>().total.toPrice()}đ",
+                  "Tổng: ${context.read<ListInvoiceBloc>().total.toPrice()}đ",
                   style: StyleApp.style600.copyWith(color: Colors.red),
                   textAlign: TextAlign.center,
                 ).expand(flex: 4),
