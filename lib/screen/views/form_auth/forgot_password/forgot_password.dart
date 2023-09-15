@@ -30,22 +30,10 @@ class _ScreenForgotPassState extends State<ScreenForgotPass> {
   final passNew = TextEditingController();
   final enterPassNew = TextEditingController();
   final contrycode = TextEditingController();
-  // final FirebaseAuth auth = FirebaseAuth.instance;
-  //
-  // var vetifyCode = '';
-  // final otpCode = OtpFieldController();
   UserModel user = UserModel();
 
   @override
   void initState() {
-    // contrycode.text = "+84";
-
-    var res = getJSONAsync(DBKeyLocal.user);
-    if (res != null) {
-      user = UserModel.fromJson(res);
-    }
-    print("###################" + res.toString());
-
     super.initState();
   }
 
@@ -90,12 +78,7 @@ class _ScreenForgotPassState extends State<ScreenForgotPass> {
                       "Xác Thực",
                       style: StyleApp.style600.copyWith(color: Colors.black),
                     ),
-                    content: ItemStep1(
-                        passOld: passOld,
-                        passNew: passNew,
-                        enterANewPass: enterPassNew,
-                        phonenumber: phoneNumber,
-                    )),
+                    content: ItemStep1()),
                 //
                 // Step(
                 //     isActive: currentStep >= 1,

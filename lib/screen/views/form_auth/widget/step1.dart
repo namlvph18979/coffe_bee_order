@@ -18,18 +18,9 @@ import '../../../../data/enum/blocstatus.dart';
 class ItemStep1 extends StatefulWidget {
 
   Function()? ontap;
-  TextEditingController phonenumber;
-  TextEditingController passOld;
-  TextEditingController passNew;
-  TextEditingController enterANewPass;
-
 
   ItemStep1({
-    this.ontap,
-    required this.phonenumber,
-    required this.passOld,
-    required this.passNew,
-    required this.enterANewPass,});
+    this.ontap,});
 
   @override
   State<ItemStep1> createState() => _ItemStep1State();
@@ -37,6 +28,9 @@ class ItemStep1 extends StatefulWidget {
 
 class _ItemStep1State extends State<ItemStep1> {
   final bloc = userbloc();
+  final passOdl = TextEditingController();
+  final passNew = TextEditingController();
+  final enterAPassNew = TextEditingController();
   UserModel userModel = UserModel();
 
   @override
@@ -52,8 +46,8 @@ class _ItemStep1State extends State<ItemStep1> {
     bloc.changePass(
       ChangePassParam(
         id: userModel.Id_User.toString(),
-        pass: widget.passOld.text,
-        newPasswd: widget.passNew.text
+        pass: passOdl.text,
+        newPasswd: passNew.text
       )
     );
   }
@@ -74,22 +68,15 @@ class _ItemStep1State extends State<ItemStep1> {
           15.height,
           Text("Vui lòng nhập số điện thoại đã đăng ký để xác thực định danh người dùng",
             style: StyleApp.style400.copyWith(color: Colors.black),),
-          // 25.height,
-          // itemInputText(
-          //   type: TextFieldType.PHONE,
-          //   hint: "Vui lòng nhập...",
-          //   labeltext: "Số điện thoại",
-          //   controller: phonenumber,
-          // ),
           SizedBox(height: 10,),
           itemInputText(
             type: TextFieldType.PASSWORD,
             hint: "Vui lòng nhập...",
             labeltext: "Mật khẩu cũ",
-            controller: widget.passOld,
+            controller: passOdl,
             validator: (val) {
               return ValidatorApp.checkPass(
-                  text: val, text2: widget.passOld.text, isSign: true);
+                  text: val, text2: passOdl.text, isSign: true);
             },
           ),
           SizedBox(height: 10,),
@@ -97,10 +84,10 @@ class _ItemStep1State extends State<ItemStep1> {
             type: TextFieldType.PASSWORD,
             hint: "Vui lòng nhập...",
             labeltext: "Mật khẩu mới",
-            controller: widget.passNew,
+            controller: passNew,
             validator: (val) {
               return ValidatorApp.checkPass(
-                  text: val, text2: widget.passNew.text, isSign: true);
+                  text: val, text2: passNew.text, isSign: true);
             },
           ),
           SizedBox(height: 10,),
@@ -108,10 +95,10 @@ class _ItemStep1State extends State<ItemStep1> {
             type: TextFieldType.PASSWORD,
             hint: "Vui lòng nhập lại...",
             labeltext: "Mật khẩu mới",
-            controller: widget.enterANewPass,
+            controller: enterAPassNew,
             validator: (val) {
               return ValidatorApp.checkPass(
-                  text: val, text2: widget.enterANewPass.text, isSign: true);
+                  text: val, text2: enterAPassNew.text, isSign: true);
             },
           ),
           20.height,

@@ -51,7 +51,7 @@ class userbloc extends Cubit<CubitState> {
           endpoint: ApiPath.changePass,
           req: changePassParam.toMap()
       );
-      if(res != null){
+      if(res['status']){
         emit(state.copyWith(status: BlocStatus.success, msg: "Đổi mật khẩu thành công"));
       }else{
         emit(state.copyWith(status: BlocStatus.failure, msg: "Đổi mật khẩu thất bại"));
