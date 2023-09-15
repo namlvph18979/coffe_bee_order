@@ -25,7 +25,11 @@ class _ScreenOrderForPhaCheState extends State<ScreenOrderForPhaChe> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    bloc.getList();
+    reload();
+  }
+
+  Future<void> reload() async {
+    bloc.getListTT01();
   }
 
   @override
@@ -42,12 +46,15 @@ class _ScreenOrderForPhaCheState extends State<ScreenOrderForPhaChe> {
           state: state,
           msg: state.msg,
           reload: () => bloc.getList(),
-          child: bloc.invoices.isNotEmpty ? ListView.separated(
-              itemBuilder: (context, index) => ItemAll(
-                  model: bloc.invoices[index],
-              ),
-              separatorBuilder: (context, index) => 20.height,
-              itemCount: bloc.invoices.length).paddingTop(15):Center(child: Text("Danh sách trống",style: StyleApp.style600,),)
+          child: bloc.invoicesTT01.isNotEmpty ? RefreshIndicator(
+            onRefresh: reload,
+            child: ListView.separated(
+                itemBuilder: (context, index) => ItemAll(
+                    model: bloc.invoicesTT01[index],
+                ),
+                separatorBuilder: (context, index) => 20.height,
+                itemCount: bloc.invoicesTT01.length).paddingTop(15),
+          ):Center(child: Text("Danh sách trống",style: StyleApp.style600,),)
         ),
       ),
     );

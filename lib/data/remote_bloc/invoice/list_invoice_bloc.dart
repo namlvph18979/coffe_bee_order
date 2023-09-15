@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:coffe_bee_order/config/api/api.dart';
 import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/config/db/db_key_local.dart';
@@ -15,9 +17,11 @@ class ListInvoiceBloc extends Cubit<CubitState> {
 
   List<ModelInvoice> invoices = [];
   List<ModelInvoice> invoicesTT3 = [];
+  List<ModelInvoice> invoicesTT012 = [];
+  List<ModelInvoice> invoicesTT01 = [];
   CreateHDParam param = CreateHDParam();
   List<HoadonItemsAdd> items = [];
-  List<String>? itemsParam;
+  List<String> itemsParam = [];
   String tdata = DateTime.now().toString().splitBefore(" ");
   String timein = DateFormat("hh:mm a").format(DateTime.now());
   var res = getJSONAsync(DBKeyLocal.user);
@@ -67,6 +71,53 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     }
   }
 
+  getListTT012() async {
+    invoicesTT012.clear();
+    emit(state.copyWith(status: BlocStatus.loading));
+    try {
+      var res =
+          await Api.getAsync(endpoint: ApiPath.hoaDonTT012, hasForm: true);
+      if (res != null) {
+        for (var item in res) {
+          ModelInvoice model = ModelInvoice.fromJson(item);
+          invoicesTT012.add(model);
+        }
+        emit(state.copyWith(
+          status: BlocStatus.success,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: BlocStatus.failure,
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+    }
+  }
+
+  getListTT01() async {
+    invoicesTT01.clear();
+    emit(state.copyWith(status: BlocStatus.loading));
+    try {
+      var res = await Api.getAsync(endpoint: ApiPath.hoaDonTT01, hasForm: true);
+      if (res != null) {
+        for (var item in res) {
+          ModelInvoice model = ModelInvoice.fromJson(item);
+          invoicesTT01.add(model);
+        }
+        emit(state.copyWith(
+          status: BlocStatus.success,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: BlocStatus.failure,
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+    }
+  }
+
   createHoaDon() async {
     emit(state.copyWith(status: BlocStatus.loading));
     try {
@@ -95,6 +146,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
       if (res['note'] != null) {
         emit(state.copyWith(
             status: BlocStatus.success, msg: "Cập nhật thành công"));
+        getListTT012();
       } else {
         emit(state.copyWith(
             status: BlocStatus.failure, msg: "Cập nhật thất bại"));
@@ -109,9 +161,10 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     emit(state.copyWith(status: BlocStatus.loading));
     user = UserModel.fromJson(res);
     totalPrice(item: item);
+    print("############PARAM############" + itemsParam.toString());
     if (item != null) {
       items.add(item);
-      itemsParam?.add(item.toJson().toString());
+      itemsParam.add(jsonEncode(item.toJson()));
       param.id_giamGia = 0;
       param.trangThai = 0;
       param.time_in = timein;
@@ -127,6 +180,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
 
   removeItems({HoadonItemsAdd? index}) {
     items.remove(index);
+    itemsParam.remove(jsonEncode(index?.toJson()));
     total = total - (index!.soLuong.validate() * index.giaSp.validate());
     count = count - index.soLuong.validate();
     param.tongTien = total;
@@ -134,11 +188,11 @@ class ListInvoiceBloc extends Cubit<CubitState> {
   }
 
   totalPrice({HoadonItemsAdd? item}) {
-    if(item != null){
+    if (item != null) {
       count = count + item.soLuong.validate();
       total += item.giaSp.validate() * item.soLuong.validate();
     }
-      return total;
+    return total;
   }
 
   clear() {

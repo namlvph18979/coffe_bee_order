@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-
 class ScreenOrder extends StatefulWidget {
   const ScreenOrder({super.key});
 
@@ -18,44 +17,62 @@ class ScreenOrder extends StatefulWidget {
 }
 
 class _ScreenOrderState extends State<ScreenOrder> {
-
   final bloc = ListInvoiceBloc();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    bloc.getList();
+    reload();
   }
+
+  Future<void> reload() async {
+    bloc.getListTT012();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: itemAppBar(
-          title: "Đơn hàng",
-          align: true),
-      body: BlocBuilder<ListInvoiceBloc,CubitState>(
+      appBar: itemAppBar(title: "Đơn hàng", align: true),
+      body: BlocBuilder<ListInvoiceBloc, CubitState>(
         bloc: bloc,
         builder: (context, state) => LoadPage(
-          state: state,
-          reload: () => bloc.getList(),
-          msg: state.msg,
-          child: bloc.invoices.isNotEmpty ?  ListView.separated(
-              itemBuilder: (context, index) => ItemHoaDon(
-                model: bloc.invoices[index],
-                ontap: () {
-                  ScreenDetailInvoice(
-                    model: bloc.invoices[index],
-                    isdonhang: true,
-                  ).launch(context);
-                },
-                accepOrder: () {
-                  toast("Xác nhận đơn thành công");
-                },
-                closeTb: () {setState(() => bloc.invoices.removeAt(index));},
-              ),
-              separatorBuilder: (context, index) => 1.height,
-              itemCount: bloc.invoices.length) : Center(child: Text("Dang sách tống",style: StyleApp.style600,),)
-        ),
+            state: state,
+            reload: () => bloc.getListTT012(),
+            msg: state.msg,
+            child: bloc.invoicesTT012.isNotEmpty
+                ? RefreshIndicator(
+                  onRefresh: reload,
+                  child: ListView.separated(
+                      itemBuilder: (context, index) => ItemHoaDon(
+                            model: bloc.invoicesTT012[index],
+                            ontap: () {
+                              ScreenDetailInvoice(
+                                model: bloc.invoicesTT012[index],
+                                isdonhang: true,
+                              ).launch(context);
+                            },
+                            accepOrder: () {
+                                bloc.updateTTDon(
+                                    id: bloc.invoicesTT012[index].idHoaDonCT,
+                                    trangThai: "3"
+                                );
+                                context.watch<ListInvoiceBloc>()..getListDone();
+                                context.watch<ListInvoiceBloc>()..getListTT012();
+                            },
+                            closeTb: () {
+                              setState(() => bloc.invoicesTT012.removeAt(index));
+                            },
+                          ),
+                      separatorBuilder: (context, index) => 1.height,
+                      itemCount: bloc.invoicesTT012.length),
+                )
+                : Center(
+                    child: Text(
+                      "Dang sách tống",
+                      style: StyleApp.style600,
+                    ),
+                  )),
       ),
     );
   }

@@ -30,14 +30,17 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
     super.initState();
   }
 
+
   sendHD() {
-    print("gửi đơn");
-    bloc.param = context.watch<ListInvoiceBloc>().param;
+    bloc.param = context.read<ListInvoiceBloc>().param;
     bloc.createHoaDon();
   }
 
   @override
   Widget build(BuildContext context) {
+
+
+
     final player = AudioPlayer();
     return Scaffold(
       appBar: itemAppBar(
@@ -80,7 +83,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                   children: [
                     TextRow(
                         title: "Tầng số",
-                        data: context.read<ListInvoiceBloc>().param.toString()),
+                        data: context.read<ListInvoiceBloc>().param.id_tang.toString()),
                     5.height,
                     TextRow(
                         title: "Bàn số",
