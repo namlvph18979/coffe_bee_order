@@ -195,6 +195,27 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     return total;
   }
 
+  CloseTable({String? id}) async {
+    emit(state.copyWith(status: BlocStatus.loading));
+    try {
+      var res = await Api.postAsync(
+        endpoint: ApiPath.dongban,
+        req: {"id_hoaDonCT": id, "trangThai": "3"},
+        isForm: true,
+      );
+      if (res['note'] != null) {
+        emit(state.copyWith(
+            status: BlocStatus.success, msg: "Cập nhật thành công"));
+      } else {
+        emit(state.copyWith(
+            status: BlocStatus.failure, msg: "Cập nhật thất bại"));
+      }
+    } catch (e) {
+      emit(
+          state.copyWith(status: BlocStatus.failure, msg: "Cập nhật thất bại"));
+    }
+  }
+
   clear() {
     param == null;
     items.clear();

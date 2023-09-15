@@ -3,11 +3,18 @@ import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/color_app.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
+import 'package:coffe_bee_order/data/check_state.dart';
+import 'package:coffe_bee_order/data/cubit_state.dart';
+import 'package:coffe_bee_order/data/enum/blocstatus.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/widget/item_invoice_product.dart';
+import 'package:coffe_bee_order/screen/widgets/custom_button.dart';
+import 'package:coffe_bee_order/screen/widgets/dialog/confirm_dialog.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -23,6 +30,12 @@ class ScreenDetailInvoice extends StatefulWidget {
 
 class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
   String timeIn = DateFormat("hh:mm a").format(DateTime.now());
+
+  final bloc = ListInvoiceBloc();
+
+  closeTb(){
+    bloc.CloseTable(id: widget.model.idHoaDonCT);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,18 +112,40 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
           ],
         ).scrollView(),
         bottomSheet: !widget.isdonhang
-            ? itemButton(
-                textBtn: "Đóng bàn",
-                onPress: () {
-                  // if (widget.model.hoadonItems == []) {
-                  //   toast("Chưa có sản phẩm cho đơn hàng");
-                  //   return;
-                  // }
-                  // ScreenPrintinvoice(
-                  //   model: widget.model,
-                  // ).launch(context);
-                },
-              )
+            ? BlocConsumer<ListInvoiceBloc,CubitState>(
+          bloc: bloc,
+              listener: (context, state) {
+                CheckStateBloc.checkNoLoad(
+                    context,
+                    state,
+                    success: () {
+                      toast("Đóng bàn thành công");
+                    },
+                );
+              },
+              builder:(context, state) => CustomButton(
+                  title: "Đóng bàn",
+                  isLoad: state.status == BlocStatus.loading,
+                  onTap: (){
+                    showInDialog(
+                      context,
+                      builder: (p0) => ConfirmDialog(
+                          title: "Thông báo",
+                          des: "Xác nhận đóng bàn mọi thông tin sẽ biến mất và bàn sẽ quay về trạng thái để trống",
+                          ontap1: () {
+                            finish(context);
+                          },
+                          ontap2: () {
+                            closeTb();
+                            finish(context);
+                            finish(context);
+                          },
+                      ),
+                    );
+                  },
+                  padding: 12,
+                ).withWidth(double.infinity).paddingAll(10),
+            )
             : widget.model.trangThai != "0"
                 ? itemButton(
                     textBtn: "Nhận đơn",

@@ -5,6 +5,7 @@ import 'package:coffe_bee_order/config/db/db_key_local.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
 import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
+import 'package:coffe_bee_order/data/remote_bloc/user/param/change_param.dart';
 import 'package:coffe_bee_order/screen/views/home/sc_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +38,27 @@ class userbloc extends Cubit<CubitState> {
             status: BlocStatus.failure,
             msg: res['message'] ??
                 "Đăng nhập thất bại. Tài khoản hoặc mật khẩu không chính xác."));
+      }
+    }catch(e){
+      state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e));
+    }
+  }
+
+
+  changePass(ChangeParam param) async {
+    emit(state.copyWith(status: BlocStatus.loading));
+    try{
+      var res = await Api.postAsync(
+          endpoint: ApiPath.changePass,
+          req: param.toMap());
+      if (res['status']) {
+          emit(state.copyWith(
+              status: BlocStatus.success, msg: "Đổi mật khẩu thành công."));
+      } else {
+        emit(state.copyWith(
+            status: BlocStatus.failure,
+            msg: res['message'] ??
+                "Đổi mật khẩu thất bại. Mật khẩu không hợp lệ."));
       }
     }catch(e){
       state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e));

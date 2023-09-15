@@ -5,15 +5,21 @@ import 'package:coffe_bee_order/screen/widgets/item_input.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class ItemStep1 extends StatelessWidget {
+class ItemStep1 extends StatefulWidget {
 
   Function() ontap;
-  TextEditingController phonenumber;
 
   ItemStep1({
-    required this.ontap,
-    required this.phonenumber});
+    required this.ontap,});
 
+  @override
+  State<ItemStep1> createState() => _ItemStep1State();
+}
+
+class _ItemStep1State extends State<ItemStep1> {
+  final passOdl = TextEditingController();
+  final passNew = TextEditingController();
+  final enterAPassNew =  TextEditingController();
   @override
   Widget build(BuildContext context) {
 
@@ -27,16 +33,30 @@ class ItemStep1 extends StatelessWidget {
             style: StyleApp.style400.copyWith(color: Colors.black),),
           25.height,
           itemInputText(
-            type: TextFieldType.PHONE,
+            type: TextFieldType.PASSWORD,
             hint: "Vui lòng nhập...",
-            labeltext: "Số điện thoại",
-            controller: phonenumber,
+            labeltext: "Mật khẩu cũ",
+            controller: passOdl,
+          ),
+          SizedBox(height: 10,),
+          itemInputText(
+            type: TextFieldType.PASSWORD,
+            hint: "Vui lòng nhập...",
+            labeltext: "Mật khẩu mới",
+            controller: passNew,
+          ),
+          SizedBox(height: 10,),
+          itemInputText(
+            type: TextFieldType.PASSWORD,
+            hint: "Vui lòng ...",
+            labeltext: "Nhập lại mật khẩu mới",
+            controller: enterAPassNew,
           ),
           20.height,
           itemButton(
-              textBtn: "Tiếp tục",
+              textBtn: "Đổi mật khẩu",
               width: MediaQuery.of(context).size.width,
-              onPress: ontap,
+              onPress: widget.ontap,
           ).scrollView()
         ],
     );

@@ -57,8 +57,8 @@ class _ScreenOrderState extends State<ScreenOrder> {
                                     id: bloc.invoicesTT012[index].idHoaDonCT,
                                     trangThai: "3"
                                 );
-                                context.watch<ListInvoiceBloc>()..getListDone();
-                                context.watch<ListInvoiceBloc>()..getListTT012();
+                                context.read<ListInvoiceBloc>()..getListDone();
+                                context.read<ListInvoiceBloc>()..getListTT012();
                             },
                             closeTb: () {
                               setState(() => bloc.invoicesTT012.removeAt(index));

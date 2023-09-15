@@ -84,7 +84,7 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
                     ScreenDetailInvoice(
                       model: bloc.invoicesTT3[index],
                       isdonhang: false,
-                    ).launch(context);
+                    ).launch(context).then((value) => bloc.getListDone());
                   },
                 ),
                 separatorBuilder: (context, index) => 1.height,

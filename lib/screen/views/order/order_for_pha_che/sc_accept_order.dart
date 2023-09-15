@@ -60,11 +60,9 @@ class _ScreenAcceptOrderState extends State<ScreenAcceptOrder> {
               msg: state.msg,
               isShowMsg: true,
               success: () {
-                finish(context);
                   player.play(AssetSource('sound/success_order.mp3'));
-                  setState(() {
-                    finish(context);
-                });
+                finish(context);
+                finish(context);
             },
           );
         },
