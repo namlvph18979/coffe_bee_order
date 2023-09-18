@@ -126,4 +126,30 @@ class Api {
         return error.toString();
       }
   }
+
+  static Future<void> sendError(error, String apiPath,String? param) async {
+    String tokenBot = "6335350347:AAHNUQFLqXk9fmCY6sdGNa0U1gmGUg9X6lo";
+    try {
+      if (error is DioException) {
+        String err = error.message ?? 'Có lỗi hệ thống';
+        Response response = await Dio().post(
+          'https://api.telegram.org/bot$tokenBot/sendMessage?chat_id=-4051210557&text=error Backend:'
+              'API: $apiPath\n'
+              'Error: $err\n',
+        );
+      } else {
+        Response response = await Dio().post(
+            'https://api.telegram.org/bot$tokenBot/sendMessage?chat_id=-4051210557&text= App: '
+                'API: $apiPath\n'
+                'Error: $error\n'
+                'Param: ${param ?? ""}\n'
+        );
+        print("RESPONSE Tele1 ====== ${response.data}");
+      }
+    } catch (e) {
+      print('Lỗi vào đây??');
+      rethrow;
+    }
+
+  }
 }

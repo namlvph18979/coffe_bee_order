@@ -77,7 +77,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     try {
       var res =
           await Api.getAsync(endpoint: ApiPath.hoaDonTT012, hasForm: true);
-      if (res != null) {
+      if (res['status']) {
         for (var item in res) {
           ModelInvoice model = ModelInvoice.fromJson(item);
           invoicesTT012.add(model);
@@ -100,7 +100,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     emit(state.copyWith(status: BlocStatus.loading));
     try {
       var res = await Api.getAsync(endpoint: ApiPath.hoaDonTT01, hasForm: true);
-      if (res != null) {
+      if (res['status']) {
         for (var item in res) {
           ModelInvoice model = ModelInvoice.fromJson(item);
           invoicesTT01.add(model);
@@ -123,7 +123,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     try {
       var res = await Api.postAsync(
           endpoint: ApiPath.createHoaDon, req: param.toMap(), isForm: true);
-      if (res != null) {
+      if (res['status']) {
         emit(state.copyWith(
             status: BlocStatus.success, msg: "Gửi đơn thành công"));
       } else {
@@ -143,7 +143,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
         req: {"id_hoaDonCT": id, "trangThai": trangThai},
         isForm: true,
       );
-      if (res['note'] != null) {
+      if (res['status']) {
         emit(state.copyWith(
             status: BlocStatus.success, msg: "Cập nhật thành công"));
         getListTT012();
@@ -181,6 +181,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
   removeItems({HoadonItemsAdd? index}) {
     items.remove(index);
     itemsParam.remove(jsonEncode(index?.toJson()));
+    param.id_hd_items = itemsParam.toString();
     total = total - (index!.soLuong.validate() * index.giaSp.validate());
     count = count - index.soLuong.validate();
     param.tongTien = total;
@@ -200,6 +201,6 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     items.clear();
     total = 0;
     count = 0;
-    itemsParam?.clear();
+    itemsParam.clear();
   }
 }
