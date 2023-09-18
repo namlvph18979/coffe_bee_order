@@ -17,7 +17,6 @@ class ItemHoaDon extends StatefulWidget {
   ModelInvoice model;
   Function()? closeTb;
   Function()? ontap;
-  Function()? accepOrder;
   bool? isdonhang;
   String? type;
 
@@ -25,7 +24,6 @@ class ItemHoaDon extends StatefulWidget {
       {required this.model,
       this.isdonhang = false,
       this.closeTb,
-      this.accepOrder,
       this.ontap,
       this.type});
 
@@ -35,6 +33,13 @@ class ItemHoaDon extends StatefulWidget {
 
 class _ItemHoaDonState extends State<ItemHoaDon> {
   final bloc = ListInvoiceBloc();
+
+  acceptOrder(){
+    bloc.updateTTDon(
+        id: widget.model.idHoaDonCT,
+        trangThai: "3"
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +81,7 @@ class _ItemHoaDonState extends State<ItemHoaDon> {
               ),
               const Spacer(),
               Text(
-                "Giờ vào: ${widget.model.timeIn?.substring(0, 5).validate()}",
+                "Giờ vào: ${widget.model.timeIn.validate()}",
                 style: StyleApp.style400.copyWith(fontSize: 11),
               ),
             ],
@@ -110,6 +115,8 @@ class _ItemHoaDonState extends State<ItemHoaDon> {
                               isShowMsg: true,
                               msg: state.msg,
                               success: () {
+                                context.read<ListInvoiceBloc>()..getListDone();
+                                bloc.getListTT012();
                                 toast("Nhận đơn thành công");
                               },
                             );
@@ -118,7 +125,7 @@ class _ItemHoaDonState extends State<ItemHoaDon> {
                             return CustomButton(
                                 title: "Nhận đơn",
                                 color: ColorApp.text,
-                                onTap: widget.accepOrder,
+                                onTap: acceptOrder,
                                 textColor: Colors.white,
                                 isLoad: state.status == BlocStatus.loading,
                                 padding: 8);

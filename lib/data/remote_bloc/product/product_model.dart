@@ -7,7 +7,7 @@ class ModelPro {
   String? idGiamGia;
   String? tenSp;
   String? size;
-  String? note;
+  // String? note;
   int? soluong;
 
   ModelPro(
@@ -19,7 +19,7 @@ class ModelPro {
         this.idGiamGia,
         this.tenSp,
         this.size,
-        this.note,
+        // this.note,
         this.soluong = 1,
       });
 
@@ -32,7 +32,7 @@ class ModelPro {
     idGiamGia = json['id_giamGia'];
     tenSp = json['ten_sp'];
     size = json['size'];
-    note = json['note'];
+    // note = json['note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -45,7 +45,7 @@ class ModelPro {
     data['id_giamGia'] = this.idGiamGia;
     data['ten_sp'] = this.tenSp;
     data['size'] = this.size;
-    data['note'] = this.note;
+    // data['note'] = this.note;
     return data;
   }
 }

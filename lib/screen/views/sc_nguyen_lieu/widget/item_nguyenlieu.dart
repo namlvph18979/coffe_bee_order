@@ -1,3 +1,4 @@
+import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,8 @@ class ItemNguyenLieu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imgEmpty =
-        "https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg";
     return Container(
       width: MediaQuery.of(context).size.width / 2.5,
-      height: 200,
       margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -25,13 +23,12 @@ class ItemNguyenLieu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ImageNetWorkView(
-            imageUrl:
-                "https://tse4.mm.bing.net/th?id=OIF.CZvUeWlkntNl2gdhpZrQqg&pid=Api&P=0&h=180",
+            imageUrl: model.imgNguyenLieu.validate(),
             height: 135,
             radius: const BorderRadius.vertical(top: Radius.circular(5)),
             fit: BoxFit.cover,
           ),
-          3.height,
+          10.height,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -41,16 +38,14 @@ class ItemNguyenLieu extends StatelessWidget {
                   maxLines: 1),
               5.height,
               Text(
-                model.soLuong != null
-                    ? "Số lượng: ${model.soLuong}}"
-                    : "Số lượng: Chưa cập nhật",
+                    "Số lượng: ${model.soLuong.validate()}/${model.kieuNguyenLieu.validate()}",
                 style: StyleApp.style400
                     .copyWith(color: Colors.black, fontSize: 12),
               ),
               5.height,
               Text(
                 model.price != null
-                    ? "Giá: ${model.price}đ"
+                    ? "Giá: ${model.price.toInt().toPrice()}đ"
                     : "Giá: Chưa cập nhật",
                 style: StyleApp.style400
                     .copyWith(color: Colors.black, fontSize: 12),

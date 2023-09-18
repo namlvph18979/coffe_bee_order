@@ -33,7 +33,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
 
   final bloc = ListInvoiceBloc();
 
-  closeTb(){
+  closeTb() {
     bloc.CloseTable(id: widget.model.idHoaDonCT);
   }
 
@@ -112,52 +112,67 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
           ],
         ).scrollView(),
         bottomSheet: !widget.isdonhang
-            ? BlocConsumer<ListInvoiceBloc,CubitState>(
-          bloc: bloc,
-              listener: (context, state) {
-                CheckStateBloc.checkNoLoad(
+            ? BlocConsumer<ListInvoiceBloc, CubitState>(
+                bloc: bloc,
+                listener: (context, state) {
+                  CheckStateBloc.checkNoLoad(
                     context,
                     state,
                     success: () {
                       toast("Đóng bàn thành công");
                     },
-                );
-              },
-              builder:(context, state) => CustomButton(
+                  );
+                },
+                builder: (context, state) => CustomButton(
                   title: "Đóng bàn",
                   isLoad: state.status == BlocStatus.loading,
-                  onTap: (){
+                  onTap: () {
                     showInDialog(
                       context,
                       builder: (p0) => ConfirmDialog(
-                          title: "Thông báo",
-                          des: "Xác nhận đóng bàn mọi thông tin sẽ biến mất và bàn sẽ quay về trạng thái để trống",
-                          ontap1: () {
-                            finish(context);
-                          },
-                          ontap2: () {
-                            closeTb();
-                            finish(context);
-                            finish(context);
-                          },
+                        title: "Thông báo",
+                        des:
+                            "Xác nhận đóng bàn mọi thông tin sẽ biến mất và bàn sẽ quay về trạng thái để trống",
+                        ontap1: () {
+                          finish(context);
+                        },
+                        ontap2: () {
+                          closeTb();
+                          finish(context);
+                          finish(context);
+                        },
                       ),
                     );
                   },
                   padding: 12,
                 ).withWidth(double.infinity).paddingAll(10),
-            )
+              )
             : widget.model.trangThai != "0"
-                ? itemButton(
-                    textBtn: "Nhận đơn",
-                    onPress: () {
-                      // if (widget.model.hoadonItems == []) {
-                      //   toast("Chưa có sản phẩm cho đơn hàng");
-                      //   return;
-                      // }
-                      // ScreenPrintinvoice(
-                      //   model: widget.model,
-                      // ).launch(context);
+                ? BlocConsumer<ListInvoiceBloc, CubitState>(
+                    listener: (context, state) {
+                      CheckStateBloc.checkNoLoad(
+                        context,
+                        state,
+                        msg: state.msg,
+                        success: () {
+                          context.read<ListInvoiceBloc>()..getListDone();
+                          context.read<ListInvoiceBloc>()..getListTT012();
+                        },
+                      );
                     },
+                    builder: (context, state) => CustomButton(
+                      title: "Nhận đơn",
+                      isLoad: state.status == BlocStatus.loading,
+                      onTap: () {
+                        // if (widget.model.hoadonItems == []) {
+                        //   toast("Chưa có sản phẩm cho đơn hàng");
+                        //   return;
+                        // }
+                        // ScreenPrintinvoice(
+                        //   model: widget.model,
+                        // ).launch(context);
+                      },
+                    ),
                   )
                 : Container(
                     color: ColorApp.bg,

@@ -22,8 +22,8 @@ class _BottomNavState extends State<BottomNav> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<ListInvoiceBloc>()..getListDone();
-    context.read<ListInvoiceBloc>()..getList();
+    context.read<ListInvoiceBloc>().getListTT012();
+    context.read<ListInvoiceBloc>().getListTT01();
   }
 
   @override
@@ -43,7 +43,14 @@ class _BottomNavState extends State<BottomNav> {
           ]),
       child: widget.isPhaChe
           ? Row(children: [
-              ItemNav(icon: Icons.chat, title: "Đơn hàng", index: 0),
+              ItemNav(
+                icon: Icons.chat,
+                title: "Đơn hàng",
+                index: 0,
+                isbadge: true,
+                count: context.watch<ListInvoiceBloc>().invoicesTT01.length,
+                isvisible: context.watch<ListInvoiceBloc>().invoicesTT01.isNotEmpty
+              ),
               ItemNav(icon: Icons.chat, title: "Nguyên liệu", index: 1),
               ItemNav(icon: Icons.account_circle, title: "Tài khoản", index: 2),
             ])
@@ -66,9 +73,9 @@ class _BottomNavState extends State<BottomNav> {
                     title: "Đơn hàng",
                     index: 2,
                     isbadge: true,
-                    count: context.watch<ListInvoiceBloc>().invoices.length,
+                    count: context.watch<ListInvoiceBloc>().invoicesTT012.length,
                     isvisible:
-                        context.watch<ListInvoiceBloc>().invoices.isNotEmpty),
+                        context.watch<ListInvoiceBloc>().invoicesTT012.isNotEmpty),
                 ItemNav(
                     icon: Icons.account_circle, title: "Tài khoản", index: 3),
               ],

@@ -21,17 +21,23 @@ class ListCatbloc extends Cubit<CubitState>{
           endpoint: ApiPath.Cat,
           req: req,
       );
-      for(var json in res){
-        ModelCat model = ModelCat.fromJson(json);
-        list.add(model);
-      }
-      emit(state.copyWith(
+      if(res['status']) {
+        for (var json in res['data']) {
+          ModelCat model = ModelCat.fromJson(json);
+          list.add(model);
+        }
+        emit(state.copyWith(
           status: BlocStatus.success,
-      ));
+        ));
+      }else{
+        emit(state.copyWith(
+          status: BlocStatus.failure,
+        ));
+      }
     }catch(e){
       emit(state.copyWith(
           status: BlocStatus.failure,
-          msg: Api.checkError(e)
+          msg: Api.checkError(e,ApiPath.Cat,"")
       ));
     }
   }
