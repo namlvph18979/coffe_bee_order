@@ -35,6 +35,10 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    reload();
+  }
+
+  Future<void> reload() async {
     bloc.getListDone();
   }
 
@@ -70,21 +74,22 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
             bloc.getList();
           },
           msg: state.msg,
-          child:bloc.invoicesTT3.isNotEmpty ? ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (context, index) => ItemHoaDon(
-                model: bloc.invoicesTT3[index],
-                isdonhang: true,
-
-                ontap: (){
-                  ScreenDetailInvoice(
-                    model: bloc.invoicesTT3[index],
-                    isdonhang: false,
-                  ).launch(context);
-                },
-              ),
-              separatorBuilder: (context, index) => 1.height,
-              itemCount: bloc.invoicesTT3.length
+          child:bloc.invoicesTT3.isNotEmpty ? RefreshIndicator(
+            onRefresh: reload,
+            child: ListView.separated(
+                itemBuilder: (context, index) => ItemHoaDon(
+                  model: bloc.invoicesTT3[index],
+                  isdonhang: true,
+                  ontap: (){
+                    ScreenDetailInvoice(
+                      model: bloc.invoicesTT3[index],
+                      isdonhang: false,
+                    ).launch(context).then((value) => bloc.getListDone());
+                  },
+                ),
+                separatorBuilder: (context, index) => 1.height,
+                itemCount: bloc.invoicesTT3.length
+            ),
           ) : Center(child: Text("Danh sách trống",style: StyleApp.style600,),)
         );
       },

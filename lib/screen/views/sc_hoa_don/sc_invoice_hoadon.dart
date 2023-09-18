@@ -4,11 +4,10 @@ import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/color_app.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
-import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
-import 'package:coffe_bee_order/data/remote_bloc/invoice/params/param_create_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -68,7 +67,7 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 8.height,
                 itemText(
                     title: "Tổng tiền:  ",
-                    des: "${param.tongTien.toPrice()}đ"),
+                    des: "${context.read<ListInvoiceBloc>().total.toPrice()}đ"),
                 8.height,
                 itemText(
                     title: "Trạng thái:  ",
@@ -104,15 +103,23 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(color: ColorApp.text,width: 0.8)
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Text("Tên:  ${context.read<ListInvoiceBloc>().items[index].tenSp.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,),2.height,
-                    Text("SL:  ${context.read<ListInvoiceBloc>().items[index].soLuong.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
-                    Text("Giá:  ${context.read<ListInvoiceBloc>().items[index].giaSp?.toInt().toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
-                    context.read<ListInvoiceBloc>().items[index].ghiChu.validate().isNotEmpty
-                        ? Text("Lưu ý: ${context.read<ListInvoiceBloc>().items[index].ghiChu.validate(value: "")}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),)
-                        : const SizedBox()
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Tên:  ${context.read<ListInvoiceBloc>().items[index].tenSp.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,),2.height,
+                        Text("SL:  ${context.read<ListInvoiceBloc>().items[index].soLuong.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
+                        Text("Giá:  ${context.read<ListInvoiceBloc>().items[index].giaSp?.toInt().toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
+                        context.read<ListInvoiceBloc>().items[index].ghiChu.validate().isNotEmpty
+                            ? Text("Lưu ý: ${context.read<ListInvoiceBloc>().items[index].ghiChu.validate(value: "")}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),)
+                            : const SizedBox()
+                      ],
+                    ).expand(flex: 4),
+                    Icon(CupertinoIcons.clear_circled_solid,color: Colors.red,size: 25,).onTap((){
+                      context.read<ListInvoiceBloc>()..removeItems(index: context.read<ListInvoiceBloc>().items[index]);
+                      setState(() {});
+                    })
                   ],
                 ),
               ),
@@ -133,10 +140,7 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
           itemButton(
             textBtn: "Thanh toán",
             onPress: () {
-              ScreenPrintinvoice(
-                items: context.read<ListInvoiceBloc>().items,
-                param: context.read<ListInvoiceBloc>().param,
-              ).launch(context);
+              ScreenPrintinvoice().launch(context);
             },
           ).expand(),
         ],

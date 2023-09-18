@@ -15,9 +15,12 @@ class ApiPath{
   static const String login = "/api/login.php";
   static const String changePass = "/api/update-pass-user.php";
   static const String hoaDon = "/api/get-hoaDon-all.php";
-  static const String hoaDonDone = "/api/get-hoaDon-trangThai-3.php";
+  static const String hoaDonDone = "/api/get-hoaDon-trangThai-3.php?trangThai=3";
+  static const String hoaDonTT012 = "/api/get-hoaDon-0-1-2.php";
+  static const String hoaDonTT01 = "/api/get-hoaDon-0-1.php";
   static const String createHoaDon = "/api/add-hoaDon-table.php";
   static const String updateHoaDon = "/api/update-trangThai-hoaDon.php";
   static const String nguyenlieu = "/api/nguyenLieu-get.php";
+  static const String dongban = "/api/trangThai-dong-ban.php";
 
 }

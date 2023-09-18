@@ -43,6 +43,7 @@ class TableBloc extends Cubit<CubitState> {
           endpoint: ApiPath.emptyTable,
           req: {}
       );
+      if(res)
       for(var json in res){
         EmptyTableModel model = EmptyTableModel.fromJson(json);
         listEmpty.add(model);

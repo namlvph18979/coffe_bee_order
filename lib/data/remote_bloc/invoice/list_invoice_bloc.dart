@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:coffe_bee_order/config/api/api.dart';
 import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/config/db/db_key_local.dart';
@@ -10,14 +12,16 @@ import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'model_invoice.dart';
 
-class ListInvoiceBloc extends Cubit<CubitState>{
-  ListInvoiceBloc():super(CubitState());
+class ListInvoiceBloc extends Cubit<CubitState> {
+  ListInvoiceBloc() : super(CubitState());
 
   List<ModelInvoice> invoices = [];
   List<ModelInvoice> invoicesTT3 = [];
+  List<ModelInvoice> invoicesTT012 = [];
+  List<ModelInvoice> invoicesTT01 = [];
   CreateHDParam param = CreateHDParam();
   List<HoadonItemsAdd> items = [];
-  List<String>? itemsParam;
+  List<String> itemsParam = [];
   String tdata = DateTime.now().toString().splitBefore(" ");
   String timein = DateFormat("hh:mm a").format(DateTime.now());
   var res = getJSONAsync(DBKeyLocal.user);
@@ -29,120 +33,138 @@ class ListInvoiceBloc extends Cubit<CubitState>{
   getList() async {
     invoices.clear();
     emit(state.copyWith(status: BlocStatus.loading));
-    try{
-      var res = await Api.getAsync(
-        endpoint: ApiPath.hoaDon,
-        hasForm: true
-      );
+    try {
+      var res = await Api.getAsync(endpoint: ApiPath.hoaDon, hasForm: true);
 
-      for(var item in res){
+      for (var item in res) {
         ModelInvoice model = ModelInvoice.fromJson(item);
         invoices.add(model);
       }
       emit(state.copyWith(
         status: BlocStatus.success,
       ));
-    }catch(e){
-      emit(state.copyWith(
-          status: BlocStatus.failure,
-          msg: Api.checkError(e)
-      ));
+    } catch (e) {
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
     }
   }
 
   getListDone() async {
     invoicesTT3.clear();
     emit(state.copyWith(status: BlocStatus.loading));
-    try{
-      var res = await Api.getAsync(
-        endpoint: ApiPath.hoaDonDone,
-        hasForm: true
-      );
-      if(res != null){
-        for(var item in res){
+    try {
+      var res = await Api.getAsync(endpoint: ApiPath.hoaDonDone, hasForm: true);
+      if (res != null) {
+        for (var item in res) {
           ModelInvoice model = ModelInvoice.fromJson(item);
           invoicesTT3.add(model);
         }
         emit(state.copyWith(
           status: BlocStatus.success,
         ));
-      }else{
+      } else {
         emit(state.copyWith(
           status: BlocStatus.failure,
         ));
       }
-    }catch(e){
-      emit(state.copyWith(
+    } catch (e) {
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+    }
+  }
+
+  getListTT012() async {
+    invoicesTT012.clear();
+    emit(state.copyWith(status: BlocStatus.loading));
+    try {
+      var res =
+          await Api.getAsync(endpoint: ApiPath.hoaDonTT012, hasForm: true);
+      if (res != null) {
+        for (var item in res) {
+          ModelInvoice model = ModelInvoice.fromJson(item);
+          invoicesTT012.add(model);
+        }
+        emit(state.copyWith(
+          status: BlocStatus.success,
+        ));
+      } else {
+        emit(state.copyWith(
           status: BlocStatus.failure,
-          msg: Api.checkError(e)
-      ));
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+    }
+  }
+
+  getListTT01() async {
+    invoicesTT01.clear();
+    emit(state.copyWith(status: BlocStatus.loading));
+    try {
+      var res = await Api.getAsync(endpoint: ApiPath.hoaDonTT01, hasForm: true);
+      if (res != null) {
+        for (var item in res) {
+          ModelInvoice model = ModelInvoice.fromJson(item);
+          invoicesTT01.add(model);
+        }
+        emit(state.copyWith(
+          status: BlocStatus.success,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: BlocStatus.failure,
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
     }
   }
 
   createHoaDon() async {
     emit(state.copyWith(status: BlocStatus.loading));
-    try{
+    try {
       var res = await Api.postAsync(
-          endpoint: ApiPath.createHoaDon,
-          req: param.toMap(),
-          isForm: true
-      );
-      if(res != null){
+          endpoint: ApiPath.createHoaDon, req: param.toMap(), isForm: true);
+      if (res != null) {
         emit(state.copyWith(
-          status: BlocStatus.success,
-          msg: "Gửi đơn thành công"
-        ));
-      }else{
+            status: BlocStatus.success, msg: "Gửi đơn thành công"));
+      } else {
         emit(state.copyWith(
-            status: BlocStatus.failure,
-            msg: "Gửi đơn thất bại"
-        ));
+            status: BlocStatus.failure, msg: "Gửi đơn thất bại"));
       }
-    }catch(e){
-      emit(state.copyWith(
-          status: BlocStatus.failure,
-          msg: "Gửi đơn thất bại"
-      ));
+    } catch (e) {
+      emit(state.copyWith(status: BlocStatus.failure, msg: "Gửi đơn thất bại"));
     }
   }
 
-  updateTTDon({String? id,String? trangThai}) async {
+  updateTTDon({String? id, String? trangThai}) async {
     emit(state.copyWith(status: BlocStatus.loading));
-    try{
+    try {
       var res = await Api.postAsync(
-          endpoint: ApiPath.updateHoaDon,
-          req: {
-            "id_hoaDonCT" : id,
-            "trangThai" : trangThai
-          },
-          isForm: true,
+        endpoint: ApiPath.updateHoaDon,
+        req: {"id_hoaDonCT": id, "trangThai": trangThai},
+        isForm: true,
       );
-      if(res['note'] != null){
+      if (res['note'] != null) {
         emit(state.copyWith(
-            status: BlocStatus.success,
-            msg: "Cập nhật thành công"
-        ));
-      }else{
+            status: BlocStatus.success, msg: "Cập nhật thành công"));
+        getListTT012();
+      } else {
         emit(state.copyWith(
-            status: BlocStatus.failure,
-            msg: "Cập nhật thất bại"
-        ));
+            status: BlocStatus.failure, msg: "Cập nhật thất bại"));
       }
-    }catch(e){
-      emit(state.copyWith(
-          status: BlocStatus.failure,
-          msg: "Cập nhật thất bại"
-      ));
+    } catch (e) {
+      emit(
+          state.copyWith(status: BlocStatus.failure, msg: "Cập nhật thất bại"));
     }
   }
 
-  addCart({HoadonItemsAdd? item}){
+  addCart({HoadonItemsAdd? item}) {
     emit(state.copyWith(status: BlocStatus.loading));
     user = UserModel.fromJson(res);
-    totalPrice();
-    if(item != null){
+    totalPrice(item: item);
+    print("############PARAM############" + itemsParam.toString());
+    if (item != null) {
       items.add(item);
-      itemsParam?.add(item.toJson().toString());
+      itemsParam.add(jsonEncode(item.toJson()));
       param.id_giamGia = 0;
       param.trangThai = 0;
       param.time_in = timein;
@@ -150,26 +172,55 @@ class ListInvoiceBloc extends Cubit<CubitState>{
       param.tongTien = total;
       param.Id_user = user.Id_User;
       param.id_hd_items = itemsParam.toString();
-      emit(state.copyWith(status: BlocStatus.success,msg: "Thêm thành công"));
-    }else{
-      emit(state.copyWith(status: BlocStatus.failure,msg: "Thêm thất bại"));
+      emit(state.copyWith(status: BlocStatus.success, msg: "Thêm thành công"));
+    } else {
+      emit(state.copyWith(status: BlocStatus.failure, msg: "Thêm thất bại"));
     }
   }
 
-  totalPrice(){
-    if(items.isNotEmpty){
-      count = count + 1;
-      for(var item in items){
-        total += (item.giaSp ?? 1) * (item.soLuong ?? 1);
+  removeItems({HoadonItemsAdd? index}) {
+    items.remove(index);
+    itemsParam.remove(jsonEncode(index?.toJson()));
+    total = total - (index!.soLuong.validate() * index.giaSp.validate());
+    count = count - index.soLuong.validate();
+    param.tongTien = total;
+    addCart();
+  }
+
+  totalPrice({HoadonItemsAdd? item}) {
+    if (item != null) {
+      count = count + item.soLuong.validate();
+      total += item.giaSp.validate() * item.soLuong.validate();
+    }
+    return total;
+  }
+
+  CloseTable({String? id}) async {
+    emit(state.copyWith(status: BlocStatus.loading));
+    try {
+      var res = await Api.postAsync(
+        endpoint: ApiPath.dongban,
+        req: {"id_hoaDonCT": id, "trangThai": "3"},
+        isForm: true,
+      );
+      if (res['note'] != null) {
+        emit(state.copyWith(
+            status: BlocStatus.success, msg: "Cập nhật thành công"));
+      } else {
+        emit(state.copyWith(
+            status: BlocStatus.failure, msg: "Cập nhật thất bại"));
       }
-      return total;
-    }else{
-      return 0;
+    } catch (e) {
+      emit(
+          state.copyWith(status: BlocStatus.failure, msg: "Cập nhật thất bại"));
     }
   }
 
-  clear(){
+  clear() {
     param == null;
     items.clear();
+    total = 0;
+    count = 0;
+    itemsParam?.clear();
   }
 }

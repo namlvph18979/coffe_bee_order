@@ -135,11 +135,11 @@ class HoadonItemsAdd {
 
   Map<String, dynamic> toJson() {
     return {
-      jsonEncode("id_sanPham"): jsonEncode(idSanPham),
-      jsonEncode("soLuong"): jsonEncode(soLuong),
-      jsonEncode("giaSp"): jsonEncode(giaSp),
-      jsonEncode("tenSp"): jsonEncode(tenSp),
-      jsonEncode("ghiChu"): jsonEncode(ghiChu),
+      "id_sanPham": idSanPham,
+      "soLuong": soLuong,
+      "giaSp": giaSp,
+      "tenSp": tenSp,
+      "ghiChu": ghiChu,
     };
   }
 }

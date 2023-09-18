@@ -124,6 +124,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             context.read<ListInvoiceBloc>()..addCart(item: item);
             finish(context);
             toast("Thêm thành công");
+            setState(() {});
           },
         ).withWidth(MediaQuery.of(context).size.width)
       ],

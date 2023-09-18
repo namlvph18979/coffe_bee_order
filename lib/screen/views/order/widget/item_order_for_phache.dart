@@ -69,17 +69,11 @@ class _itemOrderForPhaCheState extends State<itemOrderForPhaChe> {
                       .copyWith(color: Colors.red, fontSize: 12),
                 ),
                 5.height,
-                widget.model.trangThai != "0"
-                    ? Text(
-                        "Trạng thái: Đã thanh toán",
-                        style: StyleApp.style500
-                            .copyWith(color: Colors.red, fontSize: 12),
-                      )
-                    : Text(
-                        "Trạng thái: Chưa thanh toán",
-                        style: StyleApp.style500
-                            .copyWith(color: Colors.red, fontSize: 12),
-                      ),
+                Text(
+                  "Trạng thái: Đã thanh toán",
+                  style: StyleApp.style500
+                      .copyWith(color: Colors.red, fontSize: 12),
+                ),
                 const Spacer(),
                 Text(
                   "Giờ vào: ${widget.model.timeIn}",
@@ -100,12 +94,6 @@ class _itemOrderForPhaCheState extends State<itemOrderForPhaChe> {
                     success: () {
                       ScreenAcceptOrder(
                         invoice: widget.model,
-                        // ontap: () {
-                        //   player.play(AssetSource('sound/success_order.mp3'));
-                        //   setState(() {
-                        //     finish(context);
-                        //   });
-                        // },
                       ).launch(context);
                     },
                   );
@@ -131,7 +119,7 @@ class _itemOrderForPhaCheState extends State<itemOrderForPhaChe> {
                     repeatForever: true,
                     pause: const Duration(milliseconds: 100),
                     animatedTexts: [
-                      WavyAnimatedText("Đơn đang xử lý...",
+                      WavyAnimatedText("Đang được xử lý...",
                           textStyle: StyleApp.style500.copyWith(fontSize: 12))
                     ]),
               )

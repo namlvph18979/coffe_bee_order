@@ -130,6 +130,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                 tabController.animateTo(1);
                                 tablebloc.getList(id: floorbloc.list[index].idTang);
                                 context.read<ListInvoiceBloc>().param.id_tang = floorbloc.list[index].idTang.toInt();
+                                setState(() {});
                               },
                             ))).scrollView(),
               ),
@@ -147,7 +148,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
         return LoadPage(
           state: state,
           height: MediaQuery.of(context).size.height,
-          reload: () => tablebloc.getList(id: context.watch()<ListInvoiceBloc>().param.id_tang.toString()),
+          reload: () => tablebloc.getList(id: context.watch<ListInvoiceBloc>().param.id_tang.toString()),
           child: SingleChildScrollView(
             child: Container(
               color: Colors.white,

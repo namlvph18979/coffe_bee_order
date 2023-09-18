@@ -187,22 +187,29 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
         bloc: tableBloc,
         builder: (context, state) {
           return LoadPage(
-            state: state,
-            reload: () => tableBloc.getListEmpty(),
-            height: 200,
-            child: GridViewCustom(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              showFull: true,
-              mainAxisExtent: 90,
-              padding: EdgeInsets.all(10),
-              scrollDirection: Axis.horizontal,
-              itemCount: tableBloc.listEmpty.length,
-              itemBuilder: (context, index) => ItemTabEmpty(
-                  text: tableBloc.listEmpty[index].soBan,
-                  text1: tableBloc.listEmpty[index].idTang)
-            ).withHeight(200),
-          );
+              state: state,
+              reload: () => tableBloc.getListEmpty(),
+              height: 200,
+              child: tableBloc.listEmpty.length != 0
+                  ? GridViewCustom(
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          showFull: true,
+                          mainAxisExtent: 90,
+                          padding: EdgeInsets.all(10),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tableBloc.listEmpty.length,
+                          itemBuilder: (context, index) => ItemTabEmpty(
+                              text: tableBloc.listEmpty[index].soBan,
+                              text1: tableBloc.listEmpty[index].idTang))
+                      .withHeight(200)
+                  : Center(
+                      child: Text(
+                        "Rất tiếc hiện không còn bàn nào trống!",
+                        style: StyleApp.style600
+                            .copyWith(color: ColorApp.text, fontSize: 16),
+                      ),
+                    ));
         });
   }
 
