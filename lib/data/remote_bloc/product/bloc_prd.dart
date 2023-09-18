@@ -34,11 +34,13 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
-        listAll.add(Modelpro);
+      if(res['status']){
+        for (var json in res) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
+          listAll.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
       }
-      emit(state.copyWith(status: BlocStatus.success));
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
@@ -55,11 +57,13 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + listCat[0].id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
-        listCoffees.add(Modelpro);
+      if(res['status']){
+        for (var json in res) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
+          listCoffees.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
       }
-      emit(state.copyWith(status: BlocStatus.success));
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
@@ -76,11 +80,14 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + listCat[1].id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
-        listMilkTeas.add(Modelpro);
+      if(res['status']){
+        for (var json in res) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
+          listMilkTeas.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
       }
-      emit(state.copyWith(status: BlocStatus.success));
+
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
