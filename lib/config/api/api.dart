@@ -119,7 +119,8 @@ class Api {
     }
 }
 
-  static String checkError(error){
+  static String checkError(error,String apiPath,String param){
+    sendError(error, apiPath, param);
       if(error is DioError){
           return error.message ?? "Có lỗi hệ thống. Vui lòng thử lại";
       }else{

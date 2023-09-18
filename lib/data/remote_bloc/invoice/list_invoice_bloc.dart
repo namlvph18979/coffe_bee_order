@@ -23,7 +23,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
   List<HoadonItemsAdd> items = [];
   List<String> itemsParam = [];
   String tdata = DateTime.now().toString().splitBefore(" ");
-  String timein = DateFormat("hh:mm a").format(DateTime.now());
+  String timein = DateFormat('hh:mm a').format(DateTime.now());
   var res = getJSONAsync(DBKeyLocal.user);
   UserModel user = UserModel();
 
@@ -35,16 +35,21 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     emit(state.copyWith(status: BlocStatus.loading));
     try {
       var res = await Api.getAsync(endpoint: ApiPath.hoaDon, hasForm: true);
-
-      for (var item in res) {
-        ModelInvoice model = ModelInvoice.fromJson(item);
-        invoices.add(model);
+      if(res['status']) {
+        for (var item in res['data']) {
+          ModelInvoice model = ModelInvoice.fromJson(item);
+          invoices.add(model);
+        }
+        emit(state.copyWith(
+          status: BlocStatus.success,
+        ));
+      }else{
+        emit(state.copyWith(
+          status: BlocStatus.failure,
+        ));
       }
-      emit(state.copyWith(
-        status: BlocStatus.success,
-      ));
     } catch (e) {
-      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e,ApiPath.hoaDon,"")));
     }
   }
 
@@ -52,9 +57,9 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     invoicesTT3.clear();
     emit(state.copyWith(status: BlocStatus.loading));
     try {
-      var res = await Api.getAsync(endpoint: ApiPath.hoaDonDone, hasForm: true);
-      if (res != null) {
-        for (var item in res) {
+      var res = await Api.getAsync(endpoint: ApiPath.hoaDonDone);
+      if (res['status']) {
+        for (var item in res['data']) {
           ModelInvoice model = ModelInvoice.fromJson(item);
           invoicesTT3.add(model);
         }
@@ -67,7 +72,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
         ));
       }
     } catch (e) {
-      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e,ApiPath.hoaDonDone,"")));
     }
   }
 
@@ -78,7 +83,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
       var res =
           await Api.getAsync(endpoint: ApiPath.hoaDonTT012, hasForm: true);
       if (res['status']) {
-        for (var item in res) {
+        for (var item in res['data']) {
           ModelInvoice model = ModelInvoice.fromJson(item);
           invoicesTT012.add(model);
         }
@@ -91,7 +96,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
         ));
       }
     } catch (e) {
-      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e,ApiPath.hoaDonTT012,"")));
     }
   }
 
@@ -101,7 +106,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     try {
       var res = await Api.getAsync(endpoint: ApiPath.hoaDonTT01, hasForm: true);
       if (res['status']) {
-        for (var item in res) {
+        for (var item in res['data']) {
           ModelInvoice model = ModelInvoice.fromJson(item);
           invoicesTT01.add(model);
         }
@@ -114,7 +119,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
         ));
       }
     } catch (e) {
-      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e,ApiPath.hoaDonTT01,"")));
     }
   }
 
@@ -146,14 +151,14 @@ class ListInvoiceBloc extends Cubit<CubitState> {
       if (res['status']) {
         emit(state.copyWith(
             status: BlocStatus.success, msg: "Cập nhật thành công"));
-        getListTT012();
+
       } else {
         emit(state.copyWith(
             status: BlocStatus.failure, msg: "Cập nhật thất bại"));
       }
     } catch (e) {
       emit(
-          state.copyWith(status: BlocStatus.failure, msg: "Cập nhật thất bại"));
+          state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e,ApiPath.updateHoaDon,"${id.toString()},${trangThai.toString()}")));
     }
   }
 
@@ -168,6 +173,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
       param.id_giamGia = 0;
       param.trangThai = 0;
       param.time_in = timein;
+      param.time_Data = tdata;
       param.time_out = "Đang cập nhật";
       param.tongTien = total;
       param.Id_user = user.Id_User;
@@ -204,7 +210,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
         req: {"id_hoaDonCT": id, "trangThai": "3"},
         isForm: true,
       );
-      if (res['note'] != null) {
+      if (res['status']) {
         emit(state.copyWith(
             status: BlocStatus.success, msg: "Cập nhật thành công"));
       } else {

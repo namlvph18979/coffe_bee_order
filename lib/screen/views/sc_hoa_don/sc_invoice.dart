@@ -1,11 +1,7 @@
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
-import 'package:coffe_bee_order/data/remote_bloc/user/model/user_model.dart';
-import 'package:coffe_bee_order/screen/views/form_auth/widget/item_tabbar_auth.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/detail_invoice.dart';
-import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_print_invoice.dart';
 import 'package:coffe_bee_order/screen/views/sc_hoa_don/widget/item_hoa_don.dart';
-import 'package:coffe_bee_order/screen/widgets/dialog/confirm_dialog.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/load/load_page.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +10,10 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../../data/remote_bloc/invoice/list_invoice_bloc.dart';
 import '../../../data/remote_bloc/invoice/model_invoice.dart';
-import '../../../data/remote_bloc/product/product_model.dart';
 
 class Screeninvoice extends StatefulWidget {
 
   ModelInvoice? model;
-
-
 
   Screeninvoice({this.model});
   @override
@@ -35,11 +28,11 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    reload();
+    bloc.getListDone();
   }
 
   Future<void> reload() async {
-    bloc.getListDone();
+    await bloc.getListDone();
   }
 
   @override
@@ -49,50 +42,35 @@ class _ScreeninvoiceState extends State<Screeninvoice> {
           title: "Hoá đơn",
           isback: false,
           align: true),
-      body: ItemTabbarAuth(
-          length: 3,
-          listTap: const [
-            Tab(text: "Tầng 1",height: 40,),
-            Tab(text: "Tầng 2",height: 40,),
-            Tab(text: "Tầng 3",height: 40,),
-          ],
-          listTapBarView: [
-            Tab1(),
-            Tab1(),
-            Tab1(),
-          ]),
-    );
-  }
-
-  Widget Tab1(){
-    return BlocBuilder<ListInvoiceBloc, CubitState>(
-      bloc: bloc,
-      builder: (context, state) {
-        return  LoadPage(
-          state: state,
-          reload: () {
-            bloc.getList();
-          },
-          msg: state.msg,
-          child:bloc.invoicesTT3.isNotEmpty ? RefreshIndicator(
-            onRefresh: reload,
-            child: ListView.separated(
-                itemBuilder: (context, index) => ItemHoaDon(
-                  model: bloc.invoicesTT3[index],
-                  isdonhang: true,
-                  ontap: (){
-                    ScreenDetailInvoice(
+      body: BlocBuilder<ListInvoiceBloc, CubitState>(
+        bloc: bloc,
+        builder: (context, state) {
+          return  LoadPage(
+              state: state,
+              reload: () {
+                bloc.getList();
+              },
+              msg: state.msg,
+              child:bloc.invoicesTT3.isNotEmpty ? RefreshIndicator(
+                onRefresh: reload,
+                child: ListView.separated(
+                    itemBuilder: (context, index) => ItemHoaDon(
                       model: bloc.invoicesTT3[index],
-                      isdonhang: false,
-                    ).launch(context).then((value) => bloc.getListDone());
-                  },
+                      isdonhang: true,
+                      ontap: (){
+                        ScreenDetailInvoice(
+                          model: bloc.invoicesTT3[index],
+                          isdonhang: false,
+                        ).launch(context).then((value) => bloc.getListDone());
+                      },
+                    ),
+                    separatorBuilder: (context, index) => 1.height,
+                    itemCount: bloc.invoicesTT3.length
                 ),
-                separatorBuilder: (context, index) => 1.height,
-                itemCount: bloc.invoicesTT3.length
-            ),
-          ) : Center(child: Text("Danh sách trống",style: StyleApp.style600,),)
-        );
-      },
+              ) : Center(child: Text("Danh sách trống",style: StyleApp.style600,),)
+          );
+        },
+      ),
     );
   }
 }

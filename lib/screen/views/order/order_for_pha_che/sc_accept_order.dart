@@ -5,6 +5,8 @@ import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
+import 'package:coffe_bee_order/screen/views/home/sc_home.dart';
+import 'package:coffe_bee_order/screen/views/order/order_for_pha_che/sc_oder_for_phache.dart';
 import 'package:coffe_bee_order/screen/widgets/custom_button.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
@@ -61,8 +63,7 @@ class _ScreenAcceptOrderState extends State<ScreenAcceptOrder> {
               isShowMsg: true,
               success: () {
                   player.play(AssetSource('sound/success_order.mp3'));
-                finish(context);
-                finish(context);
+                ScreenHome(isPhache: true,).launch(context,isNewTask: true);
             },
           );
         },

@@ -8,6 +8,9 @@ import 'package:coffe_bee_order/data/check_state.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
+import 'package:coffe_bee_order/screen/views/home/sc_home.dart';
+import 'package:coffe_bee_order/screen/views/home_page/home_page.dart';
+import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_invoice.dart';
 
 import 'package:coffe_bee_order/screen/widgets/custom_button.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
@@ -38,8 +41,6 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     final player = AudioPlayer();
     return Scaffold(
@@ -187,9 +188,8 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
             success: () {
               player.play(AssetSource('sound/cash_pay.mp3'),
                   volume: SizeConfig.screenHeight);
-              finish(context);
-              finish(context);
-              finish(context);
+              context.read<ListInvoiceBloc>().clear();
+              ScreenHome(isPhache: false).launch(context,isNewTask: true);
             },
           );
         },

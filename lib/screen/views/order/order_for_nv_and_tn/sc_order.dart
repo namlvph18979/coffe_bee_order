@@ -52,14 +52,6 @@ class _ScreenOrderState extends State<ScreenOrder> {
                                 isdonhang: true,
                               ).launch(context);
                             },
-                            accepOrder: () {
-                                bloc.updateTTDon(
-                                    id: bloc.invoicesTT012[index].idHoaDonCT,
-                                    trangThai: "3"
-                                );
-                                context.read<ListInvoiceBloc>()..getListDone();
-                                context.read<ListInvoiceBloc>()..getListTT012();
-                            },
                             closeTb: () {
                               setState(() => bloc.invoicesTT012.removeAt(index));
                             },

@@ -5,13 +5,17 @@ class ModelNL {
   String? price;
   String? idUser;
   String? tenNguyenLieu;
+  String? imgNguyenLieu;
+  String? kieuNguyenLieu;
 
   ModelNL({
     this.idNguyenLieu,
     this.soLuong,
     this.price,
     this.idUser,
-    this.tenNguyenLieu,});
+    this.tenNguyenLieu,
+    this.imgNguyenLieu,
+    this.kieuNguyenLieu,});
 
   ModelNL.fromJson(dynamic json) {
     idNguyenLieu = json['Id_nguyenLieu'];
@@ -19,6 +23,8 @@ class ModelNL {
     price = json['price'];
     idUser = json['id_User'];
     tenNguyenLieu = json['ten_nguyenLieu'];
+    imgNguyenLieu = json['img_nguyenLieu'];
+    kieuNguyenLieu = json['kieuNguyenLieu'];
   }
 
 
@@ -29,6 +35,8 @@ class ModelNL {
     map['price'] = price;
     map['id_User'] = idUser;
     map['ten_nguyenLieu'] = tenNguyenLieu;
+    map['img_nguyenLieu'] = imgNguyenLieu;
+    map['kieuNguyenLieu'] = kieuNguyenLieu;
     return map;
   }
 

@@ -19,16 +19,19 @@ class floorBloc extends Cubit<CubitState>{
             endpoint: ApiPath.floor,
             req: {}
     );
-        for(var json in res){
-          ModelFloor modelFlor = ModelFloor.fromJson(json);
-          list.add(modelFlor);
+        if(res != null) {
+          for (var json in res) {
+            ModelFloor modelFlor = ModelFloor.fromJson(json);
+            list.add(modelFlor);
+          }
+          emit(state.copyWith(status: BlocStatus.success));
+        }else{
+          emit(state.copyWith(status: BlocStatus.failure));
         }
-        emit(state.copyWith(status: BlocStatus.success));
-
     }catch(e){
         emit(state.copyWith(
             status: BlocStatus.failure,
-            msg: Api.checkError(e),
+            msg: Api.checkError(e,ApiPath.floor,""),
         ));
     }
   }

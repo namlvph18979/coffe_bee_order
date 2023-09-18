@@ -19,16 +19,20 @@ class Nguyenlieu_BLoc extends Cubit<CubitState>{
           endpoint: ApiPath.nguyenlieu,
           req: {}
       );
-      for(var json in res){
-        ModelNL modelFlor = ModelNL.fromJson(json);
-        list.add(modelFlor);
-      }
-      emit(state.copyWith(status: BlocStatus.success));
+      if(res != null) {
+        for (var json in res) {
+          ModelNL nl = ModelNL.fromJson(json);
+          list.add(nl);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
 
+      }
     }catch(e){
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e,ApiPath.nguyenlieu,""),
       ));
     }
   }

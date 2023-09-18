@@ -34,15 +34,19 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
-        listAll.add(Modelpro);
+      if(res["status"]) {
+        for (var json in res['data']) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
+          listAll.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
       }
-      emit(state.copyWith(status: BlocStatus.success));
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e,"${ApiPath.prodCat + id.toString()}",""),
       ));
     }
   }
@@ -55,15 +59,19 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + listCat[0].id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
-        listCoffees.add(Modelpro);
+      if(res['status']) {
+        for (var json in res['data']) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
+          listCoffees.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
       }
-      emit(state.copyWith(status: BlocStatus.success));
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e,"${ApiPath.prodCat + listCat[0].id.toString()}",""),
       ));
     }
   }
@@ -76,15 +84,20 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + listCat[1].id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
-        listMilkTeas.add(Modelpro);
+      if(res['status']) {
+        for (var json in res['data']) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
+          listMilkTeas.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
+
       }
-      emit(state.copyWith(status: BlocStatus.success));
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e,"${ApiPath.prodCat + listCat[1].id.toString()}",""),
       ));
     }
   }
@@ -97,15 +110,19 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + listCat[2].id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
-        listSnacks.add(Modelpro);
+      if(res['status']) {
+        for (var json in res['data']) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
+          listSnacks.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
       }
-      emit(state.copyWith(status: BlocStatus.success));
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e,ApiPath.prodCat + listCat[2].id.toString(),""),
       ));
     }
   }
@@ -118,16 +135,21 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + listCat[3].id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
+      if(res['status']) {
+        for (var json in res['data']) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
 
-        listOtherDrinks.add(Modelpro);
+          listOtherDrinks.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
+
       }
-      emit(state.copyWith(status: BlocStatus.success));
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e, ApiPath.prodCat + listCat[3].id.toString(),""),
       ));
     }
   }
@@ -140,15 +162,19 @@ class BlocProduct extends Cubit<CubitState> {
         endpoint: ApiPath.prodCat + listCat[4].id.toString(),
         req: {},
       );
-      for (var json in res) {
-        ModelPro Modelpro = ModelPro.fromJson(json);
-        listIceCreams.add(Modelpro);
+      if(res['status']) {
+        for (var json in res['data']) {
+          ModelPro Modelpro = ModelPro.fromJson(json);
+          listIceCreams.add(Modelpro);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
       }
-      emit(state.copyWith(status: BlocStatus.success));
     } catch (e) {
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e,"${ApiPath.prodCat + listCat[4].id.toString()}",""),
       ));
     }
   }

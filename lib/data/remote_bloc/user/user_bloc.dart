@@ -40,7 +40,7 @@ class userbloc extends Cubit<CubitState> {
                 "Đăng nhập thất bại. Tài khoản hoặc mật khẩu không chính xác."));
       }
     }catch(e){
-      state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e));
+      state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e,ApiPath.login,param.toString()));
     }
   }
 
@@ -61,7 +61,7 @@ class userbloc extends Cubit<CubitState> {
                 "Đổi mật khẩu thất bại. Mật khẩu không hợp lệ."));
       }
     }catch(e){
-      state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e));
+      state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e,ApiPath.changePass,param.toString()));
     }
   }
 
@@ -72,7 +72,7 @@ class userbloc extends Cubit<CubitState> {
       emit(state.copyWith(
           status: BlocStatus.success, msg: "Đăng xuất thành công."));
     } catch (e) {
-      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+      emit(state.copyWith(status: BlocStatus.failure, msg: "Đăng xuất thành công"));
     }
   }
 }

@@ -34,7 +34,6 @@ class _itemOrderForPhaCheState extends State<itemOrderForPhaChe> {
 
   @override
   Widget build(BuildContext context) {
-    final player = AudioPlayer();
     return Container(
         height: 100,
         margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -92,6 +91,7 @@ class _itemOrderForPhaCheState extends State<itemOrderForPhaChe> {
                     msg: state.msg,
                     isShowMsg: true,
                     success: () {
+                      context.read<ListInvoiceBloc>().getListTT01();
                       ScreenAcceptOrder(
                         invoice: widget.model,
                       ).launch(context);

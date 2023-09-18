@@ -21,16 +21,20 @@ class TableBloc extends Cubit<CubitState> {
           endpoint: ApiPath.table + id.validate(),
           req: {}
       );
-      for(var json in res['data']){
-        TableModel model = TableModel.fromJson(json);
-        list.add(model);
-      }
-      emit(state.copyWith(status: BlocStatus.success));
+      if(res['status']) {
+        for (var json in res['data']) {
+          TableModel model = TableModel.fromJson(json);
+          list.add(model);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
 
+      }
     }catch(e){
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e,ApiPath.table + id.validate(),""),
       ));
     }
   }
@@ -43,17 +47,20 @@ class TableBloc extends Cubit<CubitState> {
           endpoint: ApiPath.emptyTable,
           req: {}
       );
-      if(res)
-      for(var json in res){
-        EmptyTableModel model = EmptyTableModel.fromJson(json);
-        listEmpty.add(model);
-      }
-      emit(state.copyWith(status: BlocStatus.success));
+      if(res['status']) {
+        for (var json in res['data']) {
+          EmptyTableModel model = EmptyTableModel.fromJson(json);
+          listEmpty.add(model);
+        }
+        emit(state.copyWith(status: BlocStatus.success));
+      }else{
+        emit(state.copyWith(status: BlocStatus.failure));
 
+      }
     }catch(e){
       emit(state.copyWith(
         status: BlocStatus.failure,
-        msg: Api.checkError(e),
+        msg: Api.checkError(e,ApiPath.emptyTable,""),
       ));
     }
   }
@@ -63,7 +70,7 @@ class TableBloc extends Cubit<CubitState> {
     try {
       var res = await Api.putAsync(
           endpoint: "${ApiPath.table}", req: {"trangThai": "2"});
-      if (res['isActive'] == true) {
+      if (res['status']) {
         emit(state.copyWith(
           status: BlocStatus.success,
           msg: "Ghép bàn thành công",
@@ -72,7 +79,7 @@ class TableBloc extends Cubit<CubitState> {
         emit(state.copyWith(status: BlocStatus.failure, msg: "Ghép thất bại"));
       }
     } catch (e) {
-      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e)));
+      emit(state.copyWith(status: BlocStatus.failure, msg: Api.checkError(e,ApiPath.table,"2")));
     }
   }
 }
