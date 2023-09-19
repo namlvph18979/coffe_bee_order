@@ -101,9 +101,9 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                 itemBuilder: (context, index) => ItemInVoiceProduct(
                       model: widget.model.hoadonItems?[index],
                       onTap: () {
-                        // setState(() {
-                        //   widget.model.hoadonItems?.removeAt(index);
-                        // });
+                        setState(() {
+                          widget.model.hoadonItems?.removeAt(index);
+                        });
                       },
                     ),
                 separatorBuilder: (context, index) => 1.height,
@@ -138,7 +138,6 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                         },
                         ontap2: () {
                           closeTb();
-                          finish(context);
                           finish(context);
                         },
                       ),

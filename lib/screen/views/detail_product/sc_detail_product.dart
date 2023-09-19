@@ -134,22 +134,22 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
             )
           ],
         ).scrollView(),
-        bottomSheet: itemButton(
-            textBtn: "Dùng ngay".toUpperCase(),
-            onPress: () {
-              showModalBottomSheet(
-                  context: context,
-                  // builder: (context) => ModelBottomNote(
-                  //
-                  //     model: widget.modelPro),
-                  builder: (context) => Container(),
-                  isScrollControlled: true,
-                  shape: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(20))));
-                // finish(context);
-            }),
+        // bottomSheet: itemButton(
+        //     textBtn: "Dùng ngay".toUpperCase(),
+        //     onPress: () {
+        //       showModalBottomSheet(
+        //           context: context,
+        //           // builder: (context) => ModelBottomNote(
+        //           //
+        //           //     model: widget.modelPro),
+        //           builder: (context) => Container(),
+        //           isScrollControlled: true,
+        //           shape: const OutlineInputBorder(
+        //               borderSide: BorderSide(color: Colors.white),
+        //               borderRadius: BorderRadius.vertical(
+        //                   top: Radius.circular(20))));
+        //         // finish(context);
+        //     }),
       ),
     );
   }
