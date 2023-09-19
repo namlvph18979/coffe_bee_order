@@ -87,7 +87,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                   context.read<ListInvoiceBloc>()..clear();
                   context.read<ListInvoiceBloc>().param.id_Table == null;
                   context.read<ListInvoiceBloc>().param.id_tang == null;
-                  setState(() {});
                 },
                 icon: const Icon(
                   Icons.clear_outlined,

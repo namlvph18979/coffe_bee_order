@@ -202,10 +202,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
             success: () {
               player.play(AssetSource('sound/cash_pay.mp3'),
                   volume: SizeConfig.screenHeight);
-              context.read<ListInvoiceBloc>().clear();
-              context.read<ListInvoiceBloc>().param.id_Table == null;
-              context.read<ListInvoiceBloc>().param.id_tang == null;
-              setState(() {});
+              context.read<ListInvoiceBloc>()..clear();
               ScreenHome(isPhache: false).launch(context,isNewTask: true);
             },
           );

@@ -226,6 +226,8 @@ class ListInvoiceBloc extends Cubit<CubitState> {
   clear() {
     param == null;
     items.clear();
+    param.id_Table == "";
+    param.id_tang == "";
     total = 0;
     count = 0;
     itemsParam.clear();
