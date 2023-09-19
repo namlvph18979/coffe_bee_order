@@ -36,4 +36,26 @@ class Nguyenlieu_BLoc extends Cubit<CubitState>{
       ));
     }
   }
+
+
+  getNl({String? id,String? quantity}) async {
+    emit(state.copyWith(status: BlocStatus.loading));
+    try {
+      var res = await Api.postAsync(
+          endpoint: ApiPath.Laynguyenlieu,
+          req: {
+            "id_nguyenlieu": id,
+            "soLuong" : quantity},
+          isForm: true);
+      if (res['Id_nguyenLieu'] != null) {
+        emit(state.copyWith(
+            status: BlocStatus.success, msg: "Lấy thành công"));
+      } else {
+        emit(state.copyWith(
+            status: BlocStatus.failure, msg: "Lấy thất bại"));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: BlocStatus.failure, msg: "Gửi đơn thất bại"));
+    }
+  }
 }

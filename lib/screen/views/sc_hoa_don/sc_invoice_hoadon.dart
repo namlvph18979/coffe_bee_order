@@ -29,7 +29,7 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
     final param = context.read<ListInvoiceBloc>().param;
     return Scaffold(
       appBar: itemAppBar(
-        title: "Hoá đơn bàn ${param.id_Table ?? ""}",
+        title: param.id_Table != null ? "Hoá đơn bàn ${param.id_Table ?? ""}" : "Đơn mang đi",
         align: false,
         isback: true,
       ),
@@ -49,7 +49,7 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                       .copyWith(color: Colors.black, fontSize: 16),
                 ),
                 15.height,
-                if (param.id_tang != null) ...[
+                if (param.id_Table != null) ...[
                   itemText(
                       title: "Tầng số:  ",
                       des: param.id_tang.toString().validate(value: "Đang cập nhật")),
@@ -57,7 +57,6 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                   itemText(
                       title: "Bàn số:  ",
                       des: param.id_Table.toString().validate(value: "Đang cập nhật")),
-                  8.height,
                 ] else
                   itemText(
                       title: "Loại đơn:  ",
@@ -163,6 +162,9 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
             textBtn: "Huỷ đơn",
             onPress: () {
               context.read<ListInvoiceBloc>()..clear();
+              context.read<ListInvoiceBloc>().param.id_Table == null;
+              context.read<ListInvoiceBloc>().param.id_tang == null;
+              setState(() {});
               finish(context);
               finish(context);
             },

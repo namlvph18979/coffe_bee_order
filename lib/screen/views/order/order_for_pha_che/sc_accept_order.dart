@@ -39,7 +39,7 @@ class _ScreenAcceptOrderState extends State<ScreenAcceptOrder> {
     final player = AudioPlayer();
     return Scaffold(
       appBar: itemAppBar(
-        title: "Đơn Bàn số ${widget.invoice.idTable} - Tầng 1",
+        title: widget.invoice.idTable != null ? "Đơn Bàn số ${widget.invoice.idTable} - Tầng 1" : "Đơn mang đi",
         isback: false,
         align: true,
       ),

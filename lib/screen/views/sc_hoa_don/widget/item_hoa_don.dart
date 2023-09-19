@@ -6,6 +6,7 @@ import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/model_invoice.dart';
+import 'package:coffe_bee_order/screen/views/sc_hoa_don/detail_invoice.dart';
 import 'package:coffe_bee_order/screen/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +58,7 @@ class _ItemHoaDonState extends State<ItemHoaDon> {
               Text(
                 widget.model.idTable != null
                     ? "Bàn số: ${widget.model.idTable}"
-                    : "Đơn mang đi",
+                    : "Đơn mang đi số ${widget.model.idHoaDonCT}",
                 style: StyleApp.style700.copyWith(fontSize: 18),
               ),
               5.height,
@@ -105,30 +106,32 @@ class _ItemHoaDonState extends State<ItemHoaDon> {
               : Align(
                   alignment: Alignment.bottomCenter,
                   child: widget.model.trangThai.toString() == "2"
-                      ? BlocConsumer<ListInvoiceBloc, CubitState>(
-                          bloc: bloc,
-                          listener: (context, state) {
-                            CheckStateBloc.checkNoLoad(
-                              context,
-                              state,
-                              isShowMsg: true,
-                              msg: state.msg,
-                              success: () {
-                                context.read<ListInvoiceBloc>()..getListDone();
-                                bloc.getListTT012();
-                                toast("Nhận đơn thành công");
-                              },
-                            );
-                          },
-                          builder: (context, state) {
-                            return CustomButton(
+                      ?
+                  // BlocConsumer<ListInvoiceBloc, CubitState>(
+                  //         bloc: bloc,
+                  //         listener: (context, state) {
+                  //           CheckStateBloc.checkNoLoad(
+                  //             context,
+                  //             state,
+                  //             isShowMsg: true,
+                  //             msg: state.msg,
+                  //             success: () {
+                  //               context.read<ListInvoiceBloc>()..getListDone();
+                  //               context.read<ListInvoiceBloc>().getListTT012();
+                  //             },
+                  //           );
+                  //         },
+                  //         builder: (context, state) {
+                  //           return
+                              CustomButton(
                                 title: "Nhận đơn",
                                 color: ColorApp.text,
-                                onTap: acceptOrder,
+                                onTap: () {
+                                  ScreenDetailInvoice(model: widget.model,isdonhang: true,);
+                                },
                                 textColor: Colors.white,
-                                isLoad: state.status == BlocStatus.loading,
-                                padding: 8);
-                          },
+                                padding: 8
+                          // },
                         )
                       : AnimatedTextKit(
                           isRepeatingAnimation: true,

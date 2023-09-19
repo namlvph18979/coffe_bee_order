@@ -32,7 +32,8 @@ class CreateHDParam {
       'tongTien': this.tongTien,
       'trangThai': this.trangThai,
       'id_giamGia': this.id_giamGia,
-      'Id_Table': this.id_Table,
+      if(id_Table != null && id_Table != "")
+        'Id_Table': this.id_Table,
       'id_hd_items': this.id_hd_items,
     };
   }

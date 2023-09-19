@@ -49,17 +49,9 @@ class _itemOrderForPhaCheState extends State<itemOrderForPhaChe> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      "Tầng: 1 - ",
-                      style: StyleApp.style700.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      "Bàn số: ${widget.model.idTable}",
-                      style: StyleApp.style700.copyWith(fontSize: 18),
-                    ),
-                  ],
+                Text(
+                  widget.model.idTable != null ?"Bàn số: ${widget.model.idTable}" : "Đơn mang đi",
+                  style: StyleApp.style700.copyWith(fontSize: 18),
                 ),
                 5.height,
                 Text(

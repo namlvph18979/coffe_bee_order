@@ -37,7 +37,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
   sendHD() {
     bloc.param = context.read<ListInvoiceBloc>().param;
     bloc.createHoaDon();
-    print("############"+context.read<ListInvoiceBloc>().param.id_tang.toString());
+    print("######IDTang######"+context.read<ListInvoiceBloc>().param.id_tang.toString());
     print("############"+context.read<ListInvoiceBloc>().param.id_Table.toString());
     print("############"+context.read<ListInvoiceBloc>().param.tongTien.toString());
     print("############"+context.read<ListInvoiceBloc>().param.id_hd_items.toString());
@@ -203,6 +203,9 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
               player.play(AssetSource('sound/cash_pay.mp3'),
                   volume: SizeConfig.screenHeight);
               context.read<ListInvoiceBloc>().clear();
+              context.read<ListInvoiceBloc>().param.id_Table == null;
+              context.read<ListInvoiceBloc>().param.id_tang == null;
+              setState(() {});
               ScreenHome(isPhache: false).launch(context,isNewTask: true);
             },
           );

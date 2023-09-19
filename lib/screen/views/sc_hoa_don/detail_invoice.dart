@@ -34,6 +34,11 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
   final bloc = ListInvoiceBloc();
 
   closeTb() {
+    bloc.updateTTDon(id: widget.model.idHoaDonCT,trangThai: "4");
+    context.read<ListInvoiceBloc>()..getListDone();
+  }
+
+  acceptOrder() {
     bloc.CloseTable(id: widget.model.idHoaDonCT);
   }
 
@@ -41,7 +46,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: itemAppBar(
-          title: "Hoá đơn bàn ${widget.model.idTable ?? ""}",
+          title: widget.model.idTable != null ? "Hoá đơn bàn ${widget.model.idTable ?? ""}" : "Đơn mang đi số ${widget.model.idHoaDonCT}",
           align: false,
           isback: true,
         ),
@@ -71,7 +76,6 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                         des: widget.model.idTable ?? "chưa cập nhật"),
                     8.height,
                     itemText(title: "Tầng số:  ", des: "1"),
-                    8.height,
                   ]
                   else
                     itemText(
@@ -127,6 +131,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                     state,
                     success: () {
                       toast("Đóng bàn thành công");
+                      context.read<ListInvoiceBloc>()..getListDone();
                     },
                   );
                 },
@@ -156,6 +161,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
               )
             : widget.model.trangThai == "2"
                 ? BlocConsumer<ListInvoiceBloc, CubitState>(
+                     bloc: bloc,
                     listener: (context, state) {
                       CheckStateBloc.checkNoLoad(
                         context,
@@ -164,22 +170,16 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                         success: () {
                           context.read<ListInvoiceBloc>()..getListDone();
                           context.read<ListInvoiceBloc>()..getListTT012();
+                          toast("Nhận đơn thành công");
+                          finish(context);
                         },
                       );
                     },
                     builder: (context, state) => CustomButton(
                       title: "Nhận đơn",
                       isLoad: state.status == BlocStatus.loading,
-                      onTap: () {
-                        // if (widget.model.hoadonItems == []) {
-                        //   toast("Chưa có sản phẩm cho đơn hàng");
-                        //   return;
-                        // }
-                        // ScreenPrintinvoice(
-                        //   model: widget.model,
-                        // ).launch(context);
-                      },
-                    ),
+                      onTap: acceptOrder
+                    ).withWidth(double.infinity).paddingAll(10),
                   )
                 : Container(
                     color: ColorApp.bg,

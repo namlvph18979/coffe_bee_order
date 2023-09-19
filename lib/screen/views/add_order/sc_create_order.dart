@@ -85,6 +85,8 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 onPressed: () {
                   finish(context);
                   context.read<ListInvoiceBloc>()..clear();
+                  context.read<ListInvoiceBloc>().param.id_Table == null;
+                  context.read<ListInvoiceBloc>().param.id_tang == null;
                   setState(() {});
                 },
                 icon: const Icon(
@@ -139,7 +141,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                 tabController.animateTo(1);
                                 tablebloc.getList(id: floorbloc.list[index].idTang);
                                 context.read<ListInvoiceBloc>().param.id_tang = floorbloc.list[index].idTang.toInt();
-                                setState(() {});
                               },
                             ))).scrollView(),
               ),
@@ -199,7 +200,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                 onClick: () {
                                   tabController.animateTo(2);
                                   context.read<ListInvoiceBloc>().param.id_Table = tablebloc.list[index].id;
-                                  setState(() {});
                                 }
                               ))
                     )
