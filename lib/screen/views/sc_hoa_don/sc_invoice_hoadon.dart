@@ -29,7 +29,9 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
     final param = context.read<ListInvoiceBloc>().param;
     return Scaffold(
       appBar: itemAppBar(
-        title: param.id_Table != null ? "Hoá đơn bàn ${param.id_Table ?? ""}" : "Đơn mang đi",
+        title: param.id_Table != null
+            ? "Hoá đơn bàn ${param.id_Table ?? ""}"
+            : "Đơn mang đi",
         align: false,
         isback: true,
       ),
@@ -52,15 +54,17 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                 if (param.id_Table != null) ...[
                   itemText(
                       title: "Tầng số:  ",
-                      des: param.id_tang.toString().validate(value: "Đang cập nhật")),
+                      des: param.id_tang
+                          .toString()
+                          .validate(value: "Đang cập nhật")),
                   8.height,
                   itemText(
                       title: "Bàn số:  ",
-                      des: param.id_Table.toString().validate(value: "Đang cập nhật")),
+                      des: param.id_Table
+                          .toString()
+                          .validate(value: "Đang cập nhật")),
                 ] else
-                  itemText(
-                      title: "Loại đơn:  ",
-                      des: "Mua mang đi"),
+                  itemText(title: "Loại đơn:  ", des: "Mua mang đi"),
                 8.height,
                 itemText(
                     title: "Tổng tiền:  ",
@@ -141,11 +145,20 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                           color: Colors.red,
                           size: 25,
                         ).onTap(() {
-                          context.read<ListInvoiceBloc>()
-                            ..removeItems(
-                                index: context
-                                    .read<ListInvoiceBloc>()
-                                    .items[index]);
+                          if (context.read<ListInvoiceBloc>().items.length > 1){
+                            context.read<ListInvoiceBloc>()
+                              ..removeItems(
+                                  index: context
+                                      .read<ListInvoiceBloc>()
+                                      .items[index]);
+                          }else{
+                            context.read<ListInvoiceBloc>()
+                              ..removeItems(
+                                  index: context
+                                      .read<ListInvoiceBloc>()
+                                      .items[index]);
+                            finish(context);
+                          }
                           setState(() {});
                         })
                       ],
@@ -162,17 +175,19 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
             textBtn: "Huỷ đơn",
             onPress: () {
               context.read<ListInvoiceBloc>()..clear();
-              context.read<ListInvoiceBloc>().param.id_Table == null;
-              context.read<ListInvoiceBloc>().param.id_tang == null;
+              finish(context);
+              finish(context);
               setState(() {});
-              finish(context);
-              finish(context);
             },
           ).expand(),
           itemButton(
             textBtn: "Thanh toán",
             onPress: () {
-              ScreenPrintinvoice().launch(context);
+              if (context.read<ListInvoiceBloc>().items.isNotEmpty) {
+                ScreenPrintinvoice().launch(context);
+              } else {
+                toast("Danh sách sản phẩm trống");
+              }
             },
           ).expand(),
         ],

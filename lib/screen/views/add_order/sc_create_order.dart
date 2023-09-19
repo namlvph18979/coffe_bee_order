@@ -85,8 +85,7 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 onPressed: () {
                   finish(context);
                   context.read<ListInvoiceBloc>()..clear();
-                  context.read<ListInvoiceBloc>().param.id_Table == null;
-                  context.read<ListInvoiceBloc>().param.id_tang == null;
+                  setState(() {});
                 },
                 icon: const Icon(
                   Icons.clear_outlined,
@@ -178,7 +177,8 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                         suffix: const Icon(Icons.compare,
                             size: 20, color: ColorApp.text),
                         onTap: () {
-                          ScreenGhepBan(listModel: tablebloc.list).launch(context);
+                          toast("Chức năng hiện đang tạm khoá trong thời gian phát triển");
+                          // ScreenGhepBan(listModel: tablebloc.list).launch(context);
                         },
                       )
                     ],

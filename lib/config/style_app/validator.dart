@@ -17,21 +17,21 @@ class ValidatorApp {
   static checkPass({
     String? text,
     String? text2,
-    bool isSign = false,
+
     bool isCheck = true,
   }) {
-    // RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
+    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
     if (text == "null" || text == "" || text == null) {
       if (!isCheck) {
         return null;
       }
       return "Không bỏ trống";
     }
-    // else if (text.length < 6) {
-    //   // return "Mật khẩu phải chứa chữ cái viết hoa, thường số và lớn hơn 6 ký tự";
-    //   return "Mật khẩu phải lớn hơn 6 ký tự";
-    // }
-    else if (text != text2 && isSign) {
+    else if (text.length < 6) {
+      // return "Mật khẩu phải chứa chữ cái viết hoa, thường số và lớn hơn 6 ký tự";
+      return "Mật khẩu tối thiểu 6 ký tự";
+    }
+    else if (text != text2) {
       return "Mật khẩu không khớp";
     } else {
       return null;

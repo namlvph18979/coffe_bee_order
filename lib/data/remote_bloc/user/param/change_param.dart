@@ -1,12 +1,12 @@
 class ChangeParam {
-  String id_user;
-  String passwd;
-  String newPasswd;
+  String? id_user;
+  String? passwd;
+  String? newPasswd;
 
   ChangeParam({
-    required this.id_user,
-    required this.passwd,
-    required this.newPasswd
+    this.id_user,
+    this.passwd,
+    this.newPasswd
   });
 
   Map<String, dynamic> toMap() {

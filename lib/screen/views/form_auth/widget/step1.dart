@@ -4,6 +4,7 @@ import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/remote_bloc/user/param/change_param.dart';
 import 'package:coffe_bee_order/data/remote_bloc/user/user_bloc.dart';
 import 'package:coffe_bee_order/screen/widgets/custom_button.dart';
+import 'package:coffe_bee_order/screen/widgets/input_text.dart';
 import 'package:coffe_bee_order/screen/widgets/item_button.dart';
 import 'package:coffe_bee_order/screen/widgets/item_input.dart';
 import 'package:flutter/material.dart';
@@ -25,98 +26,93 @@ class ItemStep1 extends StatefulWidget {
 }
 
 class _ItemStep1State extends State<ItemStep1> {
-  final passOdl = TextEditingController();
-  final passNew = TextEditingController();
-  final enterAPassNew = TextEditingController();
+  final pass = TextEditingController();
+  final pass_new = TextEditingController();
+  final re_pass_new = TextEditingController();
   final bloc = userbloc();
-  UserModel user = UserModel();
+  final _keyForm = GlobalKey<FormState>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var res = getJSONAsync(DBKeyLocal.user);
-    if (res != null) {
-      user = UserModel.fromJson(res);
-    }
-    print("###################" + res.toString());
   }
   ChangePass() {
-      bloc.changePass(ChangeParam(
-          id_user: user.Id_User.toString(),
-          passwd: passOdl.text,
-          newPasswd: passNew.text,
-      )
-      );
+    if(_keyForm.currentState!.validate()){
+      bloc.changePass(pass: pass_new.text,passold: pass.text);
+    }else{
+      toast("Thông tin không chính xác");
+    }
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          30.height,
-          Text("Xác thực tài khoản",style: StyleApp.style700.copyWith(color: Colors.black,fontSize: 16),),
-          15.height,
-          Text("Vui lòng nhập số điện thoại đã đăng ký để xác thực định danh người dùng",
-            style: StyleApp.style400.copyWith(color: Colors.black),),
-          25.height,
-          itemInputText(
-            type: TextFieldType.PASSWORD,
-            hint: "Vui lòng nhập...",
-            labeltext: "Mật khẩu cũ",
-            controller: passOdl,
-            validator: (p0) {
-              return ValidatorApp.checkPass(text: p0);
-            },
-          ),
-          SizedBox(height: 10,),
-          itemInputText(
-            type: TextFieldType.PASSWORD,
-            hint: "Vui lòng nhập...",
-            labeltext: "Mật khẩu mới",
-            controller: passNew,
-            validator: (p0) {
-              return ValidatorApp.checkPass(text: p0);
-            },
-          ),
-          SizedBox(height: 10,),
-          itemInputText(
-            type: TextFieldType.PASSWORD,
-            hint: "Vui lòng ...",
-            labeltext: "Nhập lại mật khẩu mới",
-            controller: enterAPassNew,
-            validator: (p0) {
-              return ValidatorApp.checkPass(text: p0);
-            },
-          ),
-          20.height,
-          BlocConsumer<userbloc, CubitState>(
-            bloc: bloc,
-            listener: (context, state) {
-              CheckStateBloc.checkNoLoad(
-                context,
-                state,
-                msg: state.msg,
-                isShowMsg: true,
-                success: () {
-                },
-                failure: () {
-                  toast("Sai tên tài khoản hoặc mật khẩu");
-                },
-              );
-            },
-            builder: (context, state) {
-              return CustomButton(
-                  title: "Đổi mật khẩu",
-                  isLoad: state.status == BlocStatus.loading,
-                  color: ColorApp.text,
-                  onTap: ChangePass,
-                  textColor: Colors.white
-              ).withWidth(MediaQuery.of(context).size.width);
-              return Container();
-            },
-          )
-        ],
+    return Form(
+      key: _keyForm,
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            30.height,
+            Text("Xác thực tài khoản",style: StyleApp.style700.copyWith(color: Colors.black,fontSize: 16),),
+            15.height,
+            Text("Vui lòng nhập đầy đủ thông tin để thay đổi thông tin tài khoản!",
+              style: StyleApp.style400.copyWith(color: Colors.black),),
+            25.height,
+            InputText(
+              textFieldType: TextFieldType.PASSWORD,
+              hintText: "Vui lòng nhập...",
+              label: "Mật khẩu cũ",
+              controller: pass,
+              validator: (p0) {
+                return ValidatorApp.checkNull(text: p0,isTextFiled: true);
+              },
+            ),
+            SizedBox(height: 10,),
+            InputText(
+              textFieldType: TextFieldType.PASSWORD,
+              hintText: "Vui lòng nhập...",
+              label: "Mật khẩu mới",
+              controller: pass_new,
+              validator: (p0) {
+                return ValidatorApp.checkNull(text: p0,isTextFiled: true);
+              },
+            ),
+            SizedBox(height: 10,),
+            InputText(
+              textFieldType: TextFieldType.PASSWORD,
+              hintText: "Vui lòng ...",
+              label: "Nhập lại mật khẩu mới",
+              controller: re_pass_new,
+              validator: (p0) {
+                return ValidatorApp.checkPass(text: p0,text2: pass_new.text);
+              },
+            ),
+            20.height,
+            BlocConsumer<userbloc, CubitState>(
+              bloc: bloc,
+              listener: (context, state) {
+                CheckStateBloc.checkNoLoad(
+                  context,
+                  state,
+                  msg: state.msg,
+                  isShowMsg: true,
+                  success: () {
+                    toast("Đổi mật khẩu thành công");
+                  },
+                );
+              },
+              builder: (context, state) {
+                return CustomButton(
+                    title: "Đổi mật khẩu",
+                    isLoad: state.status == BlocStatus.loading,
+                    color: ColorApp.text,
+                    onTap: ChangePass,
+                    textColor: Colors.white
+                ).withWidth(MediaQuery.of(context).size.width);
+                return Container();
+              },
+            )
+          ],
+      ),
     );
   }
 }

@@ -43,12 +43,12 @@ class _CartBottomBarState extends State<CartBottomBar> {
                       .copyWith(fontSize: 10, color: Colors.white),
                   padding:
                       const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                  alignment: const AlignmentDirectional(15, -1.5),
+                  alignment: Alignment.topRight,
                   child: const Icon(
                     CupertinoIcons.shopping_cart,
                     color: ColorApp.text,
                   ),
-                ).expand(flex: 1),
+                ),
                 Text(
                   "Tổng: ${context.read<ListInvoiceBloc>().total.toPrice()}đ",
                   style: StyleApp.style600.copyWith(color: Colors.red),

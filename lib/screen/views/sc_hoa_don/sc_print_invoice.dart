@@ -2,16 +2,12 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/color_app.dart';
-import 'package:coffe_bee_order/config/style_app/image_path.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/data/check_state.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
 import 'package:coffe_bee_order/data/enum/blocstatus.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/screen/views/home/sc_home.dart';
-import 'package:coffe_bee_order/screen/views/home_page/home_page.dart';
-import 'package:coffe_bee_order/screen/views/sc_hoa_don/sc_invoice.dart';
-
 import 'package:coffe_bee_order/screen/widgets/custom_button.dart';
 import 'package:coffe_bee_order/screen/widgets/item_appbar.dart';
 import 'package:flutter/material.dart';
@@ -37,15 +33,6 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
   sendHD() {
     bloc.param = context.read<ListInvoiceBloc>().param;
     bloc.createHoaDon();
-    print("######IDTang######"+context.read<ListInvoiceBloc>().param.id_tang.toString());
-    print("############"+context.read<ListInvoiceBloc>().param.id_Table.toString());
-    print("############"+context.read<ListInvoiceBloc>().param.tongTien.toString());
-    print("############"+context.read<ListInvoiceBloc>().param.id_hd_items.toString());
-    print("############"+context.read<ListInvoiceBloc>().param.trangThai.toString());
-    print("############"+context.read<ListInvoiceBloc>().param.time_in.toString());
-    print("############"+context.read<ListInvoiceBloc>().param.time_out.toString());
-    print("############"+context.read<ListInvoiceBloc>().param.time_Data.toString());
-    print("############"+context.read<ListInvoiceBloc>().param.Id_user.toString());
   }
 
   @override
@@ -204,6 +191,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                   volume: SizeConfig.screenHeight);
               context.read<ListInvoiceBloc>()..clear();
               ScreenHome(isPhache: false).launch(context,isNewTask: true);
+              setState(() {});
             },
           );
         },

@@ -73,7 +73,7 @@ class _ScreenSignInState extends State<ScreenSignIn> {
                 textFieldType: TextFieldType.PASSWORD,
                 controller: password,
                 validator: (p0) {
-                  return ValidatorApp.checkPass(text: p0);
+                  return ValidatorApp.checkNull(text: p0,isTextFiled: true);
                 },
               ),
               12.height,

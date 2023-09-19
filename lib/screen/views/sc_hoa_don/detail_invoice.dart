@@ -34,12 +34,12 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
   final bloc = ListInvoiceBloc();
 
   closeTb() {
-    bloc.updateTTDon(id: widget.model.idHoaDonCT,trangThai: "4");
-    context.read<ListInvoiceBloc>()..getListDone();
+    bloc.CloseTable(id: widget.model.idHoaDonCT);
   }
 
   acceptOrder() {
-    bloc.CloseTable(id: widget.model.idHoaDonCT);
+    bloc.updateTTDon(id: widget.model.idHoaDonCT,trangThai: "3");
+    context.read<ListInvoiceBloc>()..getListDone();
   }
 
   @override
@@ -131,7 +131,6 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                     state,
                     success: () {
                       toast("Đóng bàn thành công");
-                      context.read<ListInvoiceBloc>()..getListDone();
                     },
                   );
                 },
@@ -150,6 +149,8 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                         },
                         ontap2: () {
                           closeTb();
+                          context.read<ListInvoiceBloc>()..getListDone();
+                          finish(context);
                           finish(context);
                         },
                       ),
@@ -171,6 +172,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                           context.read<ListInvoiceBloc>()..getListTT012();
                           toast("Nhận đơn thành công");
                           finish(context);
+                          setState(() {});
                         },
                       );
                     },

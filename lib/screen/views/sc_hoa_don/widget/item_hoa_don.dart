@@ -127,7 +127,7 @@ class _ItemHoaDonState extends State<ItemHoaDon> {
                                 title: "Nhận đơn",
                                 color: ColorApp.text,
                                 onTap: () {
-                                  ScreenDetailInvoice(model: widget.model,isdonhang: true,);
+                                  ScreenDetailInvoice(model: widget.model,isdonhang: true,).launch(context);
                                 },
                                 textColor: Colors.white,
                                 padding: 8

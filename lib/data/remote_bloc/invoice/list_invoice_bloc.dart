@@ -207,7 +207,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     try {
       var res = await Api.postAsync(
         endpoint: ApiPath.dongban,
-        req: {"id_hoaDonCT": id, "trangThai": "4","time_out": "$timein"},
+        req: {"id_hoaDonCT": id, "trangThai": "3","time_out": "$timein"},
         isForm: true,
       );
       if (res['status']) {
@@ -224,12 +224,13 @@ class ListInvoiceBloc extends Cubit<CubitState> {
   }
 
   clear() {
-    param == null;
+    param.id_hd_items = null;
+    param.id_Table = null;
+    param.id_tang = null;
     items.clear();
-    param.id_Table == "";
-    param.id_tang == "";
     total = 0;
     count = 0;
     itemsParam.clear();
+    print("########"+items.length.toString());
   }
 }

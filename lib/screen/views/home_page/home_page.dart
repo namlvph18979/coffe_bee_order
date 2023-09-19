@@ -220,7 +220,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                         style: StyleApp.style600
                             .copyWith(color: ColorApp.text, fontSize: 16),
                       ),
-                    ));
+                    ).withHeight(100));
         });
   }
 
