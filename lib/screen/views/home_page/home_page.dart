@@ -1,9 +1,11 @@
 import 'package:coffe_bee_order/config/style_app/color_app.dart';
 import 'package:coffe_bee_order/config/style_app/image_path.dart';
 import 'package:coffe_bee_order/data/cubit_state.dart';
+import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/product/bloc_prd.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/model/Table_model.dart';
 import 'package:coffe_bee_order/data/remote_bloc/table/table_bloc.dart';
+import 'package:coffe_bee_order/screen/views/add_order/sc_create_order.dart';
 import 'package:coffe_bee_order/screen/views/home_page/widget/item_empty_table.dart';
 import 'package:coffe_bee_order/screen/views/home_page/widget/item_list_type_pro.dart';
 import 'package:coffe_bee_order/screen/views/sc_more_item/sc_more.dart';
@@ -39,16 +41,20 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
     // TODO: implement initState
     super.initState();
     tableBloc.getListEmpty();
-    reload();
+    bloc.getList1();
+    bloc.getList2();
+    bloc.getList3();
+    bloc.getList4();
+    bloc.getList5();
     _controller = ScrollController();
   }
 
-  reload() async {
-    await bloc.getList1();
-    await bloc.getList2();
-    await bloc.getList3();
-    await bloc.getList4();
-    await bloc.getList5();
+  Future<void> reload() async {
+      bloc.getList1();
+      bloc.getList2();
+      bloc.getList3();
+      bloc.getList4();
+      bloc.getList5();
   }
 
   transiton(double potiotion) {
@@ -71,7 +77,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
         align: true,
       ),
       body: RefreshIndicator(
-        onRefresh: () => reload(),
+        onRefresh: reload,
         child: SingleChildScrollView(
           controller: _controller,
           child: Column(
@@ -201,7 +207,12 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                           itemCount: tableBloc.listEmpty.length,
                           itemBuilder: (context, index) => ItemTabEmpty(
                               text: tableBloc.listEmpty[index].soBan,
-                              text1: tableBloc.listEmpty[index].idTang))
+                              text1: tableBloc.listEmpty[index].idTang,
+                              ontap: () {
+                                context.read<ListInvoiceBloc>().param.id_Table = tableBloc.listEmpty[index].idTable.toInt();
+                                ScreenCreateOrder(tab: 2).launch(context);
+                              },
+                          ))
                       .withHeight(200)
                   : Center(
                       child: Text(
@@ -254,6 +265,7 @@ class _ScreenFastOrderState extends State<ScreenFastOrder> {
                     itemBuilder: (context, index) => ItemOther(
                         model: list[index],
                         onTap: () {
+                          print("#########"+list[index].anhSanPham.validate().substring(2));
                           ScreenDetailProduct(
                             modelPro: list[index],
                             list: list,

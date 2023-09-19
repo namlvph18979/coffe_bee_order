@@ -1,4 +1,5 @@
 
+import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/screen/views/detail_product/sc_detail_product.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
@@ -30,7 +31,7 @@ class ItemCategory extends StatelessWidget {
         children: [
           Positioned(
             child: ImageNetWorkView(
-              imageUrl: model.anhSanPham ?? "",
+              imageUrl:ApiPath.domain + model.anhSanPham.validate(),
               fit: BoxFit.cover,
               width: size.width,
               radius: BorderRadius.circular(5),

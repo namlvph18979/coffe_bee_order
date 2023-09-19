@@ -28,7 +28,7 @@ class ModelPro {
     idDanhMuc = json['id_danhMuc'];
     giaSanPham = json['giaSanPham'];
     gioiThieu = json['gioiThieu'];
-    anhSanPham = json['anhSanPham'];
+    anhSanPham = json['anhSanPham'].substring(2) as String;
     idGiamGia = json['id_giamGia'];
     tenSp = json['ten_sp'];
     size = json['size'];

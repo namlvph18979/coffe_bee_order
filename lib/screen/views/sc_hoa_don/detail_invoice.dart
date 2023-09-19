@@ -65,11 +65,18 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                       title: "Hoá đơn số:  ",
                       des: "${widget.model.idHoaDonCT}"),
                   8.height,
-                  itemText(title: "Tầng số:  ", des: "1"),
-                  8.height,
-                  itemText(
-                      title: "Bàn số:  ",
-                      des: widget.model.idTable ?? "chưa cập nhật"),
+                  if(widget.model.idTable != null)...[
+                    itemText(
+                        title: "Bàn số:  ",
+                        des: widget.model.idTable ?? "chưa cập nhật"),
+                    8.height,
+                    itemText(title: "Tầng số:  ", des: "1"),
+                    8.height,
+                  ]
+                  else
+                    itemText(
+                        title: "Loại đơn:  ",
+                        des: "Đơn mang đi"),
                   8.height,
                   itemText(
                       title: "Tổng tiền:  ",
@@ -147,7 +154,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                   padding: 12,
                 ).withWidth(double.infinity).paddingAll(10),
               )
-            : widget.model.trangThai != "0"
+            : widget.model.trangThai == "2"
                 ? BlocConsumer<ListInvoiceBloc, CubitState>(
                     listener: (context, state) {
                       CheckStateBloc.checkNoLoad(
@@ -181,7 +188,10 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                             repeatForever: true,
                             pause: const Duration(milliseconds: 100),
                             animatedTexts: [
-                          WavyAnimatedText("Đơn đang xử lý...",
+                          WavyAnimatedText(
+                              widget.model.trangThai == "0"
+                                  ? "Đơn chờ xử lý..."
+                                  : "Đơn đang xử lý...",
                               textStyle:
                                   StyleApp.style600.copyWith(fontSize: 16))
                         ])

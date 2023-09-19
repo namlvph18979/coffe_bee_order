@@ -37,6 +37,15 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
   sendHD() {
     bloc.param = context.read<ListInvoiceBloc>().param;
     bloc.createHoaDon();
+    print("############"+context.read<ListInvoiceBloc>().param.id_tang.toString());
+    print("############"+context.read<ListInvoiceBloc>().param.id_Table.toString());
+    print("############"+context.read<ListInvoiceBloc>().param.tongTien.toString());
+    print("############"+context.read<ListInvoiceBloc>().param.id_hd_items.toString());
+    print("############"+context.read<ListInvoiceBloc>().param.trangThai.toString());
+    print("############"+context.read<ListInvoiceBloc>().param.time_in.toString());
+    print("############"+context.read<ListInvoiceBloc>().param.time_out.toString());
+    print("############"+context.read<ListInvoiceBloc>().param.time_Data.toString());
+    print("############"+context.read<ListInvoiceBloc>().param.Id_user.toString());
   }
 
   @override
@@ -79,6 +88,7 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                if(context.read<ListInvoiceBloc>().param.id_Table != null)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -94,7 +104,11 @@ class _ScreenPrintinvoiceState extends State<ScreenPrintinvoice> {
                             .id_Table
                             .toString()),
                   ],
-                ),
+                )
+                else
+                  TextRow(
+                      title: "Loại đơn",
+                      data: "Mua mang đi"),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

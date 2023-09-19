@@ -58,6 +58,7 @@ class BlocProduct extends Cubit<CubitState> {
       var res = await Api.getAsync(
         endpoint: ApiPath.prodCat + listCat[0].id.toString(),
         req: {},
+        hasForm: true,
       );
       if(res['status']) {
         for (var json in res['data']) {

@@ -20,6 +20,10 @@ import 'widget/cart_bottom_bar.dart';
 
 class ScreenCreateOrder extends StatefulWidget {
 
+  int? tab;
+
+  ScreenCreateOrder({this.tab});
+
   @override
   State<ScreenCreateOrder> createState() => _ScreenCreateOrderState();
 }
@@ -37,6 +41,9 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
+    if(widget.tab != null){
+      tabController.animateTo(widget.tab!);
+    }
     reload();
   }
 
@@ -63,7 +70,9 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 onPressed: () {
                   if (tabController.index > 0) {
                     tabController.animateTo(tabController.index - 1);
-                  } else {
+                  } else if(widget.tab != null){
+                    tabController.animateTo(0);
+                  }else{
                     finish(context);
                   }
                 },

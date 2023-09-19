@@ -127,7 +127,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     emit(state.copyWith(status: BlocStatus.loading));
     try {
       var res = await Api.postAsync(
-          endpoint: ApiPath.createHoaDon, req: param.toMap(), isForm: true);
+          endpoint: ApiPath.createHoaDon, req: param.toMap());
       if (res['status']) {
         emit(state.copyWith(
             status: BlocStatus.success, msg: "Gửi đơn thành công"));
@@ -166,7 +166,8 @@ class ListInvoiceBloc extends Cubit<CubitState> {
     emit(state.copyWith(status: BlocStatus.loading));
     user = UserModel.fromJson(res);
     totalPrice(item: item);
-    print("############PARAM############" + itemsParam.toString());
+    param.id_Table ?? null;
+    param.id_tang ?? null;
     if (item != null) {
       items.add(item);
       itemsParam.add(jsonEncode(item.toJson()));
@@ -179,6 +180,7 @@ class ListInvoiceBloc extends Cubit<CubitState> {
       param.Id_user = user.Id_User;
       param.id_hd_items = itemsParam.toString();
       emit(state.copyWith(status: BlocStatus.success, msg: "Thêm thành công"));
+      print("############PARAM############" + itemsParam.toString());
     } else {
       emit(state.copyWith(status: BlocStatus.failure, msg: "Thêm thất bại"));
     }

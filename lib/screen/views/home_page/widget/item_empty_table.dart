@@ -6,8 +6,8 @@ import 'package:nb_utils/nb_utils.dart';
 class ItemTabEmpty extends StatelessWidget {
   String? text;
   String? text1;
-
-  ItemTabEmpty({this.text, this.text1});
+  Function()? ontap;
+  ItemTabEmpty({this.text, this.text1,this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +50,6 @@ class ItemTabEmpty extends StatelessWidget {
                       .copyWith(fontSize: 12, color: ColorApp.text),
                 ))),
       ],
-    );
+    ).onTap(ontap);
   }
 }

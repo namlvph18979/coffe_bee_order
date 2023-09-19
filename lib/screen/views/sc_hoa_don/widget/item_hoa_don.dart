@@ -34,11 +34,8 @@ class ItemHoaDon extends StatefulWidget {
 class _ItemHoaDonState extends State<ItemHoaDon> {
   final bloc = ListInvoiceBloc();
 
-  acceptOrder(){
-    bloc.updateTTDon(
-        id: widget.model.idHoaDonCT,
-        trangThai: "3"
-    );
+  acceptOrder() {
+    bloc.updateTTDon(id: widget.model.idHoaDonCT, trangThai: "3");
   }
 
   @override
@@ -58,7 +55,9 @@ class _ItemHoaDonState extends State<ItemHoaDon> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Bàn số: ${widget.model.idTable}",
+                widget.model.idTable != null
+                    ? "Bàn số: ${widget.model.idTable}"
+                    : "Đơn mang đi",
                 style: StyleApp.style700.copyWith(fontSize: 18),
               ),
               5.height,
@@ -105,7 +104,7 @@ class _ItemHoaDonState extends State<ItemHoaDon> {
                 ).onTap(widget.closeTb)
               : Align(
                   alignment: Alignment.bottomCenter,
-                  child: widget.model.trangThai == "2"
+                  child: widget.model.trangThai.toString() == "2"
                       ? BlocConsumer<ListInvoiceBloc, CubitState>(
                           bloc: bloc,
                           listener: (context, state) {

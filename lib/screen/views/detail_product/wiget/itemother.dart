@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/data/remote_bloc/product/product_model.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class ItemOther extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ImageNetWorkView(
-                  imageUrl: model.anhSanPham!,
+                  imageUrl:ApiPath.domain + model.anhSanPham!,
                   height: 155,
                   fit: BoxFit.cover,
                   radius: const BorderRadius.vertical(top: Radius.circular(5)),
