@@ -1,5 +1,6 @@
 import 'package:coffe_bee_order/data/local_bloc/navbloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
+import 'package:coffe_bee_order/data/remote_bloc/nguyenlieu/nguyenlieu_bloc.dart';
 import 'package:coffe_bee_order/screen/views/account/sc_account.dart';
 import 'package:coffe_bee_order/screen/views/add_order/sc_create_order.dart';
 import 'package:coffe_bee_order/screen/views/form_auth/sign_in/sc_sign_in.dart';
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider (create: (context) => ListInvoiceBloc()..getListTT01()),
         BlocProvider (create: (context) => ListInvoiceBloc()..getListTT012()),
         BlocProvider (create: (context) => ListInvoiceBloc()..getListDone()),
+        BlocProvider (create: (context) => Nguyenlieu_BLoc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

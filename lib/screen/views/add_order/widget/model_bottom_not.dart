@@ -1,3 +1,4 @@
+import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/data/remote_bloc/invoice/list_invoice_bloc.dart';
 import 'package:coffe_bee_order/data/remote_bloc/product/product_model.dart';
@@ -192,7 +193,7 @@ class _ModelBottomNoteState extends State<ModelBottomNote> {
             height: 100,
             width: 100,
             child: ImageNetWorkView(
-              imageUrl: model.anhSanPham ?? "",
+              imageUrl:ApiPath.domain + model.anhSanPham.validate(),
               fit: BoxFit.cover,
             ),
           ),

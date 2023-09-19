@@ -26,61 +26,72 @@ class _ScreenNguyenlieuState extends State<ScreenNguyenlieu> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    reload();
+  }
+
+  Future<void> reload() async {
     bloc.getList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<Nguyenlieu_BLoc,CubitState>(
-      bloc: bloc,
-      builder: (context, state) => Scaffold(
-        appBar: itemAppBar(
-          title: "Nguyên liệu",
-          align: true,
-          isback: false,
-          actions: [
-            const Icon(
-                Icons.add_circle_outline,
-                color: Colors.white)
-                .paddingOnly(right: 10)
-                .onTap((){
-              showModalBottomSheet(
-                  context: context,
-                  builder: (context) => bottomChooseNl(
-                    list: bloc.list,
+    return Scaffold(
+            appBar: itemAppBar(
+              title: "Nguyên liệu",
+              align: true,
+              isback: false,
+              actions: [
+                const Icon(
+                    Icons.add_circle_outline,
+                    color: Colors.white)
+                    .paddingOnly(right: 10)
+                    .onTap(() {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) =>
+                          bottomChooseNl(
+                            list: bloc.list,
+                          ),
+                      isScrollControlled: true,
+                      shape: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)))
+                  );
+                })
+              ],
+            ),
+            body: BlocBuilder<Nguyenlieu_BLoc, CubitState>(
+              bloc: bloc,
+              builder: (context, state) {
+                return RefreshIndicator(
+                  onRefresh: reload,
+                  child: LoadPage(
+                    state: state,
+                    msg: state.msg,
+                    height: null,
+                    reload: () => bloc.getList(),
+                    child: Column(
+                      children: [
+                        GridView.count(
+                            crossAxisCount: 2,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            crossAxisSpacing: 4.0,
+                            mainAxisSpacing: 8.0,
+                            children: List.generate(
+                                bloc.list.length,
+                                    (index) =>
+                                    ItemNguyenLieu(
+                                        model: bloc.list[index]
+                                    ))
+                        ).paddingSymmetric(vertical: 10)
+                      ],
+                    ).scrollView(),
                   ),
-                  isScrollControlled: true,
-                  shape: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20)))
-              );
-            })
-          ],
-        ),
-        body: LoadPage(
-          state: state,
-          msg: state.msg,
-          height: null,
-          reload: () => bloc.getList(),
-          child: Column(
-            children: [
-              GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisSpacing: 4.0,
-                  mainAxisSpacing: 8.0,
-                  children: List.generate(
-                      bloc.list.length,
-                          (index) => ItemNguyenLieu(
-                          model: bloc.list[index]
-                      ))
-              ).paddingSymmetric(vertical: 10)
-            ],
-          ).scrollView(),
-        ),
-      ),
-    );
+                );
+              },
+            ),
+          );
   }
 }

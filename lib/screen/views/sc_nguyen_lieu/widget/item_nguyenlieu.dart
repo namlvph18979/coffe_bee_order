@@ -1,3 +1,4 @@
+import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
 import 'package:coffe_bee_order/screen/widgets/image_network_view.dart';
@@ -23,7 +24,7 @@ class ItemNguyenLieu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ImageNetWorkView(
-            imageUrl: model.imgNguyenLieu.validate(),
+            imageUrl:ApiPath.domain + model.imgNguyenLieu.validate(),
             height: 135,
             radius: const BorderRadius.vertical(top: Radius.circular(5)),
             fit: BoxFit.cover,

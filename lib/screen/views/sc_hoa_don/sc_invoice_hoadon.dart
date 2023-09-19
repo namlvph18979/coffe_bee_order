@@ -1,4 +1,3 @@
-
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/color_app.dart';
@@ -12,10 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-
-
 class ScInvoiceHoaDon extends StatefulWidget {
-
   ScInvoiceHoaDon();
 
   @override
@@ -23,8 +19,6 @@ class ScInvoiceHoaDon extends StatefulWidget {
 }
 
 class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
-
-
   @override
   void initState() {
     super.initState();
@@ -35,7 +29,7 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
     final param = context.read<ListInvoiceBloc>().param;
     return Scaffold(
       appBar: itemAppBar(
-        title: "Hoá đơn bàn ${param.id_Table ?? ""}",
+        title: param.id_Table != null ? "Hoá đơn bàn ${param.id_Table ?? ""}" : "Đơn mang đi",
         align: false,
         isback: true,
       ),
@@ -43,11 +37,9 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
         children: [
           Container(
             margin: const EdgeInsets.all(10),
-            padding:
-            const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10)),
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,25 +49,29 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                       .copyWith(color: Colors.black, fontSize: 16),
                 ),
                 15.height,
-                itemText(
-                    title: "Tầng số:  ",
-                    des: param.id_tang.toString() ?? "Đang cập nhật"),
-                8.height,
-                itemText(
-                    title: "Bàn số:  ",
-                    des: param.id_Table.toString() ?? "Đang cập nhật"),
+                if (param.id_Table != null) ...[
+                  itemText(
+                      title: "Tầng số:  ",
+                      des: param.id_tang.toString().validate(value: "Đang cập nhật")),
+                  8.height,
+                  itemText(
+                      title: "Bàn số:  ",
+                      des: param.id_Table.toString().validate(value: "Đang cập nhật")),
+                ] else
+                  itemText(
+                      title: "Loại đơn:  ",
+                      des: "Mua mang đi"),
                 8.height,
                 itemText(
                     title: "Tổng tiền:  ",
                     des: "${context.read<ListInvoiceBloc>().total.toPrice()}đ"),
                 8.height,
-                itemText(
-                    title: "Trạng thái:  ",
-                    des: "Chưa thanh toán"),
+                itemText(title: "Trạng thái:  ", des: "Chưa thanh toán"),
                 8.height,
                 itemText(
                     title: "Nv phụ trách:  ",
-                    des: "${context.read<ListInvoiceBloc>().user.fullName.validate()}"),
+                    des:
+                        "${context.read<ListInvoiceBloc>().user.fullName.validate()}"),
                 20.height,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -84,8 +80,7 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
                         "Giờ vào: ${param.time_in.validate() ?? "Chưa cập nhật"}",
                         style: StyleApp.style400.copyWith(fontSize: 12)),
                     15.width,
-                    Text(
-                        "Giờ ra: Chưa cập nhật",
+                    Text("Giờ ra: Chưa cập nhật",
                         style: StyleApp.style400.copyWith(fontSize: 12)),
                   ],
                 )
@@ -97,32 +92,65 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: 10),
               itemBuilder: (context, index) => Container(
-                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: ColorApp.text,width: 0.8)
-                ),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: ColorApp.text, width: 0.8)),
+                    child: Row(
                       children: [
-                        Text("Tên:  ${context.read<ListInvoiceBloc>().items[index].tenSp.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),maxLines: 1,overflow: TextOverflow.ellipsis,),2.height,
-                        Text("SL:  ${context.read<ListInvoiceBloc>().items[index].soLuong.validate()}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
-                        Text("Giá:  ${context.read<ListInvoiceBloc>().items[index].giaSp?.toInt().toPrice()}đ",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),),2.height,
-                        context.read<ListInvoiceBloc>().items[index].ghiChu.validate().isNotEmpty
-                            ? Text("Lưu ý: ${context.read<ListInvoiceBloc>().items[index].ghiChu.validate(value: "")}",style: StyleApp.style600.copyWith(fontSize: 14,color: ColorApp.text),)
-                            : const SizedBox()
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Tên:  ${context.read<ListInvoiceBloc>().items[index].tenSp.validate()}",
+                              style: StyleApp.style600
+                                  .copyWith(fontSize: 14, color: ColorApp.text),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            2.height,
+                            Text(
+                              "SL:  ${context.read<ListInvoiceBloc>().items[index].soLuong.validate()}",
+                              style: StyleApp.style600
+                                  .copyWith(fontSize: 14, color: ColorApp.text),
+                            ),
+                            2.height,
+                            Text(
+                              "Giá:  ${context.read<ListInvoiceBloc>().items[index].giaSp?.toInt().toPrice()}đ",
+                              style: StyleApp.style600
+                                  .copyWith(fontSize: 14, color: ColorApp.text),
+                            ),
+                            2.height,
+                            context
+                                    .read<ListInvoiceBloc>()
+                                    .items[index]
+                                    .ghiChu
+                                    .validate()
+                                    .isNotEmpty
+                                ? Text(
+                                    "Lưu ý: ${context.read<ListInvoiceBloc>().items[index].ghiChu.validate(value: "")}",
+                                    style: StyleApp.style600.copyWith(
+                                        fontSize: 14, color: ColorApp.text),
+                                  )
+                                : const SizedBox()
+                          ],
+                        ).expand(flex: 4),
+                        Icon(
+                          CupertinoIcons.clear_circled_solid,
+                          color: Colors.red,
+                          size: 25,
+                        ).onTap(() {
+                          context.read<ListInvoiceBloc>()
+                            ..removeItems(
+                                index: context
+                                    .read<ListInvoiceBloc>()
+                                    .items[index]);
+                          setState(() {});
+                        })
                       ],
-                    ).expand(flex: 4),
-                    Icon(CupertinoIcons.clear_circled_solid,color: Colors.red,size: 25,).onTap((){
-                      context.read<ListInvoiceBloc>()..removeItems(index: context.read<ListInvoiceBloc>().items[index]);
-                      setState(() {});
-                    })
-                  ],
-                ),
-              ),
+                    ),
+                  ),
               separatorBuilder: (context, index) => 8.height,
               itemCount: context.read<ListInvoiceBloc>().items.length),
           70.height,
@@ -130,9 +158,13 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
       ).scrollView(),
       bottomSheet: Row(
         children: [
-           itemButton(
+          itemButton(
             textBtn: "Huỷ đơn",
             onPress: () {
+              context.read<ListInvoiceBloc>()..clear();
+              context.read<ListInvoiceBloc>().param.id_Table == null;
+              context.read<ListInvoiceBloc>().param.id_tang == null;
+              setState(() {});
               finish(context);
               finish(context);
             },
@@ -151,9 +183,9 @@ class _ScInvoiceHoaDonState extends State<ScInvoiceHoaDon> {
   Widget itemText({String? title, String? des}) {
     return RichText(
         text: TextSpan(children: [
-          TextSpan(
-              text: title, style: StyleApp.style500.copyWith(color: Colors.black)),
-          TextSpan(text: des, style: StyleApp.style500.copyWith(color: Colors.red)),
-        ]));
+      TextSpan(
+          text: title, style: StyleApp.style500.copyWith(color: Colors.black)),
+      TextSpan(text: des, style: StyleApp.style500.copyWith(color: Colors.red)),
+    ]));
   }
 }

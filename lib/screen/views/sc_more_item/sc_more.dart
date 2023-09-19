@@ -16,28 +16,23 @@ class ScMoreItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: itemAppBar(title: title ?? "Danh mục sản phẩm"),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            GridViewCustom(
-              itemCount: list.length,
-              shrinkWrap: true,
-              maxWight: MediaQuery.of(context).size.width,
-              mainAxisExtent: 210,
-              itemBuilder: (context, index) => ItemOther(model: list[index],onTap: (){
-                ScreenDetailProduct(
-                modelPro: list[index],
-                list: list,
-              ).launch(context);}),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              scrollDirection: Axis.vertical,
-              showFull: true,
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 5,
-            )
-          ],
-        ),
+      body: GridViewCustom(
+        itemCount: list.length,
+        shrinkWrap: true,
+        physics: AlwaysScrollableScrollPhysics(),
+        maxWight: double.infinity,
+        mainAxisExtent: 210,
+        itemBuilder: (context, index) => ItemOther(model: list[index],onTap: (){
+          ScreenDetailProduct(
+          modelPro: list[index],
+          list: list,
+        ).launch(context);}),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        scrollDirection: Axis.vertical,
+        showFull: true,
+        crossAxisCount: 2,
+        mainAxisSpacing: 15,
+        crossAxisSpacing: 5,
       ),
     );
   }

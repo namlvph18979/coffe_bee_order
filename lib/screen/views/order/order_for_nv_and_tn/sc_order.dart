@@ -50,7 +50,7 @@ class _ScreenOrderState extends State<ScreenOrder> {
                               ScreenDetailInvoice(
                                 model: bloc.invoicesTT012[index],
                                 isdonhang: true,
-                              ).launch(context);
+                              ).launch(context).then((value) => bloc.getListTT012());
                             },
                             closeTb: () {
                               setState(() => bloc.invoicesTT012.removeAt(index));

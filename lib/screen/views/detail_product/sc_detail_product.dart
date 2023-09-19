@@ -1,3 +1,4 @@
+import 'package:coffe_bee_order/config/api/api_path.dart';
 import 'package:coffe_bee_order/config/extention/int_ext.dart';
 import 'package:coffe_bee_order/config/extention/show_bottom_sheet.dart';
 import 'package:coffe_bee_order/config/style_app/style_text.dart';
@@ -40,7 +41,7 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: ImageNetWorkView(
-                  imageUrl: widget.modelPro.anhSanPham ?? "", fit: BoxFit.cover),
+                  imageUrl:ApiPath.domain + widget.modelPro.anhSanPham.validate(), fit: BoxFit.cover),
               collapseMode: CollapseMode.pin,
             ),
           )
@@ -134,22 +135,20 @@ class _ScreenDetailProductState extends State<ScreenDetailProduct> {
             )
           ],
         ).scrollView(),
-        // bottomSheet: itemButton(
-        //     textBtn: "Dùng ngay".toUpperCase(),
-        //     onPress: () {
-        //       showModalBottomSheet(
-        //           context: context,
-        //           // builder: (context) => ModelBottomNote(
-        //           //
-        //           //     model: widget.modelPro),
-        //           builder: (context) => Container(),
-        //           isScrollControlled: true,
-        //           shape: const OutlineInputBorder(
-        //               borderSide: BorderSide(color: Colors.white),
-        //               borderRadius: BorderRadius.vertical(
-        //                   top: Radius.circular(20))));
-        //         // finish(context);
-        //     }),
+        bottomSheet: itemButton(
+            textBtn: "Dùng ngay".toUpperCase(),
+            onPress: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) => ModelBottomNote(
+                      model: widget.modelPro),
+                  isScrollControlled: true,
+                  shape: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20))));
+                // finish(context);
+            }),
       ),
     );
   }

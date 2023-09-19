@@ -20,6 +20,10 @@ import 'widget/cart_bottom_bar.dart';
 
 class ScreenCreateOrder extends StatefulWidget {
 
+  int? tab;
+
+  ScreenCreateOrder({this.tab});
+
   @override
   State<ScreenCreateOrder> createState() => _ScreenCreateOrderState();
 }
@@ -37,6 +41,9 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
+    if(widget.tab != null){
+      tabController.animateTo(widget.tab!);
+    }
     reload();
   }
 
@@ -63,7 +70,9 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 onPressed: () {
                   if (tabController.index > 0) {
                     tabController.animateTo(tabController.index - 1);
-                  } else {
+                  } else if(widget.tab != null){
+                    tabController.animateTo(0);
+                  }else{
                     finish(context);
                   }
                 },
@@ -76,7 +85,8 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                 onPressed: () {
                   finish(context);
                   context.read<ListInvoiceBloc>()..clear();
-                  setState(() {});
+                  context.read<ListInvoiceBloc>().param.id_Table == null;
+                  context.read<ListInvoiceBloc>().param.id_tang == null;
                 },
                 icon: const Icon(
                   Icons.clear_outlined,
@@ -130,7 +140,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                 tabController.animateTo(1);
                                 tablebloc.getList(id: floorbloc.list[index].idTang);
                                 context.read<ListInvoiceBloc>().param.id_tang = floorbloc.list[index].idTang.toInt();
-                                setState(() {});
                               },
                             ))).scrollView(),
               ),
@@ -190,7 +199,6 @@ class _ScreenCreateOrderState extends State<ScreenCreateOrder>
                                 onClick: () {
                                   tabController.animateTo(2);
                                   context.read<ListInvoiceBloc>().param.id_Table = tablebloc.list[index].id;
-                                  setState(() {});
                                 }
                               ))
                     )

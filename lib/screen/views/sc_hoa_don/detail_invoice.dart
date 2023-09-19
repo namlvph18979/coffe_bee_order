@@ -34,6 +34,11 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
   final bloc = ListInvoiceBloc();
 
   closeTb() {
+    bloc.updateTTDon(id: widget.model.idHoaDonCT,trangThai: "4");
+    context.read<ListInvoiceBloc>()..getListDone();
+  }
+
+  acceptOrder() {
     bloc.CloseTable(id: widget.model.idHoaDonCT);
   }
 
@@ -41,7 +46,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: itemAppBar(
-          title: "Hoá đơn bàn ${widget.model.idTable ?? ""}",
+          title: widget.model.idTable != null ? "Hoá đơn bàn ${widget.model.idTable ?? ""}" : "Đơn mang đi số ${widget.model.idHoaDonCT}",
           align: false,
           isback: true,
         ),
@@ -65,11 +70,17 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                       title: "Hoá đơn số:  ",
                       des: "${widget.model.idHoaDonCT}"),
                   8.height,
-                  itemText(title: "Tầng số:  ", des: "1"),
-                  8.height,
-                  itemText(
-                      title: "Bàn số:  ",
-                      des: widget.model.idTable ?? "chưa cập nhật"),
+                  if(widget.model.idTable != null)...[
+                    itemText(
+                        title: "Bàn số:  ",
+                        des: widget.model.idTable ?? "chưa cập nhật"),
+                    8.height,
+                    itemText(title: "Tầng số:  ", des: "1"),
+                  ]
+                  else
+                    itemText(
+                        title: "Loại đơn:  ",
+                        des: "Đơn mang đi"),
                   8.height,
                   itemText(
                       title: "Tổng tiền:  ",
@@ -120,6 +131,7 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                     state,
                     success: () {
                       toast("Đóng bàn thành công");
+                      context.read<ListInvoiceBloc>()..getListDone();
                     },
                   );
                 },
@@ -146,8 +158,9 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                   padding: 12,
                 ).withWidth(double.infinity).paddingAll(10),
               )
-            : widget.model.trangThai != "0"
+            : widget.model.trangThai == "2"
                 ? BlocConsumer<ListInvoiceBloc, CubitState>(
+                     bloc: bloc,
                     listener: (context, state) {
                       CheckStateBloc.checkNoLoad(
                         context,
@@ -156,22 +169,16 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                         success: () {
                           context.read<ListInvoiceBloc>()..getListDone();
                           context.read<ListInvoiceBloc>()..getListTT012();
+                          toast("Nhận đơn thành công");
+                          finish(context);
                         },
                       );
                     },
                     builder: (context, state) => CustomButton(
                       title: "Nhận đơn",
                       isLoad: state.status == BlocStatus.loading,
-                      onTap: () {
-                        // if (widget.model.hoadonItems == []) {
-                        //   toast("Chưa có sản phẩm cho đơn hàng");
-                        //   return;
-                        // }
-                        // ScreenPrintinvoice(
-                        //   model: widget.model,
-                        // ).launch(context);
-                      },
-                    ),
+                      onTap: acceptOrder
+                    ).withWidth(double.infinity).paddingAll(10),
                   )
                 : Container(
                     color: ColorApp.bg,
@@ -180,7 +187,10 @@ class _ScreenDetailInvoiceState extends State<ScreenDetailInvoice> {
                             repeatForever: true,
                             pause: const Duration(milliseconds: 100),
                             animatedTexts: [
-                          WavyAnimatedText("Đơn đang xử lý...",
+                          WavyAnimatedText(
+                              widget.model.trangThai == "0"
+                                  ? "Đơn chờ xử lý..."
+                                  : "Đơn đang xử lý...",
                               textStyle:
                                   StyleApp.style600.copyWith(fontSize: 16))
                         ])

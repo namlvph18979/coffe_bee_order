@@ -23,7 +23,7 @@ class ModelNL {
     price = json['price'];
     idUser = json['id_User'];
     tenNguyenLieu = json['ten_nguyenLieu'];
-    imgNguyenLieu = json['img_nguyenLieu'];
+    imgNguyenLieu = json['img_nguyenLieu'].substring(2) as String;
     kieuNguyenLieu = json['kieuNguyenLieu'];
   }
 
