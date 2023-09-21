@@ -43,7 +43,7 @@ class _CartBottomBarState extends State<CartBottomBar> {
                       .copyWith(fontSize: 10, color: Colors.white),
                   padding:
                       const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                  alignment: Alignment.topRight,
+                  alignment: AlignmentDirectional.topEnd,
                   child: const Icon(
                     CupertinoIcons.shopping_cart,
                     color: ColorApp.text,

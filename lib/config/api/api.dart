@@ -53,6 +53,7 @@ class Api {
               headers: headers ?? headersData
             ),
             data: hasForm && req != null ? FormData.fromMap(req) : req,
+            queryParameters: req
         );
         return res.data;
   } catch(e){
@@ -75,7 +76,8 @@ class Api {
         data: isForm ? formData : req,
         options: Options(
           headers: headersData
-        )
+        ),
+        queryParameters: req
       );
       return res.data;
     }catch (e){
@@ -92,6 +94,7 @@ class Api {
         var res = await dio.put(
           ApiPath.domain + endpoint,
           data: req ,
+          queryParameters: req
         );
         return res.data;
     }catch(e){
@@ -111,7 +114,7 @@ class Api {
         ApiPath.domain + endpoint,
         options: Options(
           headers: headers ?? headersData
-        )
+        ),
       );
       return res.data;
     }catch (e){
